@@ -1,0 +1,113 @@
+﻿@model SIS.Domain.Transaction
+
+@{
+    ViewBag.Title = "Delete";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>Transaction</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Department.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Department.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Item.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Item.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Date)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Date)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.QuantityOnHandDist)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.QuantityOnHandDist)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.QuantityOnHandStor)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.QuantityOnHandStor)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.QuantityOnHandSub)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.QuantityOnHandSub)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.QuantityChangeDist)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.QuantityChangeDist)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.QuantityChangeStor)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.QuantityChangeStor)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.QuantityChangeSub)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.QuantityChangeSub)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ItemPrice)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ItemPrice)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TransactionValue)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TransactionValue)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

@@ -8,7 +8,7 @@ namespace SIS.Data
     public partial class SISDbContext : DbContext
     {
         public SISDbContext()
-            : base("name=SISDbContext")
+            : base("name=OldDbContext")
         {
         }
 
