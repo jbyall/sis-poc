@@ -41,6 +41,7 @@ namespace SIS.Web.Controllers
         {
             ViewBag.DepartmentId = new SelectList(db.Departments, "Id", "Description");
             ViewBag.ItemId = new SelectList(db.Items, "Id", "Id");
+            ViewBag.LocationId = new List<SelectListItem>();
             return View();
         }
 
@@ -51,6 +52,7 @@ namespace SIS.Web.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "Id,ItemId,Date,DepartmentId,QuantityOnHandDist,QuantityOnHandStor,QuantityOnHandSub,QuantityChangeDist,QuantityChangeStor,QuantityChangeSub,ItemPrice,TransactionValue")] Transaction transaction)
         {
+            // TODO : Create a new transaction
             if (ModelState.IsValid)
             {
                 db.Transactions.Add(transaction);

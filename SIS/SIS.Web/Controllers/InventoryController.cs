@@ -21,6 +21,12 @@ namespace SIS.Web.Controllers
             return View(itemLocations);
         }
 
+        public JsonResult Transaction(string id)
+        {
+            var itemLocations = db.ItemLocations.Where(il => il.ItemId == id).Select(il => il.LocationId).ToList();
+            return Json(itemLocations, JsonRequestBehavior.AllowGet);
+        }
+
         // GET: Inventory/Details/5
         public ActionResult Details(string id)
         {

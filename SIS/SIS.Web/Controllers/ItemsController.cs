@@ -14,6 +14,12 @@ namespace SIS.Web.Controllers
     {
         private SisDbContext db = new SisDbContext();
 
+        public JsonResult Transaction(string id)
+        {
+            var item = db.Items.Single(i => i.Id == id);
+            return Json(item, JsonRequestBehavior.AllowGet);
+        }
+
         // GET: Items
         public ActionResult Index()
         {
