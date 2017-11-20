@@ -18,6 +18,26 @@ namespace SIS.Domain
         public const string Distribution = "Distribution";
         public const string Storage = "Storage";
         public const string SubBasement = "Sub-Basement";
+
+        public static string GetLocationTypeFromLocation(string location)
+        {
+            location = location.ToLower();
+            if (location.Contains("dist"))
+            {
+                return LocationTypes.Distribution;
+            }
+
+            if (location.Contains("stor"))
+            {
+                return LocationTypes.Storage;
+            }
+
+            if (location.Contains("sub"))
+            {
+                return LocationTypes.SubBasement;
+            }
+            return "N/A";
+        }
     }
     #endregion
 

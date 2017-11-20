@@ -14,6 +14,11 @@ namespace SIS.Web.Controllers
     {
         private SisDbContext db = new SisDbContext();
 
+        public ActionResult Maintenance()
+        {
+            return View();
+        }
+
         // GET: Inventory
         public ActionResult Index()
         {

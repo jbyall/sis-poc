@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - SIS</title>
     @Styles.Render("~/Content/css")
+    @Styles.Render("~/Content/dx")
     @Scripts.Render("~/bundles/modernizr")
 </head>
 <body>
@@ -20,9 +21,8 @@
             </div>
             <div class="navbar-collapse collapse navbar-right">
                 <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Transaction", "Create", "Transactions")</li>
-                    <li>@Html.ActionLink("Inventory", "Index", "Inventory")</li>
-                    <li>@Html.ActionLink("Item Master", "Index", "Items")</li>
+                    <li>@Html.ActionLink("Transaction", "test", "Items")</li>
+                    <li>@Html.ActionLink("Inventory Management", "Maintenance", "Inventory")</li>
                     
                 </ul>
             </div>
@@ -32,12 +32,13 @@
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+            
         </footer>
     </div>
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/dx")
     @RenderSection("scripts", required: false)
 </body>
 </html>

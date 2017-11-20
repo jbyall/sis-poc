@@ -1,0 +1,159 @@
+﻿@model IEnumerable<SIS.Domain.Item>
+
+@{
+    ViewBag.Title = "Items";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Inventory Items</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+
+<div class="dx-viewport">
+    <div class="demo-container">
+        <div id="gridContainer"></div>
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script type="text/javascript">
+        $(function () {
+            var orders = new DevExpress.data.CustomStore({
+                load: function (loadOptions) {
+                    console.log(loadOptions);
+                    var deferred = $.Deferred(),
+                        args = {};
+
+                    if (loadOptions.sort) {
+                        args.orderby = loadOptions.sort[0].selector;
+                        if (loadOptions.sort[0].desc)
+                            args.orderby += " desc";
+                    }
+
+                    args.skip = loadOptions.skip || 0;
+                    args.take = loadOptions.take || 12;
+
+                    $.ajax({
+                        url: "/Items/TestData",
+                        type: "GET",
+                        data: args,
+                        success: function (result) {
+                            console.log(result);
+                            deferred.resolve(result, { totalCount: result.length });
+                        },
+                        error: function (resp) {
+                            console.log(resp);
+                            deferred.reject("Data Loading Error");
+                        },
+                        timeout: 5000
+                    });
+
+                    return deferred.promise();
+                }
+            });
+
+            $("#gridContainer").dxDataGrid({
+                allowColumnResizing: true,
+                columnResizingMode: 'nextColumn',
+                columnAutoWidth: true,
+                filterRow: {
+                    visible: true,
+                    applyFilter: "auto"
+                },
+                dataSource: {
+                    store: orders
+                },
+                remoteOperations: {
+                    sorting: false,
+                    paging: false
+                },
+                paging: {
+                    pageSize: 10
+                },
+                pager: {
+                    showPageSizeSelector: true,
+                    allowedPageSizes: [5, 10, 25, 100, 200],
+                    showNavigationButtons: true,
+                    showInfo: true,
+                    visible: true
+                },
+                columns: [
+                    { caption: "Item Number", dataField: "Id" },
+                    "Name",
+                    { caption: "Supplier", dataField: "Supplier.Name" },
+                    { dataField: "Price", dataFormat: "currency" },
+                    "Unit",
+                    { caption: "Min Qty", width: 75, fixed: false, dataField: "ReorderPoint" },
+                ],
+                masterDetail: {
+                    enabled: true,
+                    template: function (container, info) {
+                        var itemData = info.data;
+                        $('<div class="container-fluid">')
+                            .append(`<h3>${itemData.Name} Details</h3>`)
+                            .append(`<div class="row">
+                                        <div class="col-md-2 text-right">
+                                            <label>Item Number:</label>
+                                        </div>
+                                        <div class="col-md-2">${itemData.Id}</div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-2 text-right"><label>Name:</label></div>
+                                        <div class="col-md-2">${itemData.Name}</div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-2 text-right"><label>Unit:</label></div><div class="col-md-2">${itemData.Unit}</div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-2 text-right"><label>Unit Cost:</label></div><div class="col-md-2">${itemData.Price}</div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-2 text-right"><label>Reorder Qty:</label></div><div class="col-md-2">${itemData.ReorderPoint}</div>
+                                    </div>
+                                    <h4>Locations</h4>
+                                    `).appendTo(container);
+                        $("<div>")
+                            .dxDataGrid({
+                                columnAutoWidth: true,
+                                showBorders: true,
+                                //keyExpr: "Id",
+                                selection: {
+                                    mode: "single"
+                                },
+                                hoverStateEnabled: true,
+                                dataSource: itemData.ItemLocations,
+                                columns: [//"LocationId", "QuantityOnHand"
+                                    { caption: "Location", width: 150, dataField: "LocationId" },
+                                    { caption: "Qty Avail.", width: 150, dataField: "QuantityOnHand" },
+                                    {
+                                        //dataField: "ItemId",
+                                        caption: "Actions",
+                                        width: 200,
+                                        cellTemplate: function (element, info) {
+                                            console.log(element);
+                                            console.log(info);
+                                            element.append(`<a href="/Transactions/Create/${info.key.ItemId}?location=${info.key.LocationId}">Check-out</div>`)
+                                        }
+                                    }
+                                ],
+                                //onSelectionChanged: function (selectedItems) {
+                                //    var data = selectedItems.selectedRowsData[0];
+                                //    console.log(selectedItems);
+                                //    if (data) {
+                                //        var target = document.getElementById(`${data.ItemId}-${data.LocationId}`);
+                                //        $(target).attr('href', `/Transactions/Create/${data.ItemId}?location=${data.LocationId}`);
+                                //        $(target).text("Check-out");
+                                //    }
+                                //}
+                            }).appendTo(container);
+                    }
+                }
+            }).dxDataGrid("instance");
+        });
+    </script>
+
+
+}

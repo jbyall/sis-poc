@@ -22,5 +22,6 @@ namespace SIS.Domain
         public DbSet<Location> Locations { get; set; }
         public DbSet<Supplier> Suppliers { get; set; }
         public DbSet<Transaction> Transactions { get; set; }
+        public DbSet<Unit> Units { get; set; }
     }
 }

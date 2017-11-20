@@ -20,6 +20,19 @@ namespace SIS.Web.Controllers
             return Json(item, JsonRequestBehavior.AllowGet);
         }
 
+        [HttpGet]
+        public JsonResult TestData()
+        {
+            var items = db.Items.Include(i => i.Supplier).Include(i => i.ItemLocations).ToList();
+            return Json(items, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult Test()
+        {
+            var items = db.Items.Include(i => i.Supplier);
+            return View();
+        }
+
         // GET: Items
         public ActionResult Index()
         {
@@ -34,7 +47,7 @@ namespace SIS.Web.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Item item = db.Items.Find(id);
+            Item item = db.Items.Include(i => i.Supplier).Include(i => i.ItemLocations).Single(i => i.Id == id);
             if (item == null)
             {
                 return HttpNotFound();
