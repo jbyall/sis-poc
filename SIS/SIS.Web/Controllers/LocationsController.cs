@@ -38,6 +38,8 @@ namespace SIS.Web.Controllers
         // GET: Locations/Create
         public ActionResult Create()
         {
+            var locationTypes = LocationTypes.GetLocationTypesList();
+            ViewBag.Type = new SelectList(locationTypes, "Select...");
             return View();
         }
 
@@ -70,6 +72,8 @@ namespace SIS.Web.Controllers
             {
                 return HttpNotFound();
             }
+            var locationTypes = LocationTypes.GetLocationTypesList();
+            ViewBag.Type = new SelectList(locationTypes, location.Type);
             return View(location);
         }
 

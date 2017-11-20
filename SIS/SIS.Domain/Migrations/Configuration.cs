@@ -2,6 +2,7 @@ namespace SIS.Domain.Migrations
 {
     using SIS.Data;
     using System;
+    using System.Collections.Generic;
     using System.Data.Entity;
     using System.Data.Entity.Migrations;
     using System.Linq;
@@ -102,6 +103,27 @@ namespace SIS.Domain.Migrations
                         context.ItemLocations.Add(newItemLoc);
                         
                     }
+                    context.SaveChanges();
+                }
+
+                if (context.Units.Count() < 1)
+                {
+                    var seedUnits = new List<Unit>
+                    {
+                        new Unit { Code = "BT", Description = "Batch"},
+                        new Unit { Code = "BX", Description = "Box"},
+                        new Unit { Code = "DZ", Description = "Dozen"},
+                        new Unit { Code = "EA", Description = "Each"},
+                        new Unit { Code = "HD", Description = "HD"},
+                        new Unit { Code = "MX", Description = "MX"},
+                        new Unit { Code = "PK", Description = "Pack"},
+                        new Unit { Code = "PR", Description = "PR"},
+                        new Unit { Code = "RM", Description = "Ream"},
+                        new Unit { Code = "RO", Description = "Roll"},
+                        new Unit { Code = "SE", Description = "Set"},
+                        new Unit { Code = "TU", Description = "TU"},
+                    };
+                    context.Units.AddRange(seedUnits);
                     context.SaveChanges();
                 }
             }

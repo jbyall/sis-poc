@@ -5,62 +5,148 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Details</h2>
+<h2>Item Details</h2>
+<div class="container">
+    <div class="panel panel-default">
+        <div class="panel-heading">Item Details</div>
+        <div class="panel-body">
+            <dl class="dl-horizontal">
 
-<div>
-    <h4>Item</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayName("Supplier")
-        </dt>
+                <dt>@Html.DisplayName("Number")</dt>
+                <dd>@Html.DisplayFor(model => model.Id)</dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.Supplier.Name)
-        </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Name)
+                </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Name)
+                </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.Name)
-        </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Unit)
+                </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Unit)
-        </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Unit)
+                </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.Unit)
-        </dd>
+                <dt>
+                    @Html.DisplayName("Unit Cost")
+                </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Price)
-        </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Price)
+                </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.Price)
-        </dd>
+                <dt>
+                    @Html.DisplayName("Reorder Qty")
+                </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.ReorderPoint)
-        </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.ReorderPoint)
+                </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.ReorderPoint)
-        </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Comment)
+                </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Comment)
-        </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Comment)
+                </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.Comment)
-        </dd>
+            </dl>
+        </div>
+    </div>
 
-    </dl>
+    <div class="panel panel-default">
+        <div class="panel-heading">Locations</div>
+        <div class="panel-body text-center">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>Location</th>
+                        <th>Qty On Hand</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (int i = 0; i < Model.ItemLocations.Count; i++)
+                    {
+                        var location = Model.ItemLocations.ToList()[i];
+                        <tr>
+                            <td></td>
+                            <td>@Html.DisplayFor(item => item.ItemLocations.ToList()[i].LocationId)</td>
+                            <td>@Html.DisplayFor(item => item.ItemLocations.ToList()[i].QuantityOnHand)</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="panel panel-default">
+        <div class="panel-heading">Supplier</div>
+        <div class="panel-body">
+            <dl class="dl-horizontal">
+
+                <dt>@Html.DisplayName("Supplier")</dt>
+                <dd>@Html.DisplayFor(model => model.Supplier.Name)</dd>
+
+                <dt>
+                    @Html.DisplayName("Address")
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Supplier.Address)
+                </dd>
+
+                <dt>
+                    @Html.DisplayName("Address 2")
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Supplier.Address2)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Supplier.City)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Supplier.City)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Supplier.State)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Supplier.State)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Supplier.Zip)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Supplier.Zip)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Supplier.Comment)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Supplier.Comment)
+                </dd>
+
+            </dl>
+        </div>
+    </div>
 </div>
+
+
+
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
     @Html.ActionLink("Back to List", "Index")

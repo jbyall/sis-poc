@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Reflection;
 
 namespace SIS.Domain
 {
@@ -15,8 +16,11 @@ namespace SIS.Domain
         // These string properties will allow referencing
         // the string values from any code without having to type them
         // out every time.
+        [Display(Name = "Distribution")]
         public const string Distribution = "Distribution";
+        [Display(Name = "Storage")]
         public const string Storage = "Storage";
+        [Display(Name = "Sub-Basement")]
         public const string SubBasement = "Sub-Basement";
 
         public static string GetLocationTypeFromLocation(string location)
@@ -37,6 +41,17 @@ namespace SIS.Domain
                 return LocationTypes.SubBasement;
             }
             return "N/A";
+        }
+
+        public static List<string> GetLocationTypesList()
+        {
+            var fields = typeof(LocationTypes).GetFields().ToList();
+            var result = new List<string>();
+            foreach (var item in fields)
+            {
+                result.Add(item.CustomAttributes.First().NamedArguments.First().TypedValue.Value.ToString());
+            }
+            return result;
         }
     }
     #endregion
