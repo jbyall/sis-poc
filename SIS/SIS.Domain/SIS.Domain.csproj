@@ -72,12 +72,6 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\SIS.Data\SIS.Data.csproj">
-      <Project>{5fac0f98-b037-4153-98b5-74cd78dcdd5a}</Project>
-      <Name>SIS.Data</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="Migrations\201711181957122_Initial.resx">
       <DependentUpon>201711181957122_Initial.cs</DependentUpon>
     </EmbeddedResource>

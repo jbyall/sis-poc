@@ -65,7 +65,6 @@
             <table class="table table-bordered">
                 <thead>
                     <tr>
-                        <th></th>
                         <th>Location</th>
                         <th>Qty On Hand</th>
                     </tr>
@@ -75,7 +74,6 @@
                     {
                         var location = Model.ItemLocations.ToList()[i];
                         <tr>
-                            <td></td>
                             <td>@Html.DisplayFor(item => item.ItemLocations.ToList()[i].LocationId)</td>
                             <td>@Html.DisplayFor(item => item.ItemLocations.ToList()[i].QuantityOnHand)</td>
                         </tr>

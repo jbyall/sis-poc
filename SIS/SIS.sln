@@ -3,10 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27004.2006
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SIS.Data", "SIS.Data\SIS.Data.csproj", "{5FAC0F98-B037-4153-98B5-74CD78DCDD5A}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SIS.Mvc", "SIS.Mvc\SIS.Mvc.csproj", "{4CAFAC65-F464-4455-8F6A-890916761A02}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SIS.Domain", "SIS.Domain\SIS.Domain.csproj", "{BB313883-264B-4F3D-B698-3DE1082E54B2}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SIS.Web", "SIS.Web\SIS.Web.csproj", "{9A36889B-82DE-4B01-A278-84AB3B25EA24}"
@@ -17,14 +13,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{5FAC0F98-B037-4153-98B5-74CD78DCDD5A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5FAC0F98-B037-4153-98B5-74CD78DCDD5A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5FAC0F98-B037-4153-98B5-74CD78DCDD5A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5FAC0F98-B037-4153-98B5-74CD78DCDD5A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{4CAFAC65-F464-4455-8F6A-890916761A02}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4CAFAC65-F464-4455-8F6A-890916761A02}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4CAFAC65-F464-4455-8F6A-890916761A02}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4CAFAC65-F464-4455-8F6A-890916761A02}.Release|Any CPU.Build.0 = Release|Any CPU
 		{BB313883-264B-4F3D-B698-3DE1082E54B2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{BB313883-264B-4F3D-B698-3DE1082E54B2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BB313883-264B-4F3D-B698-3DE1082E54B2}.Release|Any CPU.ActiveCfg = Release|Any CPU

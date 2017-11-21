@@ -83,6 +83,7 @@ namespace SIS.Web.Controllers
 
             // If data is invalid return view with pre-populated data
             ViewBag.LocationId = new SelectList(db.ItemLocations.Where(l => l.ItemId == model.ItemId).ToList(), "LocationId", "LocationId", model.LocationId);
+            // TODO : 
             ViewBag.DepartmentId = new SelectList(db.Departments, "Id", "Name", model.DepartmentId);
             ViewBag.ItemId = new SelectList(db.Items, "Id", "Name", model.ItemId);
             return View(model);
