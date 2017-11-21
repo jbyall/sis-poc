@@ -38,26 +38,26 @@ namespace SIS.Web.Controllers
         }
 
         // GET: Transactions/Create
-        public ActionResult Create(string id = null)
+        public ActionResult Handout(string id = null)
         {
             ViewBag.DepartmentId = new SelectList(db.Departments, "Id", "Description");
             ViewBag.LocationId = new List<SelectListItem>();
             if (string.IsNullOrWhiteSpace(id))
             {
                 ViewBag.ItemId = new SelectList(db.Items, "Id", "Id");
-                return View(new TransactionViewModel());
+                return View(new HandoutViewModel());
             }
-            var locationId = this.Request.QueryString["location"];
-            if (!String.IsNullOrWhiteSpace(locationId))
-            {
-                var location = db.Locations.Where(l => l.Id == locationId).SingleOrDefault();
-                ViewBag.LocationId = new SelectList(db.ItemLocations.Where(l => l.ItemId == id).ToList(), "LocationId", "LocationId", location.Id);
-            }
+            //var locationId = this.Request.QueryString["location"];
+            //if (!String.IsNullOrWhiteSpace(locationId))
+           // {
+            //    var location = db.Locations.Where(l => l.Id == locationId).SingleOrDefault();
+            //    ViewBag.LocationId = new SelectList(db.ItemLocations.Where(l => l.ItemId == id).ToList(), "LocationId", "LocationId", location.Id);
+            //}
 
             var item = db.Items.Where(i => i.Id == id).Include(i => i.Supplier).Include(i => i.ItemLocations).SingleOrDefault();
             ViewBag.ItemId = new SelectList(db.Items, "Id", "Id", item.Id);
-            var itemLocation = item.ItemLocations.Where(l => l.LocationId == locationId).SingleOrDefault();
-            var model = new TransactionViewModel(item, itemLocation);
+            //var itemLocation = item.ItemLocations.Where(l => l.LocationId == locationId).SingleOrDefault();
+            var model = new HandoutViewModel(item);
             return View(model);
             
         }
@@ -67,7 +67,7 @@ namespace SIS.Web.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(TransactionViewModel model)
+        public ActionResult Handout(HandoutViewModel model)
         {
             // TODO : Create a new transaction
             if (ModelState.IsValid)
@@ -160,7 +160,7 @@ namespace SIS.Web.Controllers
         }
 
         #region helpers
-        private Transaction createTransactionFromViewModel(TransactionViewModel model)
+        private Transaction createTransactionFromViewModel(HandoutViewModel model)
         {
             var result =  new Transaction
             {

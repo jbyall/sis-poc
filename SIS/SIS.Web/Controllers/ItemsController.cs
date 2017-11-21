@@ -21,7 +21,7 @@ namespace SIS.Web.Controllers
         }
 
         [HttpGet]
-        public JsonResult TestData()
+        public JsonResult HandoutData()
         {
             var items = db.Items.Include(i => i.Supplier).Include(i => i.ItemLocations).ToList();
             return Json(items, JsonRequestBehavior.AllowGet);

@@ -7,20 +7,21 @@ using System.Web;
 
 namespace SIS.Web.Models
 {
-    public class TransactionViewModel
+    public class HandoutViewModel
     {
-        public TransactionViewModel()
+        public HandoutViewModel()
         {
 
         }
-        public TransactionViewModel(Item item, ItemLocation location)
+        public HandoutViewModel(Item item)
         {
             this.ItemId = item.Id;
             this.ItemName = item.Name;
             this.ItemUnit = item.Unit;
             this.ItemPrice = item.Price;
-            this.QuantityAvailable = location.QuantityOnHand;
-            this.LocationType = LocationTypes.GetLocationTypeFromLocation(location.LocationId);
+            //this.QuantityAvailable = location.QuantityOnHand;
+            //this.LocationType = LocationTypes.GetLocationTypeFromLocation(location.LocationId);
+            this.ItemLocations = item.ItemLocations.ToList();
         }
         [Display(Name ="Item Number")]
         public string ItemId { get; set; }
@@ -40,6 +41,8 @@ namespace SIS.Web.Models
         public string LocationId { get; set; }
 
         public string LocationType { get; set; }
+
+        public List<ItemLocation> ItemLocations { get; set; }
 
     }
 }
