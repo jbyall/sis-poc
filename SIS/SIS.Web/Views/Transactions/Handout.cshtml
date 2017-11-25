@@ -8,151 +8,267 @@
 <h2>Handout Transaction</h2>
 
 
-@using (Html.BeginForm()) 
+@using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
+    <hr />
     <div class="form-horizontal">
-        <hr />
-        <div class="well well-sm">Item Details</div>
+        @Html.HiddenFor(model => model.ItemId)
+        @Html.HiddenFor(model => model.ItemPrice)
+
         @Html.HiddenFor(model => model.LocationType)
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        <div class="form-group">
-            @Html.LabelFor(model => model.ItemId, "Item Number", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.ItemId, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.ItemName, "Item Name", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.ItemName, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.ItemUnit, "Item Unit", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.ItemUnit, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.ItemPrice, "Item Cost", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.ItemPrice, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
-            </div>
-        </div>
-
-        
-            
-            <div class="well well-sm">Locations</div>
-                <table class="table table-bordered">
-                    <thead>
-                        <tr>
-                            <th>Location</th>
-                            <th>Qty On Hand</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @for (int i = 0; i < Model.ItemLocations.Count; i++)
-                        {
-                            var location = Model.ItemLocations.ToList()[i];
+        <div class="panel-group">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <div class="row">
+                        <div class="col-md-10">
+                            <h3>Item Details</h3>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3">
+                            @Html.LabelFor(model => model.ItemId, "Item Number", htmlAttributes: new { @class = "control-label" })
+                            <br />
+                            @Html.DisplayFor(model => model.ItemId)
+                        </div>
+                        <div class="col-md-3">
+                            @Html.LabelFor(model => model.ItemName, htmlAttributes: new { @class = "control-label" })
+                            <br />
+                            @Html.DisplayFor(model => model.ItemName)
+                        </div>
+                        <div class="col-md-3">
+                            @Html.LabelFor(model => model.ItemUnit, htmlAttributes: new { @class = "control-label" })
+                            <br />
+                            @Html.DisplayFor(model => model.ItemUnit)
+                        </div>
+                        <div class="col-md-3">
+                            @Html.LabelFor(model => model.ItemPrice, htmlAttributes: new { @class = "control-label" })
+                            <br />
+                            @Html.DisplayFor(model => model.ItemPrice)
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <table class="table">
+                        <thead>
                             <tr>
-                                <td>@Html.DisplayFor(item => item.ItemLocations.ToList()[i].LocationId)</td>
-                                <td>@Html.DisplayFor(item => item.ItemLocations.ToList()[i].QuantityOnHand)</td>
-                                <td>
-                                    <div class="form-group">
-                                        @Html.LabelFor(model => model.Quantity, "Hand Out Qty", htmlAttributes: new { @class = "control-label col-md-2" })
-                                        <div class="col-md-10">
-                                            @Html.EditorFor(model => model.Quantity, new { htmlAttributes = new { @class = "form-control" } })
-                                            @Html.ValidationMessageFor(model => model.Quantity, "", new { @class = "text-danger" })
-                                        </div>
-                                    </div>
-                                </td>
+                                <th>Location</th>
+                                <th>Qty On Hand</th>
+                                <th>Hand Out Qty</th>
                             </tr>
-                        }
-                    </tbody>
-                </table>
-            
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.DepartmentId, "Department", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownList("DepartmentId", null,"Select...", htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.DepartmentId, "", new { @class = "text-danger" })
-            </div>
-        </div>
-        
-
-        @*<div class="form-group">
-            @Html.LabelFor(model => model.TransactionValue, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.TransactionValue, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.TransactionValue, "", new { @class = "text-danger" })
-            </div>
-        </div>*@
-
-        
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Hand Out" class="btn btn-default" />
+                        </thead>
+                        <tbody>
+                            @*@{ var i = 0;}
+                            @foreach (var item in Model.Transactions)
+                            {
+                                <tr>
+                                    <td>@Html.DisplayFor(modelItem => item.Location.LocationId)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.Location.QuantityOnHand)</td>
+                                    <td>
+                                        <div class="col-md-2">
+                                            @Html.EditorFor(modelItem => item.HandOutQuantity, new { htmlAttributes = new { @class = "form-control", @id=$"hoq-{i}" } })
+                                            @Html.ValidationMessageFor(modelItem => item.HandOutQuantity, "", new { @class = "text-danger" })
+                                        </div>
+                                    </td>
+                                </tr>
+                                i++;
+                            }*@
+                            @for (int i = 0; i < Model.Transactions.Count; i++)
+                            {
+                                @Html.HiddenFor(model => model.Transactions[i].Location.LocationId)
+                                //var location = Model.ItemLocations.ToList()[i];
+                                <tr>
+                                    <td>@Html.DisplayFor(model => model.Transactions[i].Location.LocationId)</td>
+                                    <td>@Html.DisplayFor(model => model.Transactions[i].Location.QuantityOnHand)</td>
+                                    <td>
+                                        <div class="col-md-2">
+                                            @Html.EditorFor(model => model.Transactions[i].HandOutQuantity, new { htmlAttributes = new { @class = "form-control" } })
+                                            @Html.ValidationMessageFor(model => model.Transactions[i].HandOutQuantity, "", new { @class = "text-danger" })
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                    <div class="row">
+                        
+                            @*@Html.LabelFor(model => model.DepartmentId, "Department", htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-4">
+                                @Html.DropDownList("DepartmentId", null, "Select...", htmlAttributes: new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.DepartmentId, "", new { @class = "text-danger" })
+                            </div>*@
+                        <div class="col-md-2">
+                            <label class="control-label">Department</label>
+                            @Html.HiddenFor(model => model.DepartmentId)
+                            @*<div class="dx-field-value">
+                                
+                            </div>*@
+                        </div>
+                        <div class="col-md-6">
+                            <div id="gridBox"></div>
+                        </div>
+                        @*<div class="col-md-6">
+                            <div class="dx-fieldset">
+                                <div class="dx-field">
+                                    
+                                    
+                                </div>
+                            </div>
+                        </div>*@
+                        
+                            <div class="col-md-2">
+                                <input type="submit" value="Hand Out" class="btn btn-default" />
+                            </div>
+                    </div>
+                    
+                </div>
             </div>
         </div>
     </div>
 }
-
 <div>
     @Html.ActionLink("Back to List", "test", "Items")
 </div>
 
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-    <script type="text/javascript">
-        $('#ItemId').change(function (event) {
-            $.ajax({
-                url: "/Items/Transaction",
-                type: "GET",
-                data: {
-                    id: $('#ItemId').val()
-                },
-                dataType: "JSON"
-            }).done(function (response) {
-                console.log(response);
-                $('#ItemName').val(response.Name);
-                $('#ItemUnit').val(response.Unit);
-                $('#ItemPrice').val(response.Price);
-                getLocations();
-            }).fail(function (xhr, status, errorThrown) {
-                console.log("Error: " + errorThrown);
-                console.log("Status: " + status);
-                console.dir(xhr);
-            });
-        });
+    @section Scripts {
+        @Scripts.Render("~/bundles/jqueryval")
+        <script type="text/javascript">
+            $(function () {
+                var departments = new DevExpress.data.CustomStore({
+                    key: "Name",
+                    loadMode: "raw",
+                    load: function () {
+                        var d = new $.Deferred();
+                        $.ajax({
+                            url: "/Departments/HandoutData",
+                            type: "GET",
+                            success: function (result) {
+                                console.log(result);
+                                d.resolve(result);
+                            },
+                            error: function (resp) {
+                                console.log(resp);
+                            }
 
-        function getLocations()
-        {
-            $('#LocationId').find('option').remove().end();
-            $.ajax({
-                url: "/Inventory/Transaction",
-                type: "GET",
-                data: {
-                    id: $('#ItemId').val()
-                },
-                dataType: "JSON"
-            }).done(function (response) {
-                console.log(response);
-                for (var i = 0; i < response.length; i++) {
-                    $('#LocationId').append('<option value=' + response[i] + '>' + response[i] + '</option>');
-                }
-            }).fail(function (xhr, status, errorThrown) {
-                console.log("Error: " + errorThrown);
-                console.log("Status: " + status);
-                console.dir(xhr);
+                        });
+                        return d.promise();
+                    },
+                    //byKey: function (key) {
+                    //    console.log("bykey hit");
+                    //    return { id: key, name: key };
+                   // }
+                    //key: "Name",
+                    //load: function (loadOptions) {
+                    //    $.ajax({
+                    //        url: "/Departments/HandoutData",
+                    //        type: "GET",
+                    //        success: function (result) {
+                    //            console.log(result);
+                    //            return result;
+                    //        }
+                    //    })
+                    //},
+                    //byKey: function (key) {
+                    //    return { id: key };
+                    //}
+                })
+                $("#gridBox").dxDropDownBox({
+                    //accessKey: "Department_Id",
+                    //value: "3AI00",
+                    //valueExpr: "Name",
+                    placeholder: "Select a value...",
+                    displayExpr: function (item) {
+                        if (item) {
+                            return item.Name + " (" + item.Description + ")";
+                        }
+                        return "";
+                        
+                    },
+                    //elementAttr:{id: "DepartmentId"},
+                    showClearButton: true,
+                    dataSource: departments,//makeAsyncDataSource("customers.json"),
+                    contentTemplate: function (e) {
+                        var value = e.component.option("value"),
+                            $dataGrid = $("<div>").dxDataGrid({
+                                dataSource: e.component.option("dataSource"),
+                                columns: ["Name", "Description"],
+                                hoverStateEnabled: true,
+                                //paging: { enabled: true, pageSize: 10 },
+                                //filterRow: { visible: true },
+                                scrolling: { mode: "infinite" },
+                                height: 265,
+                                selection: { mode: "single" },
+                                selectedRowKeys: [value],
+                                onSelectionChanged: function (selectedItems) {
+                                    var keys = selectedItems.selectedRowKeys,
+                                        hasSelection = keys.length;
+                                    if (hasSelection) {
+                                        e.component.option("value", hasSelection ? keys[0] : null);
+                                        $('#DepartmentId').val(hasSelection ? keys[0] : null);
+                                        console.log(e.component.option("value"));
+                                    }
+                                    
+                                }
+                            });
+
+                        dataGrid = $dataGrid.dxDataGrid("instance");
+
+                        e.component.on("valueChanged", function (args) {
+                            dataGrid.selectRows(args.value, false);
+                        });
+
+                        return $dataGrid;
+                    }
+                });
             });
-        }
-    </script>
-}
+            
+
+
+            
+
+
+
+            $('#ItemId').change(function (event) {
+                $.ajax({
+                    url: "/Items/Transaction",
+                    type: "GET",
+                    data: {
+                        id: $('#ItemId').val()
+                    },
+                    dataType: "JSON"
+                }).done(function (response) {
+                    console.log(response);
+                    $('#ItemName').val(response.Name);
+                    $('#ItemUnit').val(response.Unit);
+                    $('#ItemPrice').val(response.Price);
+                    getLocations();
+                }).fail(function (xhr, status, errorThrown) {
+                    console.log("Error: " + errorThrown);
+                    console.log("Status: " + status);
+                    console.dir(xhr);
+                });
+            });
+
+            function getLocations() {
+                $('#LocationId').find('option').remove().end();
+                $.ajax({
+                    url: "/Inventory/Transaction",
+                    type: "GET",
+                    data: {
+                        id: $('#ItemId').val()
+                    },
+                    dataType: "JSON"
+                }).done(function (response) {
+                    console.log(response);
+                    for (var i = 0; i < response.length; i++) {
+                        $('#LocationId').append('<option value=' + response[i] + '>' + response[i] + '</option>');
+                    }
+                }).fail(function (xhr, status, errorThrown) {
+                    console.log("Error: " + errorThrown);
+                    console.log("Status: " + status);
+                    console.dir(xhr);
+                });
+            }
+        </script>
+    }

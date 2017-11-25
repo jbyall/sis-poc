@@ -29,23 +29,7 @@ namespace SIS.Domain
         #endregion
 
         #region Properties(Database Fields)
-        // On hand transaction quantities (nullable)
-        [Column("Qty_OnHand_Dist")]
-        public int? QuantityOnHandDist { get; set; }
-        [Column("Qty_OnHand_Store")]
-        public int? QuantityOnHandStor { get; set; }
-        [Column("Qty_OnHand_Sub")]
-        public int? QuantityOnHandSub { get; set; }
-
-        // Transaction change quantities (not-nullable)
-        [Column("Qty_Change_Dist")]
-        public int QuantityChangeDist { get; set; }
-        [Column("Qty_Change_Stor")]
-        public int QuantityChangeStor { get; set; }
-        [Column("Qty_Change_Sub")]
-        public int QuantityChangeSub { get; set; }
-
-
+        public int QuantityChange { get; set; }
         public decimal ItemPrice { get; set; }
         public decimal TransactionValue { get; set; }
         #endregion

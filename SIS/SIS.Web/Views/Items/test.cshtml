@@ -21,6 +21,7 @@
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
     <script type="text/javascript">
+        // Function for loading data in the table
         $(function () {
             var items = new DevExpress.data.CustomStore({
                 load: function (loadOptions) {
@@ -37,6 +38,7 @@
                     args.skip = loadOptions.skip || 0;
                     args.take = loadOptions.take || 12;
 
+                    // Ajax call to the controller to get the data
                     $.ajax({
                         url: "/Items/HandoutData",
                         type: "GET",
@@ -56,6 +58,7 @@
                 }
             });
 
+            // Main data grid
             $("#gridContainer").dxDataGrid({
                 allowColumnResizing: true,
                 columnResizingMode: 'nextColumn',
@@ -113,6 +116,7 @@
                         }
                     }
                 ],
+                // Detail view for items (shown/expanded when arrow in left column is clicked)
                 masterDetail: {
                     enabled: true,
                     template: function (container, info) {
@@ -124,6 +128,9 @@
                                             <label>Item Number:</label>
                                         </div>
                                         <div class="col-md-2">${itemData.Id}</div>
+                                        <div class="col-md-2">
+                                            <a href="/Transactions/Handout/${itemData.Id}" class="btn btn-default">Hand Out</a>
+                                        </div>
                                     </div>
                                     <div class="row">
                                         <div class="col-md-2 text-right"><label>Name:</label></div>
@@ -138,13 +145,14 @@
                                     <h4>Locations</h4>
                                     `).appendTo(container);
                         $("<div>")
+                            // Item location data grid (shown when detail view is expanded)
                             .dxDataGrid({
                                 columnAutoWidth: true,
                                 showBorders: true,
                                 //keyExpr: "Id",
-                                selection: {
-                                    mode: "single"
-                                },
+                                //selection: {
+                                //    mode: "single"
+                                //},
                                 hoverStateEnabled: true,
                                 dataSource: itemData.ItemLocations,
                                 columns: [//"LocationId", "QuantityOnHand"

@@ -20,6 +20,12 @@ namespace SIS.Web.Controllers
             return View(db.Departments.ToList());
         }
 
+        public JsonResult HandoutData()
+        {
+            var depts = db.Departments.ToList();
+            return Json(depts, JsonRequestBehavior.AllowGet);
+        }
+
         // GET: Departments/Details/5
         public ActionResult Details(int? id)
         {

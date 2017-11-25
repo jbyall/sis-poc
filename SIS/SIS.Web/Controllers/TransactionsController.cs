@@ -69,16 +69,15 @@ namespace SIS.Web.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Handout(HandoutViewModel model)
         {
-            // TODO : Create a new transaction
+            // TODO : Add data validation
             if (ModelState.IsValid)
             {
                 var transaction = createTransactionFromViewModel(model);
-                var itemLocation = db.ItemLocations.Single(l => l.ItemId == model.ItemId && l.LocationId == model.LocationId);
-                itemLocation.QuantityOnHand -= model.Quantity;
+                updateLocationQuantities(model);
 
                 db.Transactions.Add(transaction);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("test", "Items");
             }
 
             // If data is invalid return view with pre-populated data
@@ -162,29 +161,30 @@ namespace SIS.Web.Controllers
         #region helpers
         private Transaction createTransactionFromViewModel(HandoutViewModel model)
         {
-            var result =  new Transaction
+            var result = new Transaction
             {
                 Date = DateTime.Now,
                 ItemId = model.ItemId,
-                DepartmentId = model.DepartmentId,
-                ItemPrice = model.ItemPrice ?? 0
+                DepartmentId = db.Departments.Single(d => d.Name == model.DepartmentId).Id,
+                ItemPrice = model.ItemPrice ?? 0,
+                //QuantityChange = model.Quantity * -1
             };
-            switch (model.LocationType)
-            {
-                case LocationTypes.Distribution:
-                    result.QuantityChangeDist -= model.Quantity;
-                    break;
-                case LocationTypes.Storage:
-                    result.QuantityChangeStor -= model.Quantity;
-                    break;
-                case LocationTypes.SubBasement:
-                    result.QuantityChangeSub -= model.Quantity;
-                    break;
-                default:
-                    break;
-            }
-            result.TransactionValue = model.Quantity * model.ItemPrice.Value;
+
+            model.Transactions.ForEach(t => result.QuantityChange += t.HandOutQuantity);
+
+            result.TransactionValue = result.QuantityChange * model.ItemPrice.Value;
             return result;
+        }
+
+        private void updateLocationQuantities(HandoutViewModel model)
+        {
+            foreach (var item in model.Transactions)
+            {
+                var location = db.ItemLocations.Single(l => l.LocationId == item.Location.LocationId && l.ItemId == model.ItemId);
+                location.QuantityOnHand -= item.HandOutQuantity;
+            }
+            db.SaveChanges();
+            // Note
         }
         #endregion
     }

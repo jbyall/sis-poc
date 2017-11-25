@@ -21,7 +21,16 @@ namespace SIS.Web.Models
             this.ItemPrice = item.Price;
             //this.QuantityAvailable = location.QuantityOnHand;
             //this.LocationType = LocationTypes.GetLocationTypeFromLocation(location.LocationId);
-            this.ItemLocations = item.ItemLocations.ToList();
+            this.Transactions = new List<HandoutTransaction>();
+            foreach (var location in item.ItemLocations)
+            {
+                var transaction = new HandoutTransaction
+                {
+                    Location = location,
+                    HandOutQuantity = 0,
+                };
+                this.Transactions.Add(transaction);
+            }
         }
         [Display(Name ="Item Number")]
         public string ItemId { get; set; }
@@ -36,13 +45,21 @@ namespace SIS.Web.Models
         public int? QuantityAvailable { get; set; }
 
         [Display(Name = "Department")]
-        public int DepartmentId { get; set; }
+        public string DepartmentId { get; set; }
 
         public string LocationId { get; set; }
 
         public string LocationType { get; set; }
 
-        public List<ItemLocation> ItemLocations { get; set; }
+        public List<HandoutTransaction> Transactions { get; set; }
+        //public List<ItemLocation> ItemLocations { get; set; }
+        //public Dictionary<ItemLocation,int> TransactionLocations { get; set; }
 
+    }
+
+    public class HandoutTransaction
+    {
+        public ItemLocation Location { get; set; }
+        public int HandOutQuantity { get; set; }
     }
 }
