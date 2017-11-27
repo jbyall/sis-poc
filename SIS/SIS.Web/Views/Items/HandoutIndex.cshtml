@@ -97,7 +97,6 @@
                     "Name",
                     //{ caption: "Supplier", dataField: "Supplier.Name" },
                     { caption: "Unit Price", width: 100, dataField: "Price", dataFormat: "currency" },
-                    { caption: "Unit", width: 75, dataField: "Unit" },
                     {
                         caption: "On Hand", width: 75, fixed: false,
                         calculateCellValue: function (rowData) {
@@ -106,8 +105,12 @@
                                 count = count + rowData.ItemLocations[i].QuantityOnHand;
                             }
                             return count;
+                        },
+                        calculateFilterExpression: function (filterValue, selectedFilterOperation) {
+                            return [this.calculateCellValue, selectedFilterOperation || '=', filterValue]
                         }
                     },
+                    { caption: "Unit", width: 75, dataField: "Unit" },
                     {
                         caption: "", cellTemplate: function (element, info) {
                             console.log(element);

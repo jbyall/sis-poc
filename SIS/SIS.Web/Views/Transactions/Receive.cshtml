@@ -1,82 +1,101 @@
-﻿@model IEnumerable<SIS.Domain.Item>
+﻿@model IList<SIS.Web.Models.TransactionViewModel>
 
 @{
     ViewBag.Title = "Receive Items";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <h2>@ViewBag.title</h2>
-
+<div>
+    @Html.ActionLink("Back to List", "ReceiveIndex", "Items")
+</div>
     
-    @foreach (var item in Model)
-    {
-        
-                <div class="panel-group">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            <div class="row">
-                                <div class="col-md-3 col-sm-3">
-                                    @Html.LabelFor(modelItem => item.Id, "Item Number", htmlAttributes: new { @class = "control-label" })
-                                    <br />
-                                    @Html.DisplayFor(modelItem => item.Id)
-                                </div>
-                                <div class="col-md-3 col-sm-3">
-                                    @Html.LabelFor(modelItem => item.Name, htmlAttributes: new { @class = "control-label" })
-                                    <br />
-                                    @Html.DisplayFor(modelItem => item.Name)
-                                </div>
-                                <div class="col-md-3 col-sm-3">
-                                    @Html.LabelFor(modelItem => item.Unit, htmlAttributes: new { @class = "control-label" })
-                                    <br />
-                                    @Html.DisplayFor(modelItem => item.Unit)
-                                </div>
-                                <div class="col-md-3 col-sm-3">
-                                    @Html.LabelFor(modelItem => item.Price, htmlAttributes: new { @class = "control-label" })
-                                    <br />
-                                    @Html.DisplayFor(modelItem => item.Price)
-                                </div>
+   @using (Html.BeginForm())
+   {
+    @Html.AntiForgeryToken()
+    <hr />
+    <div class="form-horizontal">
+        @for (int j = 0; j < Model.Count; j++)
+        {
+            @Html.HiddenFor(model => model[j].ItemId)
+            @Html.HiddenFor(model => model[j].ItemPrice)
+
+            @Html.HiddenFor(model => model[j].LocationType)
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="panel-group">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <div class="row">
+                            <div class="col-md-3 col-sm-3">
+                                @Html.LabelFor(model => model[j].ItemId, "Item Number", htmlAttributes: new { @class = "control-label" })
+                                <br />
+                                @Html.DisplayFor(model => model[j].ItemId)
+                            </div>
+                            <div class="col-md-3 col-sm-3">
+                                @Html.LabelFor(model => model[j].ItemName, htmlAttributes: new { @class = "control-label" })
+                                <br />
+                                @Html.DisplayFor(model => model[j].ItemName)
+                            </div>
+                            <div class="col-md-3 col-sm-3">
+                                @Html.LabelFor(model => model[j].ItemUnit, htmlAttributes: new { @class = "control-label" })
+                                <br />
+                                @Html.DisplayFor(model => model[j].ItemUnit)
+                            </div>
+                            <div class="col-md-3 col-sm-3">
+                                @Html.LabelFor(model => model[j].ItemPrice, htmlAttributes: new { @class = "control-label" })
+                                <br />
+                                @Html.DisplayFor(model => model[j].ItemPrice)
                             </div>
                         </div>
-                        <div class="panel-body">
-                            <table class="table">
-                                <thead>
+                    </div>
+                    <div class="panel-body">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Location</th>
+                                    <th>Qty On Hand</th>
+                                    <th>Receive Qty</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @for (int i = 0; i < Model[j].Transactions.Count; i++)
+                                {
+                                    @Html.HiddenFor(model => Model[j].Transactions[i].Location.LocationId)
+                                    //var location = Model.ItemLocations.ToList()[i];
                                     <tr>
-                                        <th>Location</th>
-                                        <th>Qty On Hand</th>
-                                        <th>Hand Out Qty</th>
+                                        @Html.HiddenFor(model => Model[j].Transactions[i].Location.LocationId)
+                                        <td>@Html.DisplayFor(model => Model[j].Transactions[i].Location.LocationId)</td>
+                                        <td>@Html.DisplayFor(model => Model[j].Transactions[i].Location.QuantityOnHand)</td>
+                                        <td>
+                                            <div class="col-md-2 col-sm-3">
+                                                @Html.EditorFor(modelItem => Model[j].Transactions[i].QuantityChange, new { htmlAttributes = new { @class = "form-control" } })
+                                                @Html.ValidationMessageFor(modelItem => Model[j].Transactions[i].QuantityChange, "", new { @class = "text-danger" })
+                                            </div>
+                                        </td>
                                     </tr>
-                                </thead>
-                                <tbody>
-                                    @*@for (int i = 0; i < Model.Transactions.Count; i++)
-                                    {
-                                        @Html.HiddenFor(model => model.Transactions[i].Location.LocationId)
-                                        //var location = Model.ItemLocations.ToList()[i];
-                                        <tr>
-                                            <td>@Html.DisplayFor(model => model.Transactions[i].Location.LocationId)</td>
-                                            <td>@Html.DisplayFor(model => model.Transactions[i].Location.QuantityOnHand)</td>
-                                            <td>
-                                                <div class="col-md-2 col-sm-3">
-                                                    @Html.EditorFor(model => model.Transactions[i].HandOutQuantity, new { htmlAttributes = new { @class = "form-control" } })
-                                                    @Html.ValidationMessageFor(model => model.Transactions[i].HandOutQuantity, "", new { @class = "text-danger" })
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    }*@
-                                </tbody>
-                            </table>
-                            @*<div class="row">
-                                <div class="col-md-2 col-sm-3 text-right">
-                                    <label class="control-label">Department</label>
-                                    @Html.HiddenFor(model => model.DepartmentId)
-                                </div>
-                                <div class="col-md-5 col-sm-5">
-                                    <div id="gridBox"></div>
-                                </div>
-                                <div class="col-md-2">
-                                    <input type="submit" value="Hand Out" class="btn btn-default" />
-                                </div>
-                            </div>*@
-                        </div>
+                                }
+                                @*@foreach (var transaction in item)
+                                {
+                                    @Html.HiddenFor(modelTransaction => transaction.Location.LocationId)
+                                    <tr>
+                                        <td>@Html.DisplayFor(t => t.Location.LocationId)</td>
+                                        <td>@Html.DisplayFor(modelTransaction => transaction.Location.QuantityOnHand)</td>
+                                        <td>
+                                            <div class="col-md-2 col-sm-3">
+                                                @Html.EditorFor(modelTransaction => transaction.QuantityChange, new { htmlAttributes = new { @class = "form-control", @id=$"Transactions_{i}_QuantityChange" } })
+                                                @Html.ValidationMessageFor(modelTransaction => transaction.QuantityChange, "", new { @class = "text-danger" })
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }*@
+                            </tbody>
+                        </table>
                     </div>
                 </div>
-            
-    }
+            </div>
+            <br/>
+        }
+        <div class="col-md-2">
+            <input type="submit" value="Receive" class="btn btn-default" />
+        </div>
+    </div>
+   }

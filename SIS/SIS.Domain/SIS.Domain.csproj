@@ -64,6 +64,10 @@
     <Compile Include="Migrations\201711251632386_TransactionFix.Designer.cs">
       <DependentUpon>201711251632386_TransactionFix.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201711272107274_AddLocationToTransaction.cs" />
+    <Compile Include="Migrations\201711272107274_AddLocationToTransaction.Designer.cs">
+      <DependentUpon>201711272107274_AddLocationToTransaction.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SisDbContext.cs" />
@@ -84,6 +88,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201711251632386_TransactionFix.resx">
       <DependentUpon>201711251632386_TransactionFix.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201711272107274_AddLocationToTransaction.resx">
+      <DependentUpon>201711272107274_AddLocationToTransaction.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

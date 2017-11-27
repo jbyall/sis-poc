@@ -8,6 +8,14 @@ using System.Threading.Tasks;
 
 namespace SIS.Domain
 {
+    #region enums
+    public static class TransactionTypes
+    {
+        public const string Handout = "Handout";
+        public const string Receive = "Receive";
+    }
+    #endregion
+
     public class Transaction
     {
         #region Relationships(Needed for EntityFramework)
@@ -32,6 +40,7 @@ namespace SIS.Domain
         public int QuantityChange { get; set; }
         public decimal ItemPrice { get; set; }
         public decimal TransactionValue { get; set; }
+        public string LocationId { get; set; }
         #endregion
     }
 }

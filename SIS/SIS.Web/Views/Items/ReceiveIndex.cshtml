@@ -13,8 +13,15 @@
             <li>Use the first column to select items to receive</li>
         </ol>
     </div>
+    <div id="container-fluid button-container">
+        <div class="row">
+            <div class="col-md-offset-11 col-md-2">
+                @Html.ActionLink("Receive Items", "Receive", "Transaction", new { @class = "btn btn-default", @id = "selected-items", @style = "color:gray;", @disabled="disabled" })
+            </div>
+        </div>
+        <a href="#" hidden="hidden">Test</a>
+    </div>
     <div class="demo-container">
-        @Html.ActionLink("Receive Items", "Receive", "Transaction", new { @class = "btn btn-default", @id = "selected-items" })
         <div id="gridContainer"></div>
     </div>
     
@@ -25,6 +32,7 @@
     <script type="text/javascript">
         // Function for loading data in the table
         $(function () {
+            //$('#selected-items').hide();
             var items = new DevExpress.data.CustomStore({
                 load: function (loadOptions) {
                     console.log(loadOptions);
@@ -92,7 +100,6 @@
                     "Name",
                     //{ caption: "Supplier", dataField: "Supplier.Name" },
                     { caption: "Unit Price", width: 100, dataField: "Price", dataFormat: "currency" },
-                    { caption: "Unit", width: 75, dataField: "Unit" },
                     {
                         caption: "On Hand", width: 75, fixed: false,
                         calculateCellValue: function (rowData) {
@@ -101,8 +108,12 @@
                                 count = count + rowData.ItemLocations[i].QuantityOnHand;
                             }
                             return count;
+                        },
+                        calculateFilterExpression: function (filterValue, selectedFilterOperation) {
+                            return [this.calculateCellValue, selectedFilterOperation || '=', filterValue]
                         }
-                    }
+                    },
+                    { caption: "Unit", width: 75, dataField: "Unit" }
                 ],
                 onSelectionChanged: function (selectedItems) {
                     var selectedData = selectedItems.selectedRowsData;
@@ -116,6 +127,18 @@
                     console.log(selectedItemsJoin);
                     var urlBase = "/Transactions/Receive/"
                     $('#selected-items').attr("href", urlBase + selectedItemsJoin);
+                    if (selectedData.length > 0) {
+                        $('#selected-items').removeClass('btn-default');
+                        $('#selected-items').addClass('btn-primary');
+                        $('#selected-items').removeAttr('disabled');
+                        $('#selected-items').css('color','white');
+                    }
+                    else {
+                        $('#selected-items').removeClass('btn-primary');
+                        $('#selected-items').addClass('btn-default');
+                        $('#selected-items').attr('disabled','disabled');
+                        $('#selected-items').css('color', 'gray');
+                    }
                 }
             }).dxDataGrid("instance");
         });

@@ -7,32 +7,25 @@ using System.Web;
 
 namespace SIS.Web.Models
 {
-    public class HandoutViewModel
+    public class ReceiveViewModel
     {
-        public HandoutViewModel()
+        public ReceiveViewModel()
         {
 
         }
-        public HandoutViewModel(Item item)
+        public ReceiveViewModel(Item item)
         {
             this.ItemId = item.Id;
             this.ItemName = item.Name;
             this.ItemUnit = item.Unit;
             this.ItemPrice = item.Price;
-            //this.QuantityAvailable = location.QuantityOnHand;
-            //this.LocationType = LocationTypes.GetLocationTypeFromLocation(location.LocationId);
-            this.Transactions = new List<HandoutTransaction>();
+            this.Transactions = new List<ReceiveTransaction>();
             foreach (var location in item.ItemLocations)
             {
-                var transaction = new HandoutTransaction
-                {
-                    Location = location,
-                    HandOutQuantity = 0,
-                };
-                this.Transactions.Add(transaction);
+
             }
         }
-        [Display(Name ="Item Number")]
+        [Display(Name = "Item Number")]
         public string ItemId { get; set; }
         [Display(Name = "Item Name")]
         public string ItemName { get; set; }
@@ -41,7 +34,7 @@ namespace SIS.Web.Models
         public int Quantity { get; set; }
         [Display(Name = "Item Price")]
         public decimal? ItemPrice { get; set; }
-        [Display(Name ="Qty Available")]
+        [Display(Name = "Qty Available")]
         public int? QuantityAvailable { get; set; }
 
         [Display(Name = "Department")]
@@ -51,15 +44,12 @@ namespace SIS.Web.Models
 
         public string LocationType { get; set; }
 
-        public List<HandoutTransaction> Transactions { get; set; }
-        //public List<ItemLocation> ItemLocations { get; set; }
-        //public Dictionary<ItemLocation,int> TransactionLocations { get; set; }
-
+        public List<ReceiveTransaction> Transactions { get; set; }
     }
 
-    public class HandoutTransaction
+    public class ReceiveTransaction
     {
         public ItemLocation Location { get; set; }
-        public int HandOutQuantity { get; set; }
+        public int ReceiveQuantity { get; set; }
     }
 }

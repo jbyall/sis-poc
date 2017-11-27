@@ -1,4 +1,4 @@
-﻿@model SIS.Web.Models.HandoutViewModel
+﻿@model SIS.Web.Models.TransactionViewModel
 
 @{
     ViewBag.Title = "Hand Out";
@@ -83,8 +83,8 @@
                                     <td>@Html.DisplayFor(model => model.Transactions[i].Location.QuantityOnHand)</td>
                                     <td>
                                         <div class="col-md-2 col-sm-3">
-                                            @Html.EditorFor(model => model.Transactions[i].HandOutQuantity, new { htmlAttributes = new { @class = "form-control" } })
-                                            @Html.ValidationMessageFor(model => model.Transactions[i].HandOutQuantity, "", new { @class = "text-danger" })
+                                            @Html.EditorFor(model => model.Transactions[i].QuantityChange, new { htmlAttributes = new { @class = "form-control" } })
+                                            @Html.ValidationMessageFor(model => model.Transactions[i].QuantityChange, "", new { @class = "text-danger" })
                                         </div>
                                     </td>
                                 </tr>
