@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using SIS.Domain;
+using SIS.Web.Models;
 
 namespace SIS.Web.Controllers
 {
@@ -14,11 +15,11 @@ namespace SIS.Web.Controllers
     {
         private SisDbContext db = new SisDbContext();
 
-        public JsonResult Transaction(string id)
-        {
-            var item = db.Items.Single(i => i.Id == id);
-            return Json(item, JsonRequestBehavior.AllowGet);
-        }
+        //public JsonResult Transaction(string id)
+        //{
+        //    var item = db.Items.Single(i => i.Id == id);
+        //    return Json(item, JsonRequestBehavior.AllowGet);
+        //}
 
         [HttpGet]
         public JsonResult HandoutData()
@@ -27,10 +28,16 @@ namespace SIS.Web.Controllers
             return Json(items, JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult Test()
+        public ActionResult HandoutIndex()
         {
             var items = db.Items.Include(i => i.Supplier);
             return View();
+        }
+
+        public ActionResult ReceiveIndex()
+        {
+            var model = new ReceiveSelectionViewModel();
+            return View(model);
         }
 
         // GET: Items

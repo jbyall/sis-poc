@@ -1,0 +1,126 @@
+﻿@model SIS.Web.Models.ReceiveSelectionViewModel
+@{
+    ViewBag.Title = "Receive";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Receive Items</h2>
+
+<div class="dx-viewport">
+    <div class="alert alert-info">
+        <strong>Instructions</strong>
+        <ol>
+            <li>Use the search at the top of each column to find your item(s).</li>
+            <li>Use the first column to select items to receive</li>
+        </ol>
+    </div>
+    <div class="demo-container">
+        @Html.ActionLink("Receive Items", "Receive", "Transaction", new { id = Model.Ids }, new { @class = "btn btn-default", @id = "selected-items" })
+        <div id="gridContainer"></div>
+    </div>
+    
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script type="text/javascript">
+        // Function for loading data in the table
+        $(function () {
+            var items = new DevExpress.data.CustomStore({
+                load: function (loadOptions) {
+                    console.log(loadOptions);
+                    var deferred = $.Deferred(),
+                        args = {};
+
+                    if (loadOptions.sort) {
+                        args.orderby = loadOptions.sort[0].selector;
+                        if (loadOptions.sort[0].desc)
+                            args.orderby += " desc";
+                    }
+
+                    args.skip = loadOptions.skip || 0;
+                    args.take = loadOptions.take || 12;
+
+                    // Ajax call to the controller to get the data
+                    $.ajax({
+                        url: "/Items/HandoutData",
+                        type: "GET",
+                        data: args,
+                        success: function (result) {
+                            console.log(result);
+                            deferred.resolve(result, { totalCount: result.length });
+                        },
+                        error: function (resp) {
+                            console.log(resp);
+                            deferred.reject("Data Loading Error");
+                        },
+                        timeout: 5000
+                    });
+
+                    return deferred.promise();
+                }
+            });
+
+            // Main data grid
+            $("#gridContainer").dxDataGrid({
+                allowColumnResizing: true,
+                columnResizingMode: 'nextColumn',
+                columnAutoWidth: true,
+                selection: {
+                    mode: "multiple",
+                    allowSelectAll: false,
+                    showCheckBoxesMode: "always"
+                },
+                filterRow: {
+                    visible: true,
+                    applyFilter: "auto"
+                },
+                dataSource: {
+                    store: items
+                },
+                paging: {
+                    pageSize: 20
+                },
+                pager: {
+                    showPageSizeSelector: true,
+                    allowedPageSizes: [10, 20, 50, 100],
+                    showNavigationButtons: true,
+                    showInfo: true,
+                    visible: true
+                },
+                columns: [
+                    { caption: "Item Number", dataField: "Id" },
+                    "Name",
+                    //{ caption: "Supplier", dataField: "Supplier.Name" },
+                    { caption: "Unit Price", width: 100, dataField: "Price", dataFormat: "currency" },
+                    { caption: "Unit", width: 75, dataField: "Unit" },
+                    {
+                        caption: "On Hand", width: 75, fixed: false,
+                        calculateCellValue: function (rowData) {
+                            var count = 0;
+                            for (var i = 0; i < rowData.ItemLocations.length; i++) {
+                                count = count + rowData.ItemLocations[i].QuantityOnHand;
+                            }
+                            return count;
+                        }
+                    }
+                ],
+                onSelectionChanged: function (selectedItems) {
+                    var selectedData = selectedItems.selectedRowsData;
+                    var selectedItemsJoin = "";
+                    for (var i = 0; i < selectedData.length; i++) {
+                        selectedItemsJoin += selectedData[i].Id
+                        if (i < (selectedData.length - 1)) {
+                            selectedItemsJoin += ","
+                        }
+                    }
+                    console.log(selectedItemsJoin);
+                    var urlBase = "/Transactions/Receive/"
+                    $('#selected-items').attr("href", urlBase + selectedItemsJoin);
+                }
+            }).dxDataGrid("instance");
+        });
+    </script>
+
+
+}

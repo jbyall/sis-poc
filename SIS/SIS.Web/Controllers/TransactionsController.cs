@@ -88,6 +88,16 @@ namespace SIS.Web.Controllers
             return View(model);
         }
 
+        public ActionResult Receive(string id)
+        {
+            var selectedItemIds = id.Split(',').ToList();
+            var selectedItems = db.Items.Where(i => selectedItemIds.Contains(i.Id))
+                .Include(i => i.Supplier)
+                .Include(i => i.ItemLocations)
+                .ToList();
+            return View(selectedItems);
+        }
+
         // GET: Transactions/Edit/5
         public ActionResult Edit(int? id)
         {
