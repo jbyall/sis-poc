@@ -5,16 +5,78 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <h2>@ViewBag.title</h2>
-<table class="table">
-    <tr>
-        <th>@Html.DisplayNameFor(model => model.Id)</th>
-        <th>@Html.DisplayNameFor(model => model.Name)</th>
-    </tr>
+
+    
     @foreach (var item in Model)
     {
-        <tr>
-            <td>@Html.DisplayFor(modelItem => item.Id)</td>
-            <td>@Html.DisplayFor(modelItem => item.Name)</td>
-        </tr>
+        
+                <div class="panel-group">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <div class="row">
+                                <div class="col-md-3 col-sm-3">
+                                    @Html.LabelFor(modelItem => item.Id, "Item Number", htmlAttributes: new { @class = "control-label" })
+                                    <br />
+                                    @Html.DisplayFor(modelItem => item.Id)
+                                </div>
+                                <div class="col-md-3 col-sm-3">
+                                    @Html.LabelFor(modelItem => item.Name, htmlAttributes: new { @class = "control-label" })
+                                    <br />
+                                    @Html.DisplayFor(modelItem => item.Name)
+                                </div>
+                                <div class="col-md-3 col-sm-3">
+                                    @Html.LabelFor(modelItem => item.Unit, htmlAttributes: new { @class = "control-label" })
+                                    <br />
+                                    @Html.DisplayFor(modelItem => item.Unit)
+                                </div>
+                                <div class="col-md-3 col-sm-3">
+                                    @Html.LabelFor(modelItem => item.Price, htmlAttributes: new { @class = "control-label" })
+                                    <br />
+                                    @Html.DisplayFor(modelItem => item.Price)
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel-body">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Location</th>
+                                        <th>Qty On Hand</th>
+                                        <th>Hand Out Qty</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @*@for (int i = 0; i < Model.Transactions.Count; i++)
+                                    {
+                                        @Html.HiddenFor(model => model.Transactions[i].Location.LocationId)
+                                        //var location = Model.ItemLocations.ToList()[i];
+                                        <tr>
+                                            <td>@Html.DisplayFor(model => model.Transactions[i].Location.LocationId)</td>
+                                            <td>@Html.DisplayFor(model => model.Transactions[i].Location.QuantityOnHand)</td>
+                                            <td>
+                                                <div class="col-md-2 col-sm-3">
+                                                    @Html.EditorFor(model => model.Transactions[i].HandOutQuantity, new { htmlAttributes = new { @class = "form-control" } })
+                                                    @Html.ValidationMessageFor(model => model.Transactions[i].HandOutQuantity, "", new { @class = "text-danger" })
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    }*@
+                                </tbody>
+                            </table>
+                            @*<div class="row">
+                                <div class="col-md-2 col-sm-3 text-right">
+                                    <label class="control-label">Department</label>
+                                    @Html.HiddenFor(model => model.DepartmentId)
+                                </div>
+                                <div class="col-md-5 col-sm-5">
+                                    <div id="gridBox"></div>
+                                </div>
+                                <div class="col-md-2">
+                                    <input type="submit" value="Hand Out" class="btn btn-default" />
+                                </div>
+                            </div>*@
+                        </div>
+                    </div>
+                </div>
+            
     }
-</table>

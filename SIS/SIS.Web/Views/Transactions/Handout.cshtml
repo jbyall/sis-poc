@@ -27,22 +27,22 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-3">
+                        <div class="col-md-3 col-sm-3">
                             @Html.LabelFor(model => model.ItemId, "Item Number", htmlAttributes: new { @class = "control-label" })
                             <br />
                             @Html.DisplayFor(model => model.ItemId)
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-3 col-sm-3">
                             @Html.LabelFor(model => model.ItemName, htmlAttributes: new { @class = "control-label" })
                             <br />
                             @Html.DisplayFor(model => model.ItemName)
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-3 col-sm-3">
                             @Html.LabelFor(model => model.ItemUnit, htmlAttributes: new { @class = "control-label" })
                             <br />
                             @Html.DisplayFor(model => model.ItemUnit)
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-3 col-sm-3">
                             @Html.LabelFor(model => model.ItemPrice, htmlAttributes: new { @class = "control-label" })
                             <br />
                             @Html.DisplayFor(model => model.ItemPrice)
@@ -82,7 +82,7 @@
                                     <td>@Html.DisplayFor(model => model.Transactions[i].Location.LocationId)</td>
                                     <td>@Html.DisplayFor(model => model.Transactions[i].Location.QuantityOnHand)</td>
                                     <td>
-                                        <div class="col-md-2">
+                                        <div class="col-md-2 col-sm-3">
                                             @Html.EditorFor(model => model.Transactions[i].HandOutQuantity, new { htmlAttributes = new { @class = "form-control" } })
                                             @Html.ValidationMessageFor(model => model.Transactions[i].HandOutQuantity, "", new { @class = "text-danger" })
                                         </div>
@@ -98,14 +98,14 @@
                                 @Html.DropDownList("DepartmentId", null, "Select...", htmlAttributes: new { @class = "form-control" })
                                 @Html.ValidationMessageFor(model => model.DepartmentId, "", new { @class = "text-danger" })
                             </div>*@
-                        <div class="col-md-2">
+                        <div class="col-md-2 col-sm-3 text-right">
                             <label class="control-label">Department</label>
                             @Html.HiddenFor(model => model.DepartmentId)
                             @*<div class="dx-field-value">
                                 
                             </div>*@
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-5 col-sm-5">
                             <div id="gridBox"></div>
                         </div>
                         @*<div class="col-md-6">
@@ -128,7 +128,7 @@
     </div>
 }
 <div>
-    @Html.ActionLink("Back to List", "test", "Items")
+    @Html.ActionLink("Back to List", "HandoutIndex", "Items")
 </div>
 
     @section Scripts {
@@ -177,7 +177,7 @@
                     //accessKey: "Department_Id",
                     //value: "3AI00",
                     //valueExpr: "Name",
-                    placeholder: "Select a value...",
+                    placeholder: "Select a department...",
                     displayExpr: function (item) {
                         if (item) {
                             return item.Name + " (" + item.Description + ")";
@@ -192,7 +192,10 @@
                         var value = e.component.option("value"),
                             $dataGrid = $("<div>").dxDataGrid({
                                 dataSource: e.component.option("dataSource"),
-                                columns: ["Name", "Description"],
+                                columns: [
+                                    { dataField: "Name", width:75},
+                                    { dataField: "Description"}
+                                ],
                                 hoverStateEnabled: true,
                                 //paging: { enabled: true, pageSize: 10 },
                                 //filterRow: { visible: true },

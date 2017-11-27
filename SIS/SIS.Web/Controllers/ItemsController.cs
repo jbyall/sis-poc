@@ -36,8 +36,7 @@ namespace SIS.Web.Controllers
 
         public ActionResult ReceiveIndex()
         {
-            var model = new ReceiveSelectionViewModel();
-            return View(model);
+            return View();
         }
 
         // GET: Items
