@@ -10,7 +10,7 @@
         <strong>Instructions</strong>
         <ol>
             <li>Use the search at the top of each column to find your item(s).</li>
-            <li>Use the first column to select items to receive</li>
+            <li>Select the item(s) received by checking them in the first column</li>
         </ol>
     </div>
     <div id="container-fluid button-container">
@@ -21,7 +21,9 @@
         </div>
     </div>
     <div class="demo-container">
-        <div id="gridContainer"></div>
+        <div id="gridContainer">
+
+        </div>
     </div>
     
 </div>
@@ -32,6 +34,8 @@
         // Function for loading data in the table
         $(function () {
             //$('#selected-items').hide();
+            //var test = $("#gridContainer").find(".dx-command-select");
+            //console.log(test);
             var items = new DevExpress.data.CustomStore({
                 load: function (loadOptions) {
                     console.log(loadOptions);
@@ -75,7 +79,7 @@
                 selection: {
                     mode: "multiple",
                     allowSelectAll: false,
-                    showCheckBoxesMode: "always"
+                    showCheckBoxesMode: "always",
                 },
                 filterRow: {
                     visible: true,
@@ -140,6 +144,8 @@
                     }
                 }
             }).dxDataGrid("instance");
+
+            
         });
     </script>
 

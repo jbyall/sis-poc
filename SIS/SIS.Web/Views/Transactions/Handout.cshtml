@@ -59,25 +59,9 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @*@{ var i = 0;}
-                            @foreach (var item in Model.Transactions)
-                            {
-                                <tr>
-                                    <td>@Html.DisplayFor(modelItem => item.Location.LocationId)</td>
-                                    <td>@Html.DisplayFor(modelItem => item.Location.QuantityOnHand)</td>
-                                    <td>
-                                        <div class="col-md-2">
-                                            @Html.EditorFor(modelItem => item.HandOutQuantity, new { htmlAttributes = new { @class = "form-control", @id=$"hoq-{i}" } })
-                                            @Html.ValidationMessageFor(modelItem => item.HandOutQuantity, "", new { @class = "text-danger" })
-                                        </div>
-                                    </td>
-                                </tr>
-                                i++;
-                            }*@
                             @for (int i = 0; i < Model.Transactions.Count; i++)
                             {
                                 @Html.HiddenFor(model => model.Transactions[i].Location.LocationId)
-                                //var location = Model.ItemLocations.ToList()[i];
                                 <tr>
                                     <td>@Html.DisplayFor(model => model.Transactions[i].Location.LocationId)</td>
                                     <td>@Html.DisplayFor(model => model.Transactions[i].Location.QuantityOnHand)</td>
@@ -92,30 +76,14 @@
                         </tbody>
                     </table>
                     <div class="row">
-                        
-                            @*@Html.LabelFor(model => model.DepartmentId, "Department", htmlAttributes: new { @class = "control-label col-md-2" })
-                            <div class="col-md-4">
-                                @Html.DropDownList("DepartmentId", null, "Select...", htmlAttributes: new { @class = "form-control" })
-                                @Html.ValidationMessageFor(model => model.DepartmentId, "", new { @class = "text-danger" })
-                            </div>*@
                         <div class="col-md-2 col-sm-3 text-right">
                             <label class="control-label">Department</label>
                             @Html.HiddenFor(model => model.DepartmentId)
-                            @*<div class="dx-field-value">
-                                
-                            </div>*@
                         </div>
                         <div class="col-md-5 col-sm-5">
                             <div id="gridBox"></div>
+                            <p id="dept-description" hidden="hidden" style="color:#a6a6a6"></p>
                         </div>
-                        @*<div class="col-md-6">
-                            <div class="dx-fieldset">
-                                <div class="dx-field">
-                                    
-                                    
-                                </div>
-                            </div>
-                        </div>*@
                     </div>
                     
                 </div>
@@ -138,7 +106,7 @@
         <script type="text/javascript">
             $(function () {
                 var departments = new DevExpress.data.CustomStore({
-                    key: "Name",
+                    key: "Id",
                     loadMode: "raw",
                     load: function () {
                         var d = new $.Deferred();
@@ -146,7 +114,7 @@
                             url: "/Departments/HandoutData",
                             type: "GET",
                             success: function (result) {
-                                console.log(result);
+                                //console.log(result);
                                 d.resolve(result);
                             },
                             error: function (resp) {
@@ -161,7 +129,9 @@
                     placeholder: "Select a department...",
                     displayExpr: function (item) {
                         if (item) {
-                            return item.Name + " (" + item.Description + ")";
+                            $('#dept-description').html(item.Description);
+                            $('#dept-description').show();
+                            return item.Id;
                         }
                         return "";
                         
@@ -173,7 +143,7 @@
                             $dataGrid = $("<div>").dxDataGrid({
                                 dataSource: e.component.option("dataSource"),
                                 columns: [
-                                    { dataField: "Name", width:75},
+                                    { caption:"Dept", dataField: "Id", width:75},
                                     { dataField: "Description"}
                                 ],
                                 hoverStateEnabled: true,
@@ -182,16 +152,18 @@
                                 selection: { mode: "single" },
                                 selectedRowKeys: [value],
                                 onSelectionChanged: function (selectedItems) {
-                                    var keys = selectedItems.selectedRowKeys,
+                                    var keys = selectedItems.selectedRowKeys;
                                         hasSelection = keys.length;
                                     if (hasSelection) {
                                         e.component.option("value", hasSelection ? keys[0] : null);
                                         $('#DepartmentId').val(hasSelection ? keys[0] : null);
-                                        console.log(e.component.option("value"));
+                                        //console.log(e.component.option("value"));
                                         $('#handout-button').removeAttr('disabled');
+                                        
                                     }
                                     else {
                                         $('#handout-button').attr('disabled', 'disabled');
+                                        $('#dept-description').hide();
                                     }
                                     
                                 }

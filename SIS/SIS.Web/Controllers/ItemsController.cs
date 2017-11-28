@@ -28,9 +28,13 @@ namespace SIS.Web.Controllers
             return Json(items, JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult HandoutIndex()
+        public ActionResult HandoutIndex(string message)
         {
             var items = db.Items.Include(i => i.Supplier);
+            if (!string.IsNullOrWhiteSpace(message))
+            {
+                ViewBag.Message = "Hand Out complete";
+            }
             return View();
         }
 

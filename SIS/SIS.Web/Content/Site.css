@@ -16,6 +16,22 @@
     white-space: normal;
 }
 
+.dx-checkbox-icon {
+    border-bottom-color: #8c8c8c !important;
+    border-top-color: #8c8c8c !important;
+    border-left-color: #8c8c8c !important;
+    border-right-color: #8c8c8c !important;
+}
+.table-sis{
+    margin-bottom: 1px !important;
+}
+.panel-sis{
+    border-color: #bfbfbf !important;
+}
+.panel-heading-sis{
+    background-color: #e6e6e6 !important;
+}
+
 /* Set width on the form input elements since they're 100% wide by default */
 input,
 select,

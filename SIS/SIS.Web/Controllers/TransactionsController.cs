@@ -70,7 +70,7 @@ namespace SIS.Web.Controllers
                 }
                 db.Transactions.AddRange(transaction);
                 db.SaveChanges();
-                return RedirectToAction("HandoutIndex", "Items");
+                return RedirectToAction("HandoutIndex", "Items", new { message = "success"});
             }
 
             // If data is invalid return view with pre-populated data
@@ -136,7 +136,34 @@ namespace SIS.Web.Controllers
 
             // Commit changes (adding Transaction entities to the database)
             db.SaveChanges();
-            return RedirectToAction("ReceiveIndex", "Items");
+
+            // Redirect to confirm
+            var confirmIds = string.Join(",", transactions.Select(t => t.ItemId));
+            return RedirectToAction("ReceiveConfirm", "Transactions", new { id = confirmIds });
+        }
+
+        public ActionResult ReceiveConfirm(string id)
+        {
+            // The id is actually a comma separated string to allow the user to receive multiple items at once
+            // Split will separate the ids
+            var selectedItemIds = id.Split(',').ToList();
+
+            // Get the Item entities from the database with corresponding ids
+            var selectedItems = db.Items.Where(i => selectedItemIds.Contains(i.Id))
+                .Include(i => i.Supplier)
+                .Include(i => i.ItemLocations)
+                .ToList();
+
+            // Since the user may receive multiple items, we pass a collection of view models to the view
+            var models = new List<TransactionViewModel>();
+            foreach (var item in selectedItems)
+            {
+                // Construct each view model using data from the Item entities
+                models.Add(new TransactionViewModel(item));
+            }
+
+            // Return view with the collection of view models
+            return View(models);
         }
 
         // GET: Transactions/Edit/5

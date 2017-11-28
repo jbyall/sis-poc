@@ -315,6 +315,7 @@
     <Content Include="Views\Units\Index.cshtml" />
     <Content Include="Views\Items\ReceiveIndex.cshtml" />
     <Content Include="Views\Transactions\Receive.cshtml" />
+    <Content Include="Views\Transactions\ReceiveConfirm.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

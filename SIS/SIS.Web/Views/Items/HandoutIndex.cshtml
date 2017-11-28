@@ -7,10 +7,12 @@
 
 <div class="dx-viewport">
     <div class="alert alert-info">
+        <p id="success-message" hidden="hidden">@ViewBag.Message</p>
         <strong>Instructions</strong>
         <ol>
             <li>Use the search at the top of each column to find your item</li>
-            <li>Click the arrow in the first column to view item details and issue a handout transaction.</li>
+            <li>Click the "Handout" link in the last column to start a handout transaction.</li>
+            <li>(Optional) Click the arror in the first column to view item location details.</li>
         </ol>
     </div>
     <div class="demo-container">
@@ -18,14 +20,16 @@
     </div>
 </div>
 
+<div id="toastContainer"></div>
+
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
     <script type="text/javascript">
-        // Function for loading data in the table
         $(function () {
+            // Load data
             var items = new DevExpress.data.CustomStore({
                 load: function (loadOptions) {
-                    console.log(loadOptions);
+                    //console.log(loadOptions);
                     var deferred = $.Deferred(),
                         args = {};
 
@@ -44,12 +48,12 @@
                         type: "GET",
                         data: args,
                         success: function (result) {
-                            console.log(result);
                             deferred.resolve(result, { totalCount: result.length });
+                            //console.log(result);
                         },
                         error: function (resp) {
-                            console.log(resp);
-                            deferred.reject("Data Loading Error");
+                            deferred.reject("There was a problem. Please contact technical support with Error Code: HDT404.");
+                            //console.log(resp);
                         },
                         timeout: 5000
                     });
@@ -70,18 +74,6 @@
                 dataSource: {
                     store: items
                 },
-                //editing: {
-                //    mode: "form",
-                //    allowUpdating: true,
-                //    texts: {
-                //        editRow: "Hand Out",
-                //        saveRowChanges: "Submit"
-                //    }
-                //},
-                //remoteOperations: {
-                //    sorting: false,
-                //    paging: false
-                //},
                 paging: {
                     pageSize: 20
                 },
@@ -95,7 +87,6 @@
                 columns: [
                     { caption: "Item Number", dataField: "Id" },
                     "Name",
-                    //{ caption: "Supplier", dataField: "Supplier.Name" },
                     { caption: "Unit Price", width: 100, dataField: "Price", dataFormat: "currency" },
                     {
                         caption: "On Hand", width: 75, fixed: false,
@@ -113,9 +104,10 @@
                     { caption: "Unit", width: 75, dataField: "Unit" },
                     {
                         caption: "", cellTemplate: function (element, info) {
-                            console.log(element);
-                            console.log(info);
                             element.append(`<a href="/Transactions/Handout/${info.key.Id}">Hand Out</div>`)
+                            // Keep for future debugging
+                            //console.log(element);
+                            //console.log(info);
                         }
                     }
                 ],
@@ -162,6 +154,20 @@
                     }
                 }
             }).dxDataGrid("instance");
+
+            $('#toastContainer').dxToast({
+                message: $('#success-message').html(),
+                type: "success",
+                //displayTime: 8000,
+                closeOnClick: true
+            });
+
+            setTimeout(function () {
+                if ($('#success-message').html() != '') {
+                    $('#toastContainer').dxToast("show");
+                }
+            }, 50);
+
         });
     </script>
 
