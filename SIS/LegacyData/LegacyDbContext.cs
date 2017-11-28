@@ -1,14 +1,14 @@
-namespace SIS.Data
+namespace LegacyData
 {
     using System;
     using System.Data.Entity;
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Linq;
 
-    public partial class SISDbContext : DbContext
+    public partial class LegacyDbContext : DbContext
     {
-        public SISDbContext()
-            : base("name=OldDbContext")
+        public LegacyDbContext()
+            : base("name=LegacyDbContext")
         {
         }
 

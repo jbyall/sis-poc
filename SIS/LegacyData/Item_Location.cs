@@ -1,4 +1,4 @@
-namespace SIS.Data
+namespace LegacyData
 {
     using System;
     using System.Collections.Generic;

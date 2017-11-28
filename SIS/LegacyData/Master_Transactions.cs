@@ -1,4 +1,4 @@
-namespace SIS.Data
+namespace LegacyData
 {
     using System;
     using System.Collections.Generic;
@@ -18,7 +18,6 @@ namespace SIS.Data
         public DateTime Transaction_Date { get; set; }
 
         [StringLength(5)]
-        // Not for receiving, for dispersments
         public string Department { get; set; }
 
         public short? Dist_Qty_OnHand { get; set; }
@@ -34,11 +33,9 @@ namespace SIS.Data
         public short Sub_QtyChange { get; set; }
 
         [Column(TypeName = "money")]
-        // pulled from item master
         public decimal Item_Price { get; set; }
 
         [Column(TypeName = "money")]
-        // quantity times price
         public decimal Transaction_Value { get; set; }
 
         public virtual Department_LUT Department_LUT { get; set; }

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace SIS.Domain
 {
-    #region enums
+    #region constants
     public static class TransactionTypes
     {
         public const string Handout = "Handout";
@@ -30,7 +30,7 @@ namespace SIS.Domain
         public DateTime Date { get; set; }
 
         // Defines 1-1 relationship for Transaction-Department
-        public int DepartmentId { get; set; }
+        public string DepartmentId { get; set; }
         public Department Department { get; set; }
 
 

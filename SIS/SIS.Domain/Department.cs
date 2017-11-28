@@ -15,8 +15,11 @@ namespace SIS.Domain
         {
             this.Transactions = new List<Transaction>();
         }
-        public int Id { get; set; }
-        public string Name { get; set; }
+        
+        [Key]
+        [Column("Dept")]
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        public string Id { get; set; }
 
         [StringLength(50)]
         public string Description { get; set; }

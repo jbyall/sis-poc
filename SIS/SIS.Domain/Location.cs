@@ -9,7 +9,7 @@ using System.Reflection;
 
 namespace SIS.Domain
 {
-    #region enums
+    #region constants
     // Used to control location types and for coding convenience
     public static class LocationTypes
     {

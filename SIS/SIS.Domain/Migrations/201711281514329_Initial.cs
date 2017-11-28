@@ -11,11 +11,10 @@ namespace SIS.Domain.Migrations
                 "dbo.Department_LUT",
                 c => new
                     {
-                        Id = c.Int(nullable: false, identity: true),
-                        Name = c.String(),
+                        Dept = c.String(nullable: false, maxLength: 128),
                         Description = c.String(maxLength: 50),
                     })
-                .PrimaryKey(t => t.Id);
+                .PrimaryKey(t => t.Dept);
             
             CreateTable(
                 "dbo.Transactions",
@@ -24,18 +23,14 @@ namespace SIS.Domain.Migrations
                         Id = c.Int(nullable: false, identity: true),
                         ItemNumber = c.String(maxLength: 128),
                         Date = c.DateTime(nullable: false),
-                        DepartmentId = c.Int(nullable: false),
-                        Qty_OnHand_Dist = c.Int(),
-                        Qty_OnHand_Store = c.Int(),
-                        Qty_OnHand_Sub = c.Int(),
-                        Qty_Change_Dist = c.Int(nullable: false),
-                        Qty_Change_Stor = c.Int(nullable: false),
-                        Qty_Change_Sub = c.Int(nullable: false),
+                        DepartmentId = c.String(maxLength: 128),
+                        QuantityChange = c.Int(nullable: false),
                         ItemPrice = c.Decimal(nullable: false, precision: 18, scale: 2),
                         TransactionValue = c.Decimal(nullable: false, precision: 18, scale: 2),
+                        LocationId = c.String(),
                     })
                 .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.Department_LUT", t => t.DepartmentId, cascadeDelete: true)
+                .ForeignKey("dbo.Department_LUT", t => t.DepartmentId)
                 .ForeignKey("dbo.Items", t => t.ItemNumber)
                 .Index(t => t.ItemNumber)
                 .Index(t => t.DepartmentId);
@@ -95,6 +90,16 @@ namespace SIS.Domain.Migrations
                     })
                 .PrimaryKey(t => t.Id);
             
+            CreateTable(
+                "dbo.Units",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        Code = c.String(maxLength: 2),
+                        Description = c.String(maxLength: 20),
+                    })
+                .PrimaryKey(t => t.Id);
+            
         }
         
         public override void Down()
@@ -109,6 +114,7 @@ namespace SIS.Domain.Migrations
             DropIndex("dbo.Items", new[] { "SupplierId" });
             DropIndex("dbo.Transactions", new[] { "DepartmentId" });
             DropIndex("dbo.Transactions", new[] { "ItemNumber" });
+            DropTable("dbo.Units");
             DropTable("dbo.Supplier_LUT");
             DropTable("dbo.Location_LUT");
             DropTable("dbo.ItemLocations");

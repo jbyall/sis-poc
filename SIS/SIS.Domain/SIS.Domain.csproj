@@ -52,21 +52,9 @@
     <Compile Include="Item.cs" />
     <Compile Include="ItemLocation.cs" />
     <Compile Include="Location.cs" />
-    <Compile Include="Migrations\201711181957122_Initial.cs" />
-    <Compile Include="Migrations\201711181957122_Initial.Designer.cs">
-      <DependentUpon>201711181957122_Initial.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201711200153091_AddUnits.cs" />
-    <Compile Include="Migrations\201711200153091_AddUnits.Designer.cs">
-      <DependentUpon>201711200153091_AddUnits.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201711251632386_TransactionFix.cs" />
-    <Compile Include="Migrations\201711251632386_TransactionFix.Designer.cs">
-      <DependentUpon>201711251632386_TransactionFix.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201711272107274_AddLocationToTransaction.cs" />
-    <Compile Include="Migrations\201711272107274_AddLocationToTransaction.Designer.cs">
-      <DependentUpon>201711272107274_AddLocationToTransaction.cs</DependentUpon>
+    <Compile Include="Migrations\201711281514329_Initial.cs" />
+    <Compile Include="Migrations\201711281514329_Initial.Designer.cs">
+      <DependentUpon>201711281514329_Initial.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -76,21 +64,20 @@
     <Compile Include="Units.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201711181957122_Initial.resx">
-      <DependentUpon>201711181957122_Initial.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201711200153091_AddUnits.resx">
-      <DependentUpon>201711200153091_AddUnits.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201711251632386_TransactionFix.resx">
-      <DependentUpon>201711251632386_TransactionFix.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201711272107274_AddLocationToTransaction.resx">
-      <DependentUpon>201711272107274_AddLocationToTransaction.cs</DependentUpon>
+    <ProjectReference Include="..\LegacyData\LegacyData.csproj">
+      <Project>{a71969dc-4e70-4f70-881c-73f03595e1ff}</Project>
+      <Name>LegacyData</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201711281514329_Initial.resx">
+      <DependentUpon>201711281514329_Initial.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

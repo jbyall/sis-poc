@@ -223,7 +223,7 @@ namespace SIS.Web.Controllers
             var transactionMultiplier = getTransactionMultiplier(transactionType);
 
             // This is needed to map the actual database Id field (since the select box uses 
-            var department = db.Departments.SingleOrDefault(d => d.Name == model.DepartmentId);
+            var department = db.Departments.SingleOrDefault(d => d.Id == model.DepartmentId);
 
             // Create an emply list for the result
             var result = new List<Transaction>();
@@ -238,7 +238,7 @@ namespace SIS.Web.Controllers
                     {
                         Date = DateTime.Now,
                         ItemId = model.ItemId,
-                        DepartmentId = department == null ? 1 : department.Id,
+                        DepartmentId = department == null ? "3XX99" : department.Id,
                         ItemPrice = model.ItemPrice ?? 0,
                         LocationId = modelTransaction.Location.LocationId
                     };
