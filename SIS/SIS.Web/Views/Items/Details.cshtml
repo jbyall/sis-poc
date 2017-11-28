@@ -40,7 +40,7 @@
                 </dd>
 
                 <dt>
-                    @Html.DisplayName("Reorder Qty")
+                    @Html.DisplayName("Reorder Level")
                 </dt>
 
                 <dd>
@@ -141,11 +141,18 @@
             </dl>
         </div>
     </div>
+
+
+    <br />
+    <div class="row">
+        <div class="col-md-2 col-sm-2">
+            <a href="/Items/Index" class="btn btn-default"><span class="glyphicon glyphicon-arrow-left"></span> Back To List</a>
+        </div>
+        <div class="pull-right">
+            <a href="/Items/Edit/@Model.Id" class="btn btn-success" style="margin-right:15px;"><span class="glyphicon glyphicon-edit"></span> Edit</a>
+            <a href="/Items/Delete/@Model.Id" class="btn btn-danger" style="margin-right:15px;"><span class="glyphicon glyphicon-remove"></span> Delete</a>
+        </div>
+    </div>
 </div>
 
 
-
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>

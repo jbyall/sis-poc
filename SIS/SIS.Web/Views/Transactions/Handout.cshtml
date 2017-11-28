@@ -116,20 +116,22 @@
                                 </div>
                             </div>
                         </div>*@
-                        
-                            <div class="col-md-2">
-                                <input type="submit" value="Hand Out" class="btn btn-default" />
-                            </div>
                     </div>
                     
                 </div>
             </div>
         </div>
     </div>
-}
-<div>
-    @Html.ActionLink("Back to List", "HandoutIndex", "Items")
+    <br/>
+<div class="row">
+    <div class="col-md-2 col-sm-2">
+        <a href="/Items/HandoutIndex" class="btn btn-default"><span class="glyphicon glyphicon-arrow-left"></span> Back To List</a>
+    </div>
+    <div class="pull-right">
+        <input id="handout-button" type="submit" value="Hand Out" class="btn btn-success" style="margin-right:15px;" disabled/>
+    </div>
 </div>
+}
 
     @section Scripts {
         @Scripts.Render("~/bundles/jqueryval")
@@ -154,29 +156,8 @@
                         });
                         return d.promise();
                     },
-                    //byKey: function (key) {
-                    //    console.log("bykey hit");
-                    //    return { id: key, name: key };
-                   // }
-                    //key: "Name",
-                    //load: function (loadOptions) {
-                    //    $.ajax({
-                    //        url: "/Departments/HandoutData",
-                    //        type: "GET",
-                    //        success: function (result) {
-                    //            console.log(result);
-                    //            return result;
-                    //        }
-                    //    })
-                    //},
-                    //byKey: function (key) {
-                    //    return { id: key };
-                    //}
                 })
                 $("#gridBox").dxDropDownBox({
-                    //accessKey: "Department_Id",
-                    //value: "3AI00",
-                    //valueExpr: "Name",
                     placeholder: "Select a department...",
                     displayExpr: function (item) {
                         if (item) {
@@ -185,9 +166,8 @@
                         return "";
                         
                     },
-                    //elementAttr:{id: "DepartmentId"},
                     showClearButton: true,
-                    dataSource: departments,//makeAsyncDataSource("customers.json"),
+                    dataSource: departments,
                     contentTemplate: function (e) {
                         var value = e.component.option("value"),
                             $dataGrid = $("<div>").dxDataGrid({
@@ -197,8 +177,6 @@
                                     { dataField: "Description"}
                                 ],
                                 hoverStateEnabled: true,
-                                //paging: { enabled: true, pageSize: 10 },
-                                //filterRow: { visible: true },
                                 scrolling: { mode: "infinite" },
                                 height: 265,
                                 selection: { mode: "single" },
@@ -210,6 +188,10 @@
                                         e.component.option("value", hasSelection ? keys[0] : null);
                                         $('#DepartmentId').val(hasSelection ? keys[0] : null);
                                         console.log(e.component.option("value"));
+                                        $('#handout-button').removeAttr('disabled');
+                                    }
+                                    else {
+                                        $('#handout-button').attr('disabled', 'disabled');
                                     }
                                     
                                 }
@@ -230,48 +212,48 @@
 
             
 
+            // Needed only if user can search for items on this view
 
+            //$('#ItemId').change(function (event) {
+            //    $.ajax({
+            //        url: "/Items/Transaction",
+            //        type: "GET",
+            //        data: {
+            //            id: $('#ItemId').val()
+            //        },
+            //        dataType: "JSON"
+            //    }).done(function (response) {
+            //        console.log(response);
+            //        $('#ItemName').val(response.Name);
+            //        $('#ItemUnit').val(response.Unit);
+            //        $('#ItemPrice').val(response.Price);
+            //        getLocations();
+            //    }).fail(function (xhr, status, errorThrown) {
+            //        console.log("Error: " + errorThrown);
+            //        console.log("Status: " + status);
+            //        console.dir(xhr);
+            //    });
+            //});
 
-            $('#ItemId').change(function (event) {
-                $.ajax({
-                    url: "/Items/Transaction",
-                    type: "GET",
-                    data: {
-                        id: $('#ItemId').val()
-                    },
-                    dataType: "JSON"
-                }).done(function (response) {
-                    console.log(response);
-                    $('#ItemName').val(response.Name);
-                    $('#ItemUnit').val(response.Unit);
-                    $('#ItemPrice').val(response.Price);
-                    getLocations();
-                }).fail(function (xhr, status, errorThrown) {
-                    console.log("Error: " + errorThrown);
-                    console.log("Status: " + status);
-                    console.dir(xhr);
-                });
-            });
-
-            function getLocations() {
-                $('#LocationId').find('option').remove().end();
-                $.ajax({
-                    url: "/Inventory/Transaction",
-                    type: "GET",
-                    data: {
-                        id: $('#ItemId').val()
-                    },
-                    dataType: "JSON"
-                }).done(function (response) {
-                    console.log(response);
-                    for (var i = 0; i < response.length; i++) {
-                        $('#LocationId').append('<option value=' + response[i] + '>' + response[i] + '</option>');
-                    }
-                }).fail(function (xhr, status, errorThrown) {
-                    console.log("Error: " + errorThrown);
-                    console.log("Status: " + status);
-                    console.dir(xhr);
-                });
-            }
+            //function getLocations() {
+            //    $('#LocationId').find('option').remove().end();
+            //    $.ajax({
+            //        url: "/Inventory/Transaction",
+            //        type: "GET",
+            //        data: {
+            //            id: $('#ItemId').val()
+            //        },
+            //        dataType: "JSON"
+            //    }).done(function (response) {
+            //        console.log(response);
+            //        for (var i = 0; i < response.length; i++) {
+            //            $('#LocationId').append('<option value=' + response[i] + '>' + response[i] + '</option>');
+            //        }
+            //    }).fail(function (xhr, status, errorThrown) {
+            //        console.log("Error: " + errorThrown);
+            //        console.log("Status: " + status);
+            //        console.dir(xhr);
+            //    });
+            //}
         </script>
     }

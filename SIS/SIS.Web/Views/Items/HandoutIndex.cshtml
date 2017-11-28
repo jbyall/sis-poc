@@ -127,23 +127,23 @@
                         $('<div class="container-fluid">')
                             .append(`<h3>${itemData.Name} Details</h3>`)
                             .append(`<div class="row">
-                                        <div class="col-md-2 text-right">
+                                        <div class="col-md-2 col-sm-2 text-right">
                                             <label>Item Number:</label>
                                         </div>
-                                        <div class="col-md-2">${itemData.Id}</div>
-                                        <div class="col-md-2">
+                                        <div class="col-md-2 col-sm-2">${itemData.Id}</div>
+                                        <div class="col-md-2 col-sm-2">
                                             <a href="/Transactions/Handout/${itemData.Id}" class="btn btn-default">Hand Out</a>
                                         </div>
                                     </div>
                                     <div class="row">
-                                        <div class="col-md-2 text-right"><label>Name:</label></div>
-                                        <div class="col-md-2">${itemData.Name}</div>
+                                        <div class="col-md-2 col-sm-2 text-right"><label>Name:</label></div>
+                                        <div class="col-md-2 col-sm-2">${itemData.Name}</div>
                                     </div>
                                     <div class="row">
-                                        <div class="col-md-2 text-right"><label>Unit:</label></div><div class="col-md-2">${itemData.Unit}</div>
+                                        <div class="col-md-2 col-sm-2 text-right"><label>Unit:</label></div><div class="col-md-2 col-sm-2">${itemData.Unit}</div>
                                     </div>
                                     <div class="row">
-                                        <div class="col-md-2 text-right"><label>Unit Cost:</label></div><div class="col-md-2">${itemData.Price}</div>
+                                        <div class="col-md-2 col-sm-2 text-right"><label>Unit Cost:</label></div><div class="col-md-2 col-sm-2">${itemData.Price}</div>
                                     </div>
                                     <h4>Locations</h4>
                                     `).appendTo(container);
@@ -152,35 +152,12 @@
                             .dxDataGrid({
                                 columnAutoWidth: true,
                                 showBorders: true,
-                                //keyExpr: "Id",
-                                //selection: {
-                                //    mode: "single"
-                                //},
-                                hoverStateEnabled: true,
+                                hoverStateEnabled: false,
                                 dataSource: itemData.ItemLocations,
-                                columns: [//"LocationId", "QuantityOnHand"
+                                columns: [
                                     { caption: "Location", width: 150, dataField: "LocationId" },
                                     { caption: "Qty Avail.", width: 150, dataField: "QuantityOnHand" },
-                                    //{
-                                    //    //dataField: "ItemId",
-                                    //    caption: "Actions",
-                                    //    width: 200,
-                                    //    cellTemplate: function (element, info) {
-                                    //        console.log(element);
-                                    //        console.log(info);
-                                    //        element.append(`<a href="/Transactions/Handout/${info.key.ItemId}?location=${info.key.LocationId}">Check-out</div>`)
-                                    //    }
-                                    //}
                                 ],
-                                //onSelectionChanged: function (selectedItems) {
-                                //    var data = selectedItems.selectedRowsData[0];
-                                //    console.log(selectedItems);
-                                //    if (data) {
-                                //        var target = document.getElementById(`${data.ItemId}-${data.LocationId}`);
-                                //        $(target).attr('href', `/Transactions/Create/${data.ItemId}?location=${data.LocationId}`);
-                                //        $(target).text("Check-out");
-                                //    }
-                                //}
                             }).appendTo(container);
                     }
                 }

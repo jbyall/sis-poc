@@ -15,11 +15,10 @@
     </div>
     <div id="container-fluid button-container">
         <div class="row">
-            <div class="col-md-offset-11 col-md-2">
+            <div class="col-md-2">
                 @Html.ActionLink("Receive Items", "Receive", "Transaction", new { @class = "btn btn-default", @id = "selected-items", @style = "color:gray;", @disabled="disabled" })
             </div>
         </div>
-        <a href="#" hidden="hidden">Test</a>
     </div>
     <div class="demo-container">
         <div id="gridContainer"></div>
@@ -129,12 +128,12 @@
                     $('#selected-items').attr("href", urlBase + selectedItemsJoin);
                     if (selectedData.length > 0) {
                         $('#selected-items').removeClass('btn-default');
-                        $('#selected-items').addClass('btn-primary');
+                        $('#selected-items').addClass('btn-success');
                         $('#selected-items').removeAttr('disabled');
                         $('#selected-items').css('color','white');
                     }
                     else {
-                        $('#selected-items').removeClass('btn-primary');
+                        $('#selected-items').removeClass('btn-success');
                         $('#selected-items').addClass('btn-default');
                         $('#selected-items').attr('disabled','disabled');
                         $('#selected-items').css('color', 'gray');

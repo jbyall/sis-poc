@@ -5,17 +5,15 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <h2>@ViewBag.title</h2>
-<div>
-    @Html.ActionLink("Back to List", "ReceiveIndex", "Items")
-</div>
-    
+   
    @using (Html.BeginForm())
    {
     @Html.AntiForgeryToken()
-    <hr />
+    
     <div class="form-horizontal">
         @for (int j = 0; j < Model.Count; j++)
         {
+            <hr />
             @Html.HiddenFor(model => model[j].ItemId)
             @Html.HiddenFor(model => model[j].ItemPrice)
 
@@ -92,10 +90,15 @@
                     </div>
                 </div>
             </div>
-            <br/>
         }
-        <div class="col-md-2">
-            <input type="submit" value="Receive" class="btn btn-default" />
+        <br/>
+        <div class="row">
+            <div class="col-md-2 col-sm-2">
+                <a href="/Items/ReceiveIndex" class="btn btn-default"><span class="glyphicon glyphicon-arrow-left"></span> Back To List</a>
+            </div>
+            <div class="pull-right">
+                <input type="submit" value="Receive Items" class="btn btn-success" style="margin-right:15px;" />
+            </div>
         </div>
     </div>
    }

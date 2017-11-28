@@ -70,7 +70,7 @@ namespace SIS.Domain.Migrations
             //            var newItem = new Item
             //            {
             //                Id = item.Item_Number,
-            //                Name = item.Item_Name.Trim(new[] {'"'}), // remove leading and trailing "
+            //                Name = item.Item_Name.Trim(new[] { '"' }), // remove leading and trailing "
             //                Unit = item.Unit,
             //                Price = item.Price,
             //                ReorderPoint = item.Reorder_point,
@@ -101,31 +101,31 @@ namespace SIS.Domain.Migrations
             //                QuantityOnHand = oldLocation.Qty_OnHand
             //            };
             //            context.ItemLocations.Add(newItemLoc);
-                        
+
             //        }
             //        context.SaveChanges();
             //    }
 
-                if (context.Units.Count() < 1)
-                {
-                    var seedUnits = new List<Unit>
-                    {
-                        new Unit { Code = "BT", Description = "Batch"},
-                        new Unit { Code = "BX", Description = "Box"},
-                        new Unit { Code = "DZ", Description = "Dozen"},
-                        new Unit { Code = "EA", Description = "Each"},
-                        new Unit { Code = "HD", Description = "HD"},
-                        new Unit { Code = "MX", Description = "MX"},
-                        new Unit { Code = "PK", Description = "Pack"},
-                        new Unit { Code = "PR", Description = "PR"},
-                        new Unit { Code = "RM", Description = "Ream"},
-                        new Unit { Code = "RO", Description = "Roll"},
-                        new Unit { Code = "SE", Description = "Set"},
-                        new Unit { Code = "TU", Description = "TU"},
-                    };
-                    context.Units.AddRange(seedUnits);
-                    context.SaveChanges();
-                }
+            //    if (context.Units.Count() < 1)
+            //    {
+            //        var seedUnits = new List<Unit>
+            //        {
+            //            new Unit { Code = "BT", Description = "Batch"},
+            //            new Unit { Code = "BX", Description = "Box"},
+            //            new Unit { Code = "DZ", Description = "Dozen"},
+            //            new Unit { Code = "EA", Description = "Each"},
+            //            new Unit { Code = "HD", Description = "HD"},
+            //            new Unit { Code = "MX", Description = "MX"},
+            //            new Unit { Code = "PK", Description = "Pack"},
+            //            new Unit { Code = "PR", Description = "PR"},
+            //            new Unit { Code = "RM", Description = "Ream"},
+            //            new Unit { Code = "RO", Description = "Roll"},
+            //            new Unit { Code = "SE", Description = "Set"},
+            //            new Unit { Code = "TU", Description = "TU"},
+            //        };
+            //        context.Units.AddRange(seedUnits);
+            //        context.SaveChanges();
+            //    }
             //}
         }
     }
