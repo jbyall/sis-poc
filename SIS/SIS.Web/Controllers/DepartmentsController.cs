@@ -27,7 +27,7 @@ namespace SIS.Web.Controllers
         }
 
         // GET: Departments/Details/5
-        public ActionResult Details(int? id)
+        public ActionResult Details(string id)
         {
             if (id == null)
             {
@@ -52,7 +52,7 @@ namespace SIS.Web.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Name,Description")] Department department)
+        public ActionResult Create([Bind(Include = "Id,Description")] Department department)
         {
             if (ModelState.IsValid)
             {
@@ -65,7 +65,7 @@ namespace SIS.Web.Controllers
         }
 
         // GET: Departments/Edit/5
-        public ActionResult Edit(int? id)
+        public ActionResult Edit(string id)
         {
             if (id == null)
             {
@@ -84,7 +84,7 @@ namespace SIS.Web.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Name,Description")] Department department)
+        public ActionResult Edit([Bind(Include = "Id,Description")] Department department)
         {
             if (ModelState.IsValid)
             {
@@ -96,7 +96,7 @@ namespace SIS.Web.Controllers
         }
 
         // GET: Departments/Delete/5
-        public ActionResult Delete(int? id)
+        public ActionResult Delete(string id)
         {
             if (id == null)
             {
@@ -113,7 +113,7 @@ namespace SIS.Web.Controllers
         // POST: Departments/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
+        public ActionResult DeleteConfirmed(string id)
         {
             Department department = db.Departments.Find(id);
             db.Departments.Remove(department);
