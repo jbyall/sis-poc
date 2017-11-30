@@ -16,11 +16,12 @@ namespace SIS.Web
 
             bundles.Add(new ScriptBundle("~/bundles/dx").Include(
                         "~/Scripts/data.js",
+                        "~/Scripts/jszip.js",
                         "~/Scripts/dx.web.js",
                         "~/Scripts/dx.viz.js",
                         "~/Scripts/dx.viz-web.js",
-                        "~/Scripts/cldr.js",
-                        "~/Scripts/jszip.js"));
+                        "~/Scripts/cldr.js"
+                        ));
 
             // Use the development version of Modernizr to develop with and learn from. Then, when you're
             // ready for production, use the build tool at https://modernizr.com to pick only the tests you need.
