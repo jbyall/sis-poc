@@ -32,6 +32,17 @@
     background-color: #e6e6e6 !important;
 }
 
+.logo-small {
+    font-size: 50px;
+    color: #2f2e2e;
+    margin-bottom: 5px;
+}
+.landing-link{
+    font-size: 20px;
+    margin-top: 3px;
+    
+}
+
 /* Set width on the form input elements since they're 100% wide by default */
 input,
 select,

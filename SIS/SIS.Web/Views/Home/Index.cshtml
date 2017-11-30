@@ -2,30 +2,44 @@
     ViewBag.Title = "Home Page";
 }
 
-<div style="text-align:center">
-    <h1>SIS</h1>
-    <h3>Supply Inventory System</h3>
-</div>
-<div class="container-fluid text-center">
-    <div class="row">
-        <div class="col-md-3 col-sm-3">
-            <h4>Handout</h4>
-            @Html.ActionLink("Hand Out","HandoutIndex", "Items")
-        </div>
+<div style="text-align:center;padding-top:100px;">
+    <div class="container-fluid text-center">
+        <div class="panel panel-default" style="max-width:500px;margin:auto;">
+            <div class="row">
+                <div class="col-md-4 col-sm-4">
+                    <a href="/Items/HandoutIndex"><span class="glyphicon glyphicon-arrow-up logo-small"></span></a>
+                    <a href="/Items/HandoutIndex"><h3>Hand Out</h3></a>
+                    @*@Html.ActionLink("Hand Out", "HandoutIndex", "Items", new { @class = "landing-link" })*@
+                </div>
 
-        <div class="col-md-3 col-sm-3">
-            <h4>Receive</h4>
-            @Html.ActionLink("Receive", "ReceiveIndex", "Items")
-        </div>
+                <div class="col-md-4 col-sm-4">
+                    <a href="/Items/ReceiveIndex"><span class="glyphicon glyphicon-arrow-down logo-small"></span></a>
+                    <a href="/Items/ReceiveIndex"><h3>Receive</h3></a>
+                    @*@Html.ActionLink("Receive", "ReceiveIndex", "Items", new { @class = "landing-link" })*@
+                </div>
 
-        <div class="col-md-3 col-sm-3">
-            <h4>Maintenance</h4>
-            @Html.ActionLink("Maintenance", "Maintenance", "Inventory")
-        </div>
+                <div class="col-md-4 col-sm-4">
+                    <a href="/Inventory/Maintenance"><span class="glyphicon glyphicon-wrench logo-small"></span></a>
+                    <br />
+                    <a href="/Inventory/Maintenance"><h3>Maintenance</h3></a>
+                    @*@Html.ActionLink("Maintenance", "Maintenance", "Inventory", new { @class = "landing-link" })*@
+                </div>
 
-        <div class="col-md-3 col-sm-3">
-            <h4>Maintenance</h4>
-            @Html.ActionLink("Transactions", "Index", "Transactions")
+            </div>
+            <br />
+            <br />
+            <div class="row">
+                <div class="col-md-4 col-sm-4">
+                    <a href="/Transactions/Index"><span class="glyphicon glyphicon-retweet logo-small"></span></a>
+                    <a href="/Transactions/Index"><h3>Transactions</h3></a>
+                    @*@Html.ActionLink("Transactions", "Index", "Transactions", new { @class="landing-link"})*@
+                </div>
+                <div class="col-md-4 col-md-offset-4 col-sm-4 col-sm-offset-4">
+                    <a href="/Reports/Index"><span class="glyphicon glyphicon-list logo-small"></span></a>
+                    <a href="/Reports/Index"><h3>Reports</h3></a>
+                    @*@Html.ActionLink("Reports", "Index", "Reports", new { @class = "landing-link" })*@
+                </div>
+            </div>
         </div>
     </div>
 </div>

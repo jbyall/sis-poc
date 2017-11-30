@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.Script.Serialization;
 
 namespace SIS.Domain
 {
@@ -39,6 +40,7 @@ namespace SIS.Domain
         public string Comment { get; set; }
 
         // Defines 1-many relationships
+        [ScriptIgnore]
         public List<Transaction> Transactions { get; set; }
         public ICollection<ItemLocation> ItemLocations { get; set; }
 

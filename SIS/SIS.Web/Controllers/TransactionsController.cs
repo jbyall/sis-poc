@@ -166,6 +166,15 @@ namespace SIS.Web.Controllers
             return View(models);
         }
 
+        [HttpGet]
+        public JsonResult IndexData()
+        {
+            var transactions = db.Transactions.Include(t => t.Item)
+                                //.Select(r => new { r.ItemId, r.Item, r.LocationId, r.ItemPrice, r.})
+                                .ToList();
+            return Json(transactions, JsonRequestBehavior.AllowGet);
+        }
+
         // GET: Transactions/Edit/5
         public ActionResult Edit(int? id)
         {

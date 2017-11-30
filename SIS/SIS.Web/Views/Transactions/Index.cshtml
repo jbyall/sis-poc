@@ -5,57 +5,151 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Index</h2>
+<div class="dx-viewport">
+    <div class="alert alert-info">
+        <strong>Instructions</strong>
+        <ol>
+            <li>Use the search at the top of each column to find your item(s).</li>
+            <li>Select the item(s) received by checking them in the first column</li>
+        </ol>
+    </div>
+    <div id="container-fluid button-container">
+        <div class="row">
+            <div class="col-md-2">
+                @Html.ActionLink("Receive Items", "Receive", "Transaction", new { @class = "btn btn-default", @id = "selected-items", @style = "color:gray;", @disabled = "disabled" })
+            </div>
+        </div>
+    </div>
+    <div class="demo-container">
+        <div id="gridContainer">
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Department.Id)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Item.Name)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Date)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.QuantityChange)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ItemPrice)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.TransactionValue)
-        </th>
-        <th></th>
-    </tr>
+        </div>
+    </div>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Department.Id)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Item.Name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Date)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ItemPrice)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.TransactionValue)
-        </td>
-        <td>
-            @Html.ActionLink("Details", "Details", new { id = item.Id })
-            @*@Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id })*@
-        </td>
-    </tr>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script type="text/javascript">
+        // Function for loading data in the table
+        $(function () {
+            //$('#selected-items').hide();
+            //var test = $("#gridContainer").find(".dx-command-select");
+            //console.log(test);
+            var items = new DevExpress.data.CustomStore({
+                load: function (loadOptions) {
+                    console.log(loadOptions);
+                    var deferred = $.Deferred(),
+                        args = {};
+
+                    if (loadOptions.sort) {
+                        args.orderby = loadOptions.sort[0].selector;
+                        if (loadOptions.sort[0].desc)
+                            args.orderby += " desc";
+                    }
+
+                    args.skip = loadOptions.skip || 0;
+                    args.take = loadOptions.take || 12;
+
+                    // Ajax call to the controller to get the data
+                    $.ajax({
+                        url: "/Transactions/IndexData",
+                        type: "GET",
+                        //data: args,
+                        success: function (result) {
+                            console.log(result);
+                            deferred.resolve(result, { totalCount: result.length });
+                        },
+                        error: function (resp) {
+                            console.log(resp);
+                            deferred.reject("Data Loading Error");
+                        },
+                        timeout: 5000
+                    });
+
+                    return deferred.promise();
+                }
+            });
+
+            // Main data grid
+            $("#gridContainer").dxDataGrid({
+                allowColumnResizing: true,
+                columnResizingMode: 'nextColumn',
+                columnAutoWidth: true,
+                selection: {
+                    mode: "multiple",
+                    allowSelectAll: false,
+                    showCheckBoxesMode: "always",
+                },
+                filterRow: {
+                    visible: true,
+                    applyFilter: "auto"
+                },
+                dataSource: {
+                    store: items
+                },
+                paging: {
+                    pageSize: 20
+                },
+                pager: {
+                    showPageSizeSelector: true,
+                    allowedPageSizes: [10, 20, 50, 100],
+                    showNavigationButtons: true,
+                    showInfo: true,
+                    visible: true
+                },
+                columns: [
+                    {
+                        caption: "Date",
+                        calculateCellValue: function (rowData) {
+                            var date = new Date(parseInt(rowData.Date.substr(6)));
+                            return date;
+                        },
+                        format: "shortDate"
+                    },
+                    { caption: "Dept", dataField: "DepartmentId" },
+                    { caption: "Item Number", dataField: "ItemId" },
+                    {
+                        caption: "Item Name",
+                        calculateCellValue: function (rowData) {
+                            return rowData.Item.Name;
+                        }
+                    },
+                    { caption: "Item Price", dataField: "ItemPrice" },
+                    { caption: "Location", dataField: "LocationId" },
+                    { caption: "Qty. Change", dataField: "QuantityChange" },
+                    { caption: "Value", dataField: "TransactionValue" },
+                ],
+                //onSelectionChanged: function (selectedItems) {
+                //    var selectedData = selectedItems.selectedRowsData;
+                //    var selectedItemsJoin = "";
+                //    for (var i = 0; i < selectedData.length; i++) {
+                //        selectedItemsJoin += selectedData[i].Id
+                //        if (i < (selectedData.length - 1)) {
+                //            selectedItemsJoin += ","
+                //        }
+                //    }
+                //    console.log(selectedItemsJoin);
+                //    var urlBase = "/Transactions/Receive/"
+                //    $('#selected-items').attr("href", urlBase + selectedItemsJoin);
+                //    if (selectedData.length > 0) {
+                //        $('#selected-items').removeClass('btn-default');
+                //        $('#selected-items').addClass('btn-success');
+                //        $('#selected-items').removeAttr('disabled');
+                //        $('#selected-items').css('color', 'white');
+                //    }
+                //    else {
+                //        $('#selected-items').removeClass('btn-success');
+                //        $('#selected-items').addClass('btn-default');
+                //        $('#selected-items').attr('disabled', 'disabled');
+                //        $('#selected-items').css('color', 'gray');
+                //    }
+                //}
+            }).dxDataGrid("instance");
+
+
+        });
+    </script>
+
+
 }
-
-</table>
