@@ -13,7 +13,7 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.Department.Name)
+            @Html.DisplayNameFor(model => model.Department.Id)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Item.Name)
@@ -22,22 +22,7 @@
             @Html.DisplayNameFor(model => model.Date)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.QuantityOnHandDist)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.QuantityOnHandStor)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.QuantityOnHandSub)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.QuantityChangeDist)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.QuantityChangeStor)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.QuantityChangeSub)
+            @Html.DisplayNameFor(model => model.QuantityChange)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.ItemPrice)
@@ -51,31 +36,13 @@
 @foreach (var item in Model) {
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.Department.Name)
+            @Html.DisplayFor(modelItem => item.Department.Id)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Item.Name)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Date)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.QuantityOnHandDist)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.QuantityOnHandStor)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.QuantityOnHandSub)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.QuantityChangeDist)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.QuantityChangeStor)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.QuantityChangeSub)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.ItemPrice)
