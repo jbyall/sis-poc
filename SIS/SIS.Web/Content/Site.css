@@ -42,6 +42,17 @@
     margin-top: 3px;
     
 }
+.landing-container {
+    text-align: center;
+    margin-top: 100px;
+    padding-top: 100px;
+    padding-bottom: 100px;
+    background-image: url(../Content/images/landing-background-wide.jpg);
+    background-repeat: no-repeat;
+    background-size: 100% auto;
+    max-width:1000px;
+    /*opacity: 0.6;*/
+}
 
 /* Set width on the form input elements since they're 100% wide by default */
 input,
