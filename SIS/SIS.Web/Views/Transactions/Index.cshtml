@@ -9,16 +9,8 @@
     <div class="alert alert-info">
         <strong>Instructions</strong>
         <ol>
-            <li>Use the search at the top of each column to find your item(s).</li>
-            <li>Select the item(s) received by checking them in the first column</li>
+            <li>TBD</li>
         </ol>
-    </div>
-    <div id="container-fluid button-container">
-        <div class="row">
-            <div class="col-md-2">
-                @Html.ActionLink("Receive Items", "Receive", "Transaction", new { @class = "btn btn-default", @id = "selected-items", @style = "color:gray;", @disabled = "disabled" })
-            </div>
-        </div>
     </div>
     <div class="demo-container">
         <div id="gridContainer">
@@ -106,20 +98,15 @@
                 columns: [
                     {
                         caption: "Date",
+                        dataField: "Date",
                         calculateCellValue: function (rowData) {
                             var date = new Date(parseInt(rowData.Date.substr(6)));
                             return date;
                         },
-                        format: "shortDate"
                     },
                     { caption: "Dept", dataField: "DepartmentId" },
                     { caption: "Item Number", dataField: "ItemId" },
-                    {
-                        caption: "Item Name",
-                        calculateCellValue: function (rowData) {
-                            return rowData.Item.Name;
-                        }
-                    },
+                    { caption: "Item Name", dataField: "ItemName" },
                     { caption: "Item Price", dataField: "ItemPrice" },
                     { caption: "Location", dataField: "LocationId" },
                     { caption: "Qty. Change", dataField: "QuantityChange" },

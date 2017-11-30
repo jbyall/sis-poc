@@ -170,8 +170,16 @@ namespace SIS.Web.Controllers
         public JsonResult IndexData()
         {
             var transactions = db.Transactions.Include(t => t.Item)
-                                //.Select(r => new { r.ItemId, r.Item, r.LocationId, r.ItemPrice, r.})
-                                .ToList();
+                                .Select(r => new {
+                                    r.Date,
+                                    r.DepartmentId,
+                                    r.ItemId,
+                                    ItemName = r.Item.Name,
+                                    r.ItemPrice,
+                                    r.LocationId,
+                                    r.QuantityChange,
+                                    r.TransactionValue,
+                                }).ToList();
             return Json(transactions, JsonRequestBehavior.AllowGet);
         }
 
