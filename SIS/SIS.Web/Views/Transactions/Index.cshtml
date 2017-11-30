@@ -9,7 +9,8 @@
     <div class="alert alert-info">
         <strong>Instructions</strong>
         <ol>
-            <li>TBD</li>
+            <li>Use the search icon <span class="glyphicon glyphicon-search"></span> in each column for advanced search options.</li>
+            <li>Click the export icon on the right to export to </li>
         </ol>
     </div>
     <div class="demo-container">
@@ -103,6 +104,7 @@
                             var date = new Date(parseInt(rowData.Date.substr(6)));
                             return date;
                         },
+                        dataType: 'datetime'
                     },
                     { caption: "Dept", dataField: "DepartmentId" },
                     { caption: "Item Number", dataField: "ItemId" },
