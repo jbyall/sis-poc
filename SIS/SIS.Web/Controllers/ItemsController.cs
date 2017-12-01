@@ -69,6 +69,7 @@ namespace SIS.Web.Controllers
         public ActionResult Create()
         {
             ViewBag.SupplierId = new SelectList(db.Suppliers, "Id", "Name");
+            ViewBag.Unit = new SelectList(db.Units, "Code", "Description");
             return View();
         }
 
@@ -97,12 +98,13 @@ namespace SIS.Web.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Item item = db.Items.Find(id);
+            Item item = db.Items.Include(i => i.Supplier).Include(i => i.ItemLocations).Single(i => i.Id == id);
             if (item == null)
             {
                 return HttpNotFound();
             }
             ViewBag.SupplierId = new SelectList(db.Suppliers, "Id", "Name", item.SupplierId);
+            ViewBag.Unit = new SelectList(db.Units, "Code", "Description", item.Unit);
             return View(item);
         }
 
@@ -117,7 +119,7 @@ namespace SIS.Web.Controllers
             {
                 db.Entry(item).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Details", new { id = item.Id});
             }
             ViewBag.SupplierId = new SelectList(db.Suppliers, "Id", "Name", item.SupplierId);
             return View(item);
@@ -143,6 +145,7 @@ namespace SIS.Web.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(string id)
         {
+            throw new NotImplementedException();
             Item item = db.Items.Find(id);
             db.Items.Remove(item);
             db.SaveChanges();
