@@ -119,6 +119,15 @@ namespace SIS.Web.Controllers
             return RedirectToAction("Index");
         }
 
+        #region DataGridAjaxMethods
+        [HttpGet]
+        public JsonResult IndexData()
+        {
+            var locations = db.Locations.ToList();
+            return Json(locations, JsonRequestBehavior.AllowGet);
+        }
+        #endregion
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)

@@ -153,6 +153,7 @@
     <Compile Include="Controllers\InventoryController.cs" />
     <Compile Include="Controllers\ItemsController.cs" />
     <Compile Include="Controllers\LocationsController.cs" />
+    <Compile Include="Controllers\ReportsController.cs" />
     <Compile Include="Controllers\SuppliersController.cs" />
     <Compile Include="Controllers\TransactionsController.cs" />
     <Compile Include="Controllers\UnitsController.cs" />
@@ -316,6 +317,7 @@
     <Content Include="Views\Items\ReceiveIndex.cshtml" />
     <Content Include="Views\Transactions\Receive.cshtml" />
     <Content Include="Views\Transactions\ReceiveConfirm.cshtml" />
+    <Content Include="Views\Reports\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

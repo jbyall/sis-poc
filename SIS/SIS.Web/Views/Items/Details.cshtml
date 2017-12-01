@@ -8,57 +8,71 @@
 
 <div class="container view-container">
     <h2>Item Details</h2>
+    <div class="row">
+        
+    </div>
     <div class="panel panel-default">
         <div class="panel-heading">Item Details</div>
         <div class="panel-body">
-            <dl class="dl-horizontal">
+            <div style="margin-left:100px;">
+                <dl class="dl-horizontal">
+                    <dt>
+                        @Html.DisplayName("Number")
+                    </dt>
 
-                <dt>@Html.DisplayName("Number")</dt>
-                <dd>@Html.DisplayFor(model => model.Id)</dd>
+                    <dd>
+                        @Html.DisplayFor(model => model.Id)
+                    </dd>
 
-                <dt>
-                    @Html.DisplayNameFor(model => model.Name)
-                </dt>
 
-                <dd>
-                    @Html.DisplayFor(model => model.Name)
-                </dd>
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Name)
+                    </dt>
 
-                <dt>
-                    @Html.DisplayNameFor(model => model.Unit)
-                </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.Name)
+                    </dd>
 
-                <dd>
-                    @Html.DisplayFor(model => model.Unit)
-                </dd>
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Unit)
+                    </dt>
 
-                <dt>
-                    @Html.DisplayName("Unit Cost")
-                </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.Unit)
+                    </dd>
 
-                <dd>
-                    @Html.DisplayFor(model => model.Price)
-                </dd>
+                    <dt>
+                        @Html.DisplayName("Unit Cost")
+                    </dt>
 
-                <dt>
-                    @Html.DisplayName("Reorder Level")
-                </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.Price)
+                    </dd>
 
-                <dd>
-                    @Html.DisplayFor(model => model.ReorderPoint)
-                </dd>
+                    <dt>
+                        @Html.DisplayName("Reorder Level")
+                    </dt>
 
-                <dt>
-                    @Html.DisplayNameFor(model => model.Comment)
-                </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.ReorderPoint)
+                    </dd>
 
-                <dd>
-                    @Html.DisplayFor(model => model.Comment)
-                </dd>
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Comment)
+                    </dt>
 
-            </dl>
+                    <dd>
+                        @Html.DisplayFor(model => model.Comment)
+                    </dd>
+
+                </dl>
+            </div>
+            
             <div class="row">
-                <div class="col-md-4 col-sm-4 col-md-push-2 col-sm-push-2">
+                <div class="col-md-2 col-sm-2">
+                    <a href="/Items/Index" class="btn btn-default"><span class="glyphicon glyphicon-arrow-left"></span> Back To List</a>
+                </div>
+                <div class="col-md-4 col-sm-4 col-md-push-1 col-sm-push-1">
                     <a href="/Items/Edit/@Model.Id" class="btn btn-success" style="margin-right:15px;"><span class="glyphicon glyphicon-edit"></span> Edit</a>
                     <a href="/Items/Delete/@Model.Id" class="btn btn-danger" style="margin-right:15px;"><span class="glyphicon glyphicon-remove"></span> Delete</a>
                 </div>
@@ -161,11 +175,7 @@
 
 
     <br />
-    <div class="row">
-        <div class="col-md-2 col-sm-2">
-            <a href="/Items/Index" class="btn btn-default"><span class="glyphicon glyphicon-arrow-left"></span> Back To List</a>
-        </div>
-    </div>
+    
 </div>
 
 

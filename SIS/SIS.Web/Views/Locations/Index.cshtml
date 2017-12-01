@@ -1,45 +1,113 @@
 ﻿@model IEnumerable<SIS.Domain.Location>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Locations";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Index</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Id)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Type)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.OldLocation)
-        </th>
-        <th>@Html.DisplayName("Actions")</th>
-    </tr>
+<div class="container-fluid">
+    <div style="max-width:675px; margin:0 auto;">
+        <div class="row">
+            <div class="col-md-8 col-sm-8">
+                <h3>Inventory Locations</h3>
+            </div>
+            <div class="col-md-4 col-sm-4">
+                <div class="pull-right" style="margin-top:15px;">
+                    <a href="/Locations/Create" class="btn btn-success" style="margin-right:15px;"><span class="glyphicon glyphicon-new-window"></span> Create Location</a>
+                </div>
+            </div>
+        </div>
+        <br />
+        <div class="dx-viewport">
+            <div class="demo-container">
+                <div id="gridContainer"></div>
+            </div>
+        </div>
+    </div>
+</div>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Id)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Type)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.OldLocation)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Id })
-        </td>
-    </tr>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script type="text/javascript">
+        // Function for loading data in the table
+        $(function () {
+            var items = new DevExpress.data.CustomStore({
+                load: function (loadOptions) {
+                    console.log(loadOptions);
+                    var deferred = $.Deferred(),
+                        args = {};
+
+                    if (loadOptions.sort) {
+                        args.orderby = loadOptions.sort[0].selector;
+                        if (loadOptions.sort[0].desc)
+                            args.orderby += " desc";
+                    }
+
+                    args.skip = loadOptions.skip || 0;
+                    args.take = loadOptions.take || 12;
+
+                    // Ajax call to the controller to get the data
+                    $.ajax({
+                        url: "/Locations/IndexData",
+                        type: "GET",
+                        data: args,
+                        success: function (result) {
+                            console.log(result);
+                            deferred.resolve(result, { totalCount: result.length });
+                        },
+                        error: function (resp) {
+                            console.log(resp);
+                            deferred.reject("Data Loading Error");
+                        },
+                        timeout: 5000
+                    });
+
+                    return deferred.promise();
+                }
+            });
+
+            // Main data grid
+            $("#gridContainer").dxDataGrid({
+                allowColumnResizing: true,
+                columnResizingMode: 'nextColumn',
+                columnAutoWidth: true,
+                filterRow: {
+                    visible: true,
+                    applyFilter: "auto"
+                },
+                filterRow: {
+                    visible: true,
+                    applyFilter: "auto"
+                },
+                dataSource: {
+                    store: items
+                },
+                paging: {
+                    pageSize: 20
+                },
+                pager: {
+                    showPageSizeSelector: true,
+                    allowedPageSizes: [10, 20, 50, 100],
+                    showNavigationButtons: true,
+                    showInfo: true,
+                    visible: true
+                },
+                columns: [
+                    { caption: "Location", width: 200, dataField: "Id" },
+                    { caption: "Type", width: 200, dataField: "Type" },
+                    { caption: "Old Location", width: 200, dataField: "OldLocation" },
+                    {
+                        caption: "", width: 75, cellTemplate: function (element, info) {
+                            console.log(element);
+                            console.log(info);
+                            element.append(`<a href="/Locations/Edit/${info.key.Id}">Edit</div>`)
+                        }
+                    }
+                ],
+            }).dxDataGrid("instance");
+        });
+    </script>
+
+
 }
-
-</table>

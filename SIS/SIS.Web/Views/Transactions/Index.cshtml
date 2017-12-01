@@ -1,10 +1,11 @@
 ﻿@model IEnumerable<SIS.Domain.Transaction>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Transactions";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+<h3>Inventory Transactions</h3>
 <div class="dx-viewport">
     <div class="alert alert-info">
         <strong>Instructions</strong>
@@ -104,15 +105,16 @@
                             var date = new Date(parseInt(rowData.Date.substr(6)));
                             return date;
                         },
-                        dataType: 'datetime'
+                        dataType: 'datetime',
+                        width: 175
                     },
-                    { caption: "Dept", dataField: "DepartmentId" },
-                    { caption: "Item Number", dataField: "ItemId" },
-                    { caption: "Item Name", dataField: "ItemName" },
-                    { caption: "Item Price", dataField: "ItemPrice" },
-                    { caption: "Location", dataField: "LocationId" },
-                    { caption: "Qty. Change", dataField: "QuantityChange" },
-                    { caption: "Value", dataField: "TransactionValue" },
+                    { caption: "Dept", width: 85, dataField: "DepartmentId" },
+                    { caption: "Item Number", width: 120, dataField: "ItemId" },
+                    { caption: "Item Name", width: 250, dataField: "ItemName" },
+                    { caption: "Item Price" ,width: 100, dataField: "ItemPrice" },
+                    { caption: "Location", width: 75, dataField: "LocationId" },
+                    { caption: "Qty. Change", width:85, dataField: "QuantityChange" },
+                    { caption: "Value", width:75, dataField: "TransactionValue" },
                 ],
                 //onSelectionChanged: function (selectedItems) {
                 //    var selectedData = selectedItems.selectedRowsData;

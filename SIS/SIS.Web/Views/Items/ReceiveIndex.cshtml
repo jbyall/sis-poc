@@ -4,8 +4,7 @@
 }
 
 <h2>Receive Items</h2>
-
-<div class="dx-viewport">
+<div class="container-fluid">
     <div class="alert alert-info">
         <strong>Instructions</strong>
         <ol>
@@ -13,20 +12,22 @@
             <li>Select the item(s) received by checking them in the first column</li>
         </ol>
     </div>
-    <div id="container-fluid button-container">
-        <div class="row">
-            <div class="col-md-2">
-                @Html.ActionLink("Receive Items", "Receive", "Transaction", new { @class = "btn btn-default", @id = "selected-items", @style = "color:gray;", @disabled="disabled" })
+    <div class="row">
+        <div class="pull-right">
+            @Html.ActionLink("Receive Items", "Receive", "Transaction", new { @class = "btn btn-default", @id = "selected-items", @style = "color:gray;", @disabled = "disabled" })
+        </div>
+    </div>
+    <br/>
+    
+        <div class="dx-viewport">
+            <div class="demo-container">
+                <div id="gridContainer">
+                </div>
             </div>
         </div>
-    </div>
-    <div class="demo-container">
-        <div id="gridContainer">
-
-        </div>
-    </div>
     
 </div>
+
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")

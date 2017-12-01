@@ -15,19 +15,6 @@ namespace SIS.Web.Controllers
     {
         private SisDbContext db = new SisDbContext();
 
-        //public JsonResult Transaction(string id)
-        //{
-        //    var item = db.Items.Single(i => i.Id == id);
-        //    return Json(item, JsonRequestBehavior.AllowGet);
-        //}
-
-        [HttpGet]
-        public JsonResult HandoutData()
-        {
-            var items = db.Items.Include(i => i.Supplier).Include(i => i.ItemLocations).ToList();
-            return Json(items, JsonRequestBehavior.AllowGet);
-        }
-
         public ActionResult HandoutIndex(string message)
         {
             var items = db.Items.Include(i => i.Supplier);
@@ -151,6 +138,15 @@ namespace SIS.Web.Controllers
             db.SaveChanges();
             return RedirectToAction("Index");
         }
+
+        #region DataGridAjaxMethods
+        [HttpGet]
+        public JsonResult HandoutData()
+        {
+            var items = db.Items.Include(i => i.Supplier).Include(i => i.ItemLocations).ToList();
+            return Json(items, JsonRequestBehavior.AllowGet);
+        }
+        #endregion
 
         protected override void Dispose(bool disposing)
         {

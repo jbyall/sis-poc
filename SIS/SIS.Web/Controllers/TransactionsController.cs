@@ -166,23 +166,6 @@ namespace SIS.Web.Controllers
             return View(models);
         }
 
-        [HttpGet]
-        public JsonResult IndexData()
-        {
-            var transactions = db.Transactions.Include(t => t.Item)
-                                .Select(r => new {
-                                    r.Date,
-                                    r.DepartmentId,
-                                    r.ItemId,
-                                    ItemName = r.Item.Name,
-                                    r.ItemPrice,
-                                    r.LocationId,
-                                    r.QuantityChange,
-                                    r.TransactionValue,
-                                }).ToList();
-            return Json(transactions, JsonRequestBehavior.AllowGet);
-        }
-
         // GET: Transactions/Edit/5
         public ActionResult Edit(int? id)
         {
@@ -256,6 +239,25 @@ namespace SIS.Web.Controllers
             }
             base.Dispose(disposing);
         }
+
+        #region DataGridAjaxMethods
+        [HttpGet]
+        public JsonResult IndexData()
+        {
+            var transactions = db.Transactions.Include(t => t.Item)
+                                .Select(r => new {
+                                    r.Date,
+                                    r.DepartmentId,
+                                    r.ItemId,
+                                    ItemName = r.Item.Name,
+                                    r.ItemPrice,
+                                    r.LocationId,
+                                    r.QuantityChange,
+                                    r.TransactionValue,
+                                }).ToList();
+            return Json(transactions, JsonRequestBehavior.AllowGet);
+        }
+        #endregion
 
         #region helpers
         /// <summary>

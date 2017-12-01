@@ -13,9 +13,11 @@
         </div>
     </div>
     <br />
-    <div class="dx-viewport">
-        <div class="demo-container">
-            <div id="gridContainer"></div>
+    <div class="container">
+        <div class="dx-viewport">
+            <div class="demo-container">
+                <div id="gridContainer"></div>
+            </div>
         </div>
     </div>
 </div>
@@ -113,19 +115,6 @@
                         }
                     }
                 ],
-                //onSelectionChanged: function (selectedItems) {
-                //    var selectedData = selectedItems.selectedRowsData;
-                //    var selectedItemsJoin = "";
-                //    for (var i = 0; i < selectedData.length; i++) {
-                //        selectedItemsJoin += selectedData[i].Id
-                //        if (i < (selectedData.length - 1)) {
-                //            selectedItemsJoin += ","
-                //        }
-                //    }
-                //    console.log(selectedItemsJoin);
-                //    var urlBase = "/Transactions/Receive/"
-                //    $('#selected-items').attr("href", urlBase + selectedItemsJoin);
-                //}
             }).dxDataGrid("instance");
         });
     </script>

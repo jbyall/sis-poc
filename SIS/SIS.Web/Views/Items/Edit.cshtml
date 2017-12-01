@@ -71,119 +71,14 @@
                         </div>
                     </div>
 
-                    <div class="col-md-2 col-sm-2 col-md-offset-2 col-sm-offset-2">
+                    <div class="col-md-2 col-sm-2">
                         <a href="/Items/Details/@Model.Id" class="btn btn-default"><span class="glyphicon glyphicon-arrow-left"></span> Cancel</a>
                     </div>
-                    <div class="col-md-2 col-sm-2" style="padding-right:15px;">
+                    <div class="col-md-2 col-sm-2 col-md-offset-2 col-sm-offset-2" style="padding-right:15px;">
                         <input type="submit" value="Save" class="btn btn-success btn-block" />
                     </div>
                 </div>
             </div>
-
-            @*<div class="panel panel-default">
-                <div class="panel-heading">Locations</div>
-                <div class="panel-body panel-body-gry">
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th>Location</th>
-                                <th>Qty On Hand</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @for (int i = 0; i < Model.ItemLocations.Count; i++)
-                            {
-                                var location = Model.ItemLocations.ToList()[i];
-                                <tr>
-                                    <td>@Html.DisplayFor(item => item.ItemLocations.ToList()[i].LocationId)</td>
-                                    <td>@Html.DisplayFor(item => item.ItemLocations.ToList()[i].QuantityOnHand)</td>
-                                </tr>
-                            }
-                        </tbody>
-                    </table>
-                    <div class="row">
-                        <div class="pull-right col-md-2 col-sm-2">
-                            <a href="/Items/Index" class="btn btn-warning">Modify</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="panel panel-default">
-                <div class="panel-heading">Supplier</div>
-                <div class="panel-body panel-body-gry">
-                    <dl class="dl-horizontal">
-
-                        <dt>@Html.DisplayName("Supplier")</dt>
-                        <dd>@Html.DisplayFor(model => model.Supplier.Name)</dd>
-
-                        <dt>
-                            @Html.DisplayName("Address")
-                        </dt>
-                        <dd>
-                            @Html.DisplayFor(model => model.Supplier.Address)
-                        </dd>
-
-                        <dt>
-                            @Html.DisplayName("Address 2")
-                        </dt>
-
-                        <dd>
-                            @Html.DisplayFor(model => model.Supplier.Address2)
-                        </dd>
-
-                        <dt>
-                            @Html.DisplayNameFor(model => model.Supplier.City)
-                        </dt>
-
-                        <dd>
-                            @Html.DisplayFor(model => model.Supplier.City)
-                        </dd>
-
-                        <dt>
-                            @Html.DisplayNameFor(model => model.Supplier.State)
-                        </dt>
-
-                        <dd>
-                            @Html.DisplayFor(model => model.Supplier.State)
-                        </dd>
-
-                        <dt>
-                            @Html.DisplayNameFor(model => model.Supplier.Zip)
-                        </dt>
-
-                        <dd>
-                            @Html.DisplayFor(model => model.Supplier.Zip)
-                        </dd>
-
-                        <dt>
-                            @Html.DisplayNameFor(model => model.Supplier.Comment)
-                        </dt>
-
-                        <dd>
-                            @Html.DisplayFor(model => model.Supplier.Comment)
-                        </dd>
-
-                    </dl>
-                    <div class="row">
-                        <div class="pull-right col-md-2 col-sm-2">
-                            <a href="/Items/Index" class="btn btn-warning">Modify</a>
-                        </div>
-                    </div>
-                </div>
-            </div>*@
-
-
-            <br />
-            @*<div class="row">
-                    <div class="col-md-2 col-sm-2">
-                        <a href="/Items/Index" class="btn btn-default"><span class="glyphicon glyphicon-arrow-left"></span> Back To List</a>
-                    </div>
-                    <div class="pull-right">
-                        <a href="/Items/Edit/@Model.Id" class="btn btn-success" style="margin-right:15px;"><span class="glyphicon glyphicon-edit"></span> Edit</a>
-                        <a href="/Items/Delete/@Model.Id" class="btn btn-danger" style="margin-right:15px;"><span class="glyphicon glyphicon-remove"></span> Delete</a>
-                    </div>
-                </div>*@
         </div>
     </div>
 }
