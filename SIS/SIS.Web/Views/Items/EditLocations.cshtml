@@ -1,0 +1,339 @@
+﻿@model SIS.Domain.Item
+
+@{
+    ViewBag.Title = "Edit Item Locations";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-fluid">
+    <div style="max-width:650px;margin:0 auto;">
+        <h3>Edit Item Locations</h3>
+
+        <div class="panel-group">
+            <div class="panel panel-default panel-sis">
+                <div class="panel-heading panel-heading-sis">
+                    <div class="row">
+                        <div class="col-md-3 col-sm-3">
+                            @Html.HiddenFor(model => model.Id)
+                            @Html.LabelFor(model => model.Id, "Item Number", htmlAttributes: new { @class = "control-label" })
+                            <br />
+                            @Html.DisplayFor(model => model.Id)
+                        </div>
+                        <div class="col-md-3 col-sm-3">
+                            @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label" })
+                            <br />
+                            @Html.DisplayFor(model => model.Name)
+                        </div>
+                        <div class="col-md-3 col-sm-3">
+                            @Html.LabelFor(model => model.Unit, htmlAttributes: new { @class = "control-label" })
+                            <br />
+                            @Html.DisplayFor(model => model.Unit)
+                        </div>
+                        <div class="col-md-3 col-sm-3">
+                            @Html.LabelFor(model => model.Price, htmlAttributes: new { @class = "control-label" })
+                            <br />
+                            @Html.DisplayFor(model => model.Price)
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <div class="demo-container">
+                        <div id="gridContainer"></div>
+                    </div>
+                    @*<table class="table table-sis">
+                            <thead>
+                                <tr>
+                                    <th>Location</th>
+                                    <th>Qty On Hand</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model.ItemLocations)
+                                {
+                                    <tr>
+                                        <td>@Html.DisplayFor(modelItem => item.LocationId)</td>
+                                        <td><a href="/"</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>*@
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script type="text/javascript">
+        // Function for loading data in the table
+        $(function () {
+            //var locationStore = new DevExpress.data.DataSource({
+            //    load: function (loadOptions) {
+            //        var d = $.Deferred();
+            //        args = {};
+            //        // Ajax call to the controller to get the data
+            //        $.ajax({
+            //            url: "/Locations/IndexData",
+            //            type: "GET",
+            //            data: args,
+            //            success: function (result) {
+            //                console.log(result);
+            //                d.resolve(result);
+            //            },
+            //            error: function (resp) {
+            //                console.log(resp);
+            //                d.reject("Data Loading Error");
+            //            },
+            //            timeout: 5000
+            //        });
+            //        return d.promise();
+            //    },
+            //    byKey: function (key) {
+            //        return { id: key };
+            //    }
+            //});
+            //var locationStore = function () {
+            //    var deferred = $.Deferred();
+            //    var locationResult = [];
+            //    $.ajax({
+            //        url: "/Locations/IndexData",
+            //        type: "GET",
+            //        //data: args,
+            //        success: function (result) {
+            //            locationResult = result;
+            //            return locationResult;
+            //            //var test = JSON.stringify(result);
+            //            //console.log(test);
+            //            //deferred.resolve(test);
+            //            //return JSON.stringify(result);
+            //        },
+            //        error: function (resp) {
+            //            console.log(resp);
+            //            deferred.reject("Data Loading Error");
+            //        },
+            //        timeout: 5000
+            //    });
+            //}
+
+            var getDataSource = function () {
+                var timeOut = null,
+                    updates = [];
+                var timerCallback = function () {
+                    //Send data to your REST service from updateTasks
+                    $.each(updates, function (index, task) {
+                        task.deferred.resolve(
+                            $.ajax({
+                                url: "/Items/UpdateLocations/" + task.key,
+                                type: "POST",
+                                data: JSON.stringify(task.values),
+                                contentType: 'application/json',
+                                success: function (result) {
+                                    task.deferred.resolve(result);
+                                    //location.reload();
+                                },
+                                error: function (resp) {
+                                    task.deferred.reject("Data Loading Error");
+                                },
+                                timeout: 5000
+                            })
+                        );
+                    });
+                    updates = [];
+                    timeOut = null;
+
+                    //updates = [];
+                    //timeOut = null;
+                };
+                var updated = false;
+                var settings = {
+                    //key: 'LocationId',
+                    load: function (loadOptions) {
+                        var d = $.Deferred();
+                        args = {};
+
+                        if (loadOptions.sort) {
+                            args.orderby = loadOptions.sort[0].selector;
+                            if (loadOptions.sort[0].desc)
+                                args.orderby += " desc";
+                        }
+
+                        args.skip = loadOptions.skip || 0;
+                        args.take = loadOptions.take || 12;
+                        var itemId = $('#Id').val();
+
+                        // Ajax call to the controller to get the data
+                        $.ajax({
+                            url: "/Items/LocationsData/" + itemId,
+                            type: "GET",
+                            data: args,
+                            success: function (result) {
+                                console.log(result);
+                                d.resolve(result, { totalCount: result.length });
+                            },
+                            error: function (resp) {
+                                console.log(resp);
+                                d.reject("Data Loading Error");
+                            },
+                            timeout: 5000
+                        });
+                        return d.promise();
+                    },
+                    update: function (key, values) {
+                        if (!timeOut) {
+                            timeOut = setTimeout(timerCallback, 100);
+                        }
+                        values["ItemId"] = key.ItemId;
+                        var d = new $.Deferred();
+                        updates.push({
+                            key: key.LocationId,
+                            values: values,
+                            deferred: d
+                        });
+                        return d.promise();
+                    },
+                    insert: function (key, values) {
+                        console.log("insert");
+                        console.log(key);
+                    },
+                    remove: function (key, values) {
+                        console.log("remove");
+                        console.log(key);
+                    }
+                };
+                return new DevExpress.data.DataSource(settings);
+            }
+            // Main data grid
+            $("#gridContainer").dxDataGrid({
+                dataSource: getDataSource(),
+                keyExpr: "LocationId",
+                editing: {
+                    mode: "batch",
+                    allowUpdating: true,
+                    allowDeleting: true,
+                    allowAdding: true
+                },
+                columns: [
+                    {
+                        caption: "Location",
+                        dataField: "LocationId",
+                    },
+                    { caption: "Qty On Hand", dataField: "QuantityOnHand" },
+
+                ],
+                //saveEditData: function (data) {
+                //    console.log(data);
+                //},
+            }).dxDataGrid("instance");
+        });
+        
+    </script>
+
+    <script type="text/javascript">
+            //// Function for loading data in the table
+            //$(function () {
+            //    var timeOut = null;
+            //    var updates = [];
+            //    var timerCallBack = function () {
+            //        $.each(updates, function (index, task) {
+            //            console.log(updates);
+            //            console.log(index);
+            //            console.log(task);
+            //            var deferred = $.Deferred();
+            //            $.ajax({
+            //                url: "/Items/UpdateLocations/10326",
+            //                type: "POST",
+            //                data: JSON.stringify(updates),
+            //                contentType: 'application/json',
+            //                success: function (result) {
+            //                    //console.log(result);
+            //                    //deferred.resolve(result);
+            //                },
+            //                error: function (resp) {
+            //                    //console.log(resp);
+            //                    //deferred.reject("Data Loading Error");
+            //                },
+            //                timeout: 5000
+            //            });
+            //            task.deferred.resolve();
+            //        });
+            //        updateTasks = [];
+            //        timeOut = null;
+            //    };
+
+                //var items = new DevExpress.data.CustomStore({
+                //    load: function (loadOptions) {
+                //        console.log(loadOptions);
+                //        var deferred = $.Deferred(),
+                //            args = {};
+
+                //        if (loadOptions.sort) {
+                //            args.orderby = loadOptions.sort[0].selector;
+                //            if (loadOptions.sort[0].desc)
+                //                args.orderby += " desc";
+                //        }
+
+                //        args.skip = loadOptions.skip || 0;
+                //        args.take = loadOptions.take || 12;
+                //        var itemId = $('#Id').val();
+
+                //        // Ajax call to the controller to get the data
+                //        $.ajax({
+                //            url: "/Items/LocationsData/" + itemId,
+                //            type: "GET",
+                //            data: args,
+                //            success: function (result) {
+                //                console.log(result);
+                //                deferred.resolve(result, { totalCount: result.length });
+                //            },
+                //            error: function (resp) {
+                //                console.log(resp);
+                //                deferred.reject("Data Loading Error");
+                //            },
+                //            timeout: 5000
+                //        });
+
+                //        return deferred.promise();
+                //    },
+                //    update: function (key, value) {
+                //        if (!timeOut) {
+                //            timeOut = setTimeout(timerCallBack, 1000);
+                //        }
+                //        var d = $.Deferred();
+                //        updates.push(key);
+                //        return d.promise();
+                //        //console.log(updates);
+                //        //$.ajax({
+                //        //    url: "/Items/UpdateLocation" + key.ItemId,
+                //        //    type: "POST",
+                //        //    data:
+                //        //})
+                //    }
+                //});
+
+            //    // Main data grid
+            //    $("#gridContainer").dxDataGrid({
+            //        dataSource: {
+            //            store: items
+            //        },
+            //        keyExpr: "LocationId",
+            //        editing: {
+            //            mode: "batch",
+            //            allowUpdating: true,
+            //            allowDeleting: true,
+            //            allowAdding: true
+            //        },
+            //        columns: [
+            //            { caption: "Location", dataField: "LocationId" },
+
+            //        ],
+            //        //saveEditData: function (data) {
+            //        //    console.log(data);
+            //        //},
+            //    }).dxDataGrid("instance");
+            //});
+    </script>
+
+
+}

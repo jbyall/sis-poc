@@ -112,6 +112,16 @@ namespace SIS.Web.Controllers
             return View(item);
         }
 
+        public ActionResult EditLocations(string id)
+        {
+            var item = db.Items
+                .Where(i => i.Id == id)
+                .Include(i => i.Supplier)
+                .Include(i => i.ItemLocations)
+                .Single();
+            return View(item);
+        }
+
         // GET: Items/Delete/5
         public ActionResult Delete(string id)
         {
@@ -139,12 +149,71 @@ namespace SIS.Web.Controllers
             return RedirectToAction("Index");
         }
 
+        public ActionResult Test()
+        {
+            var item = db.Items
+                .Where(i => i.Id == "JOHN2")
+                .Include(i => i.ItemLocations)
+                .Single();
+
+            var locationToRemove = item.ItemLocations.Single(l => l.LocationId == "Dist-005");
+            item.ItemLocations.Remove(locationToRemove);
+            db.SaveChanges();
+
+            //var newIl = new ItemLocation
+            //{
+            //    ItemId = item.Id,
+            //    LocationId = "Dist-005",
+            //    QuantityOnHand = 44
+            //};
+
+            //var newIl2 = new ItemLocation
+            //{
+            //    ItemId = item.Id,
+            //    LocationId = "Stor-022",
+            //    QuantityOnHand = 44
+            //};
+            //item.ItemLocations.Add(newIl);
+            //item.ItemLocations.Add(newIl2);
+            db.SaveChanges();
+
+            return View();
+        }
+
         #region DataGridAjaxMethods
         [HttpGet]
         public JsonResult HandoutData()
         {
             var items = db.Items.Include(i => i.Supplier).Include(i => i.ItemLocations).ToList();
             return Json(items, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        public JsonResult LocationsData(string id)
+        {
+            var itemLocations = db.ItemLocations.Where(il => il.ItemId == id).ToList();
+            return Json(itemLocations, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public JsonResult UpdateLocations(string id, ItemLocation locations)
+        {
+            //var item = db.Items.Where(i => i.Id == locations.ItemId).Include(i => i.ItemLocations).Single();
+            //var updateLocation = item.ItemLocations.Single(l => l.LocationId == id);
+            //var newLocationExists = db.Locations.Any(l => l.Id == locations.LocationId);
+            //if (newLocationExists)
+            //{
+            //    var newLocation = new ItemLocation
+            //    {
+            //        LocationId = 
+            //    }
+            //}
+            
+
+            var location = db.ItemLocations.Single(il => il.LocationId == id);
+            location.LocationId = locations.LocationId;
+            db.SaveChanges();
+            return Json(location, JsonRequestBehavior.AllowGet);
         }
         #endregion
 
