@@ -69,63 +69,19 @@
     <script type="text/javascript">
         // Function for loading data in the table
         $(function () {
-            //var locationStore = new DevExpress.data.DataSource({
-            //    load: function (loadOptions) {
-            //        var d = $.Deferred();
-            //        args = {};
-            //        // Ajax call to the controller to get the data
-            //        $.ajax({
-            //            url: "/Locations/IndexData",
-            //            type: "GET",
-            //            data: args,
-            //            success: function (result) {
-            //                console.log(result);
-            //                d.resolve(result);
-            //            },
-            //            error: function (resp) {
-            //                console.log(resp);
-            //                d.reject("Data Loading Error");
-            //            },
-            //            timeout: 5000
-            //        });
-            //        return d.promise();
-            //    },
-            //    byKey: function (key) {
-            //        return { id: key };
-            //    }
-            //});
-            //var locationStore = function () {
-            //    var deferred = $.Deferred();
-            //    var locationResult = [];
-            //    $.ajax({
-            //        url: "/Locations/IndexData",
-            //        type: "GET",
-            //        //data: args,
-            //        success: function (result) {
-            //            locationResult = result;
-            //            return locationResult;
-            //            //var test = JSON.stringify(result);
-            //            //console.log(test);
-            //            //deferred.resolve(test);
-            //            //return JSON.stringify(result);
-            //        },
-            //        error: function (resp) {
-            //            console.log(resp);
-            //            deferred.reject("Data Loading Error");
-            //        },
-            //        timeout: 5000
-            //    });
-            //}
-
             var getDataSource = function () {
-                var timeOut = null,
-                    updates = [];
-                var timerCallback = function () {
-                    //Send data to your REST service from updateTasks
-                    $.each(updates, function (index, task) {
+                var timeOut = null;
+                var updateTasks = [];
+                var insertTasks = [];
+                var deleteTasks = [];
+
+                // Function to execute ajax requests for edits
+                var pushEdits = function () {
+                    //Ajax call for each location to update (i.e. move)
+                    $.each(updateTasks, function (index, task) {
                         task.deferred.resolve(
                             $.ajax({
-                                url: "/Items/UpdateLocations/" + task.key,
+                                url: "/Items/UpdateLocation/" + task.key,
                                 type: "POST",
                                 data: JSON.stringify(task.values),
                                 contentType: 'application/json',
@@ -140,11 +96,52 @@
                             })
                         );
                     });
-                    updates = [];
+                    updateTasks = [];
                     timeOut = null;
 
-                    //updates = [];
-                    //timeOut = null;
+                    //Ajax call for each location to insert (i.e. add new location)
+                    $.each(insertTasks, function (index, task) {
+                        task.deferred.resolve(
+                            $.ajax({
+                                url: "/Items/AddLocation/" + task.key,
+                                type: "POST",
+                                data: JSON.stringify(task.key),
+                                contentType: 'application/json',
+                                success: function (result) {
+                                    return task.deferred.resolve(result);
+                                    //location.reload();
+                                },
+                                error: function (resp) {
+                                    task.deferred.reject("Data Loading Error");
+                                },
+                                timeout: 5000
+                            })
+                        );
+                    });
+                    insertTasks = [];
+                    timeOut = null;
+
+                    //Ajax call for each locaiton to delete
+                    $.each(deleteTasks, function (index, task) {
+                        task.deferred.resolve(
+                            $.ajax({
+                                url: "/Items/RemoveLocation/",
+                                type: "POST",
+                                data: JSON.stringify(task.key),
+                                contentType: 'application/json',
+                                success: function (result) {
+                                    task.deferred.resolve(result);
+                                    //location.reload();
+                                },
+                                error: function (resp) {
+                                    task.deferred.reject("Data Loading Error");
+                                },
+                                timeout: 5000
+                            })
+                        );
+                    });
+                    deleteTasks = [];
+                    timeOut = null;
                 };
                 var updated = false;
                 var settings = {
@@ -169,7 +166,6 @@
                             type: "GET",
                             data: args,
                             success: function (result) {
-                                console.log(result);
                                 d.resolve(result, { totalCount: result.length });
                             },
                             error: function (resp) {
@@ -180,26 +176,46 @@
                         });
                         return d.promise();
                     },
+                    // Called when a row is updated and saved
                     update: function (key, values) {
                         if (!timeOut) {
-                            timeOut = setTimeout(timerCallback, 100);
+                            timeOut = setTimeout(pushEdits, 100);
                         }
                         values["ItemId"] = key.ItemId;
                         var d = new $.Deferred();
-                        updates.push({
+                        updateTasks.push({
                             key: key.LocationId,
                             values: values,
                             deferred: d
                         });
                         return d.promise();
                     },
+                    // Called when a row is inserted and saved
                     insert: function (key, values) {
-                        console.log("insert");
-                        console.log(key);
+                        if (!timeOut) {
+                            timeOut = setTimeout(pushEdits, 100);
+                        }
+                        key["ItemId"] = $('#Id').val();
+                        var d = new $.Deferred();
+                        insertTasks.push({
+                            key: key,
+                            deferred: d
+                        });
+                        return d.promise();
+                        //store.reload();
+                        //var test = d.promise();
                     },
+                    // Called when a row is removed
                     remove: function (key, values) {
-                        console.log("remove");
-                        console.log(key);
+                        if (!timeOut) {
+                            timeOut = setTimeout(pushEdits, 100);
+                        }
+                        var d = new $.Deferred();
+                        deleteTasks.push({
+                            key: key,
+                            deferred: d
+                        });
+                        return d.promise();
                     }
                 };
                 return new DevExpress.data.DataSource(settings);
@@ -209,131 +225,30 @@
                 dataSource: getDataSource(),
                 keyExpr: "LocationId",
                 editing: {
-                    mode: "batch",
+                    mode: "row",
                     allowUpdating: true,
                     allowDeleting: true,
-                    allowAdding: true
+                    allowAdding: true,
+                    texts: {
+                        addRow: 'Add location'
+                    }
                 },
                 columns: [
                     {
                         caption: "Location",
                         dataField: "LocationId",
                     },
-                    { caption: "Qty On Hand", dataField: "QuantityOnHand" },
+                    { caption: "Qty On Hand", dataField: "QuantityOnHand", allowEditing: false },
 
                 ],
-                //saveEditData: function (data) {
-                //    console.log(data);
-                //},
+                onToolbarPreparing: function (e) {
+                    var toolbarItems = e.toolbarOptions.items;
+                    $.each(toolbarItems, function (_, item) {
+                        item.showText = "always";
+                    });
+                }
             }).dxDataGrid("instance");
         });
         
     </script>
-
-    <script type="text/javascript">
-            //// Function for loading data in the table
-            //$(function () {
-            //    var timeOut = null;
-            //    var updates = [];
-            //    var timerCallBack = function () {
-            //        $.each(updates, function (index, task) {
-            //            console.log(updates);
-            //            console.log(index);
-            //            console.log(task);
-            //            var deferred = $.Deferred();
-            //            $.ajax({
-            //                url: "/Items/UpdateLocations/10326",
-            //                type: "POST",
-            //                data: JSON.stringify(updates),
-            //                contentType: 'application/json',
-            //                success: function (result) {
-            //                    //console.log(result);
-            //                    //deferred.resolve(result);
-            //                },
-            //                error: function (resp) {
-            //                    //console.log(resp);
-            //                    //deferred.reject("Data Loading Error");
-            //                },
-            //                timeout: 5000
-            //            });
-            //            task.deferred.resolve();
-            //        });
-            //        updateTasks = [];
-            //        timeOut = null;
-            //    };
-
-                //var items = new DevExpress.data.CustomStore({
-                //    load: function (loadOptions) {
-                //        console.log(loadOptions);
-                //        var deferred = $.Deferred(),
-                //            args = {};
-
-                //        if (loadOptions.sort) {
-                //            args.orderby = loadOptions.sort[0].selector;
-                //            if (loadOptions.sort[0].desc)
-                //                args.orderby += " desc";
-                //        }
-
-                //        args.skip = loadOptions.skip || 0;
-                //        args.take = loadOptions.take || 12;
-                //        var itemId = $('#Id').val();
-
-                //        // Ajax call to the controller to get the data
-                //        $.ajax({
-                //            url: "/Items/LocationsData/" + itemId,
-                //            type: "GET",
-                //            data: args,
-                //            success: function (result) {
-                //                console.log(result);
-                //                deferred.resolve(result, { totalCount: result.length });
-                //            },
-                //            error: function (resp) {
-                //                console.log(resp);
-                //                deferred.reject("Data Loading Error");
-                //            },
-                //            timeout: 5000
-                //        });
-
-                //        return deferred.promise();
-                //    },
-                //    update: function (key, value) {
-                //        if (!timeOut) {
-                //            timeOut = setTimeout(timerCallBack, 1000);
-                //        }
-                //        var d = $.Deferred();
-                //        updates.push(key);
-                //        return d.promise();
-                //        //console.log(updates);
-                //        //$.ajax({
-                //        //    url: "/Items/UpdateLocation" + key.ItemId,
-                //        //    type: "POST",
-                //        //    data:
-                //        //})
-                //    }
-                //});
-
-            //    // Main data grid
-            //    $("#gridContainer").dxDataGrid({
-            //        dataSource: {
-            //            store: items
-            //        },
-            //        keyExpr: "LocationId",
-            //        editing: {
-            //            mode: "batch",
-            //            allowUpdating: true,
-            //            allowDeleting: true,
-            //            allowAdding: true
-            //        },
-            //        columns: [
-            //            { caption: "Location", dataField: "LocationId" },
-
-            //        ],
-            //        //saveEditData: function (data) {
-            //        //    console.log(data);
-            //        //},
-            //    }).dxDataGrid("instance");
-            //});
-    </script>
-
-
 }

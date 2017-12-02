@@ -1,23 +1,10 @@
-﻿@model IEnumerable<SIS.Domain.Department>
-
-@{
-    ViewBag.Title = "Departments";
-    Layout = "~/Views/Shared/_Layout.cshtml";
-}
-
+﻿<h2>Negative Quantity Report</h2>
 <div class="container-fluid">
-    <div style="max-width:675px; margin:0 auto;">
-        <div class="row">
-            <div class="col-md-8 col-sm-8">
-                <h3>Departments</h3>
-            </div>
-            <div class="col-md-4 col-sm-4">
-                <div class="pull-right" style="margin-top:15px;">
-                    <a href="/Departments/Create" class="btn btn-success" style="margin-right:15px;"><span class="glyphicon glyphicon-new-window"></span> Create Dept.</a>
-                </div>
-            </div>
-        </div>
-        <br />
+    <div class="alert alert-info">
+        <strong>Summary</strong>
+        <p>This report displays all item locations with negative quantities.</p>
+    </div>
+    <div class="container">
         <div class="dx-viewport">
             <div class="demo-container">
                 <div id="gridContainer"></div>
@@ -48,7 +35,7 @@
 
                     // Ajax call to the controller to get the data
                     $.ajax({
-                        url: "/Departments/IndexData",
+                        url: "/Reports/NegativeQuantityData",
                         type: "GET",
                         data: args,
                         success: function (result) {
@@ -92,20 +79,55 @@
                     showInfo: true,
                     visible: true
                 },
+                export: {
+                    enabled: true,
+                    fileName: "NegativeQtyReport",
+                    allowExportSelectedData: true,
+                },
                 columns: [
-                    { caption: "Dept", width: 100, dataField: "Id" },
-                    { caption: "Description", width: 450, dataField: "Description" },
-                    {
-                        caption: "", width: 75, cellTemplate: function (element, info) {
-                            console.log(element);
-                            console.log(info);
-                            element.append(`<a href="/Departments/Edit/${info.key.Id}">Edit</div>`)
-                        }
-                    }
+                    { caption: "Item Number", width: 200, dataField: "ItemId" },
+                    { caption: "Location", dataField: "LocationId" },
+                    { caption: "On Hand", dataField: "QuantityOnHand"}
+                    //"Name",
+                    //{ caption: "Supplier", dataField: "Supplier.Name" },
+                    //{ caption: "Unit Price", width: 100, dataField: "ItemPrice", dataFormat: "currency" },
+                    //{ caption: "Unit", width: 75, dataField: "Unit" },
+                    //{
+                    //    caption: "On Hand", width: 75, fixed: false,
+                    //    calculateCellValue: function (rowData) {
+                    //        var count = 0;
+                    //        for (var i = 0; i < rowData.ItemLocations.length; i++) {
+                    //            count = count + rowData.ItemLocations[i].QuantityOnHand;
+                    //        }
+                    //        return count;
+                    //    },
+                    //    calculateFilterExpression: function (filterValue, selectedFilterOperation) {
+                    //        return [this.calculateCellValue, selectedFilterOperation || '=', filterValue]
+                    //    }
+                    //},
+                    //{ dataField: "ReorderPoint", width:100}
+                    //{
+                    //    caption: "", width:75, cellTemplate: function (element, info) {
+                    //        console.log(element);
+                    //        console.log(info);
+                    //        element.append(`<a href="/Items/Details/${info.key.Id}">Details</div>`)
+                    //    }
+                    //}
                 ],
+                // Modify toolbar to have the export data text beside the export button
+                onToolbarPreparing: function (e) {
+                    e.toolbarOptions.items.unshift({
+                        location: "after",
+                        template: function () {
+                            return $('<h5 style="color:#bfbfbf;">Export Data <span class="glyphicon glyphicon-arrow-right"></span></h5>')
+                        }
+                    });
+                }
             }).dxDataGrid("instance");
         });
     </script>
 
 
 }
+
+

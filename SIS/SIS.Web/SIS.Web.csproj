@@ -319,6 +319,8 @@
     <Content Include="Views\Transactions\ReceiveConfirm.cshtml" />
     <Content Include="Views\Reports\Index.cshtml" />
     <Content Include="Views\Items\EditLocations.cshtml" />
+    <Content Include="Views\Reports\NegativeQuantity.cshtml" />
+    <Content Include="Views\Reports\Reorder.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -13,13 +13,14 @@ namespace SIS.Web.Controllers
 {
     public class TransactionsController : Controller
     {
+        // Creates database connection that is used throughout
+        // the methods in this controller
         private SisDbContext db = new SisDbContext();
 
         // GET: Transactions
         public ActionResult Index()
         {
-            var transactions = db.Transactions.Include(t => t.Department).Include(t => t.Item);
-            return View(transactions.ToList());
+            return View();
         }
 
         // GET: Transactions/Details/5
@@ -166,70 +167,6 @@ namespace SIS.Web.Controllers
             return View(models);
         }
 
-        // GET: Transactions/Edit/5
-        public ActionResult Edit(int? id)
-        {
-            throw new NotImplementedException();
-            //if (id == null)
-            //{
-            //    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            //}
-            //Transaction transaction = db.Transactions.Find(id);
-            //if (transaction == null)
-            //{
-            //    return HttpNotFound();
-            //}
-            //ViewBag.DepartmentId = new SelectList(db.Departments, "Id", "Name", transaction.DepartmentId);
-            //ViewBag.ItemId = new SelectList(db.Items, "Id", "Name", transaction.ItemId);
-            //return View(transaction);
-        }
-
-        // POST: Transactions/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,ItemId,Date,DepartmentId,QuantityOnHandDist,QuantityOnHandStor,QuantityOnHandSub,QuantityChangeDist,QuantityChangeStor,QuantityChangeSub,ItemPrice,TransactionValue")] Transaction transaction)
-        {
-            throw new NotImplementedException();
-            //if (ModelState.IsValid)
-            //{
-            //    db.Entry(transaction).State = EntityState.Modified;
-            //    db.SaveChanges();
-            //    return RedirectToAction("Index");
-            //}
-            //ViewBag.DepartmentId = new SelectList(db.Departments, "Id", "Name", transaction.DepartmentId);
-            //ViewBag.ItemId = new SelectList(db.Items, "Id", "Name", transaction.ItemId);
-            //return View(transaction);
-        }
-
-        
-        public ActionResult Delete(int? id)
-        {
-            throw new NotImplementedException();
-            //if (id == null)
-            //{
-            //    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            //}
-            //Transaction transaction = db.Transactions.Find(id);
-            //if (transaction == null)
-            //{
-            //    return HttpNotFound();
-            //}
-            //return View(transaction);
-        }
-
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
-        {
-            throw new NotImplementedException();
-            //Transaction transaction = db.Transactions.Find(id);
-            //db.Transactions.Remove(transaction);
-            //db.SaveChanges();
-            //return RedirectToAction("Index");
-        }
-
         // Scaffold method - this closes the connection to the database
         protected override void Dispose(bool disposing)
         {
@@ -242,10 +179,12 @@ namespace SIS.Web.Controllers
 
         #region DataGridAjaxMethods
         [HttpGet]
+        // Called from ajax in the Index view to fill the data grid with data
         public JsonResult IndexData()
         {
             var transactions = db.Transactions.Include(t => t.Item)
                                 .Select(r => new {
+                                    Id = r.Id,
                                     r.Date,
                                     r.DepartmentId,
                                     r.ItemId,
@@ -256,6 +195,21 @@ namespace SIS.Web.Controllers
                                     r.TransactionValue,
                                 }).ToList();
             return Json(transactions, JsonRequestBehavior.AllowGet);
+        }
+
+        // Called from delete link in the datagrid index view
+        public JsonResult Delete(int? id)
+        {
+            if (id.HasValue)
+            {
+                var transactionToDelete = db.Transactions.Find(id.Value);
+                if (transactionToDelete != null)
+                {
+                    db.Transactions.Remove(transactionToDelete);
+                    db.SaveChanges();
+                }
+            }
+            return Json("success", JsonRequestBehavior.AllowGet);
         }
         #endregion
 
@@ -311,6 +265,10 @@ namespace SIS.Web.Controllers
             {
                 int transactionMultiplier = getTransactionMultiplier(transactionType);
                 var location = db.ItemLocations.Single(l => l.LocationId == itemTransaction.Location.LocationId && l.ItemId == itemId);
+                if (!location.QuantityOnHand.HasValue)
+                {
+                    location.QuantityOnHand = 0;
+                }
                 location.QuantityOnHand += (itemTransaction.QuantityChange * transactionMultiplier);
 
                 // This line executes the update in the database

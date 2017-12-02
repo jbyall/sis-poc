@@ -196,24 +196,68 @@ namespace SIS.Web.Controllers
         }
 
         [HttpPost]
-        public JsonResult UpdateLocations(string id, ItemLocation locations)
+        public JsonResult UpdateLocation(string id, ItemLocation location)
         {
-            //var item = db.Items.Where(i => i.Id == locations.ItemId).Include(i => i.ItemLocations).Single();
-            //var updateLocation = item.ItemLocations.Single(l => l.LocationId == id);
-            //var newLocationExists = db.Locations.Any(l => l.Id == locations.LocationId);
-            //if (newLocationExists)
-            //{
-            //    var newLocation = new ItemLocation
-            //    {
-            //        LocationId = 
-            //    }
-            //}
-            
+            // Get the item
+            var item = db.Items
+                .Where(i => i.Id == location.ItemId)
+                .Include(i => i.ItemLocations).Single();
 
-            var location = db.ItemLocations.Single(il => il.LocationId == id);
-            location.LocationId = locations.LocationId;
+            // Prepare for delete existing item location record
+            // Find the existing item location
+            var updateLocation = item.ItemLocations.Single(l => l.LocationId == id);
+            var quantityForUpdate = location.QuantityOnHand == null ? updateLocation.QuantityOnHand : location.QuantityOnHand;
+
+            // Remove the existing location
+            item.ItemLocations.Remove(updateLocation);
+            db.SaveChanges();
+
+            // Add the new location
+            item.ItemLocations.Add(new ItemLocation
+            {
+                LocationId = location.LocationId,
+                QuantityOnHand = quantityForUpdate
+            });
+
+            // Commit new location to database
             db.SaveChanges();
             return Json(location, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public JsonResult AddLocation(ItemLocation location)
+        {
+            // Get the item
+            var item = db.Items
+                .Where(i => i.Id == location.ItemId)
+                .Include(i => i.ItemLocations).Single();
+
+            // Add the new location to the item
+            item.ItemLocations.Add(location);
+
+            // Commit updates to the database
+            db.SaveChanges();
+            return Json(location, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public JsonResult RemoveLocation(ItemLocation location)
+        {
+            // Get the item
+            var item = db.Items
+                .Where(i => i.Id == location.ItemId)
+                .Include(i => i.ItemLocations).Single();
+
+            // Get the location to remove
+            var removeLocation = item.ItemLocations.Single(l => l.LocationId == location.LocationId);
+
+            // Remove the location
+            item.ItemLocations.Remove(removeLocation);
+
+            // Commit changes to the database
+            db.SaveChanges();
+            return Json("success");
+
         }
         #endregion
 

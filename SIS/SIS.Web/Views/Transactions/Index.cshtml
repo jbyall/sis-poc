@@ -31,6 +31,7 @@
             //var test = $("#gridContainer").find(".dx-command-select");
             //console.log(test);
             var items = new DevExpress.data.CustomStore({
+                // Configure data loading
                 load: function (loadOptions) {
                     console.log(loadOptions);
                     var deferred = $.Deferred(),
@@ -62,6 +63,25 @@
                     });
 
                     return deferred.promise();
+                },
+                // Configure ajax call to handle deleting transaction
+                remove: function (key, values) {
+                    var deferred = $.Deferred();
+
+                    $.ajax({
+                        url: "/Transactions/Delete?id=" + key.Id,
+                        type: "GET",
+                        success: function (result) {
+                            console.log(result);
+                            deferred.resolve(result);
+                        },
+                        error: function (resp) {
+                            console.log(resp);
+                            deferred.reject("Delete transaction error.");
+                        },
+                        timeout: 5000
+                    });
+                    return deferred.promise();
                 }
             });
 
@@ -70,11 +90,6 @@
                 allowColumnResizing: true,
                 columnResizingMode: 'nextColumn',
                 columnAutoWidth: true,
-                selection: {
-                    mode: "multiple",
-                    allowSelectAll: false,
-                    showCheckBoxesMode: "always",
-                },
                 filterRow: {
                     visible: true,
                     applyFilter: "auto"
@@ -82,7 +97,12 @@
                 dataSource: {
                     store: items
                 },
-                "export": {
+                keyExpr: "Id",
+                editing: {
+                    mode: "row",
+                    allowDeleting: true,
+                },
+                export: {
                     enabled: true,
                     fileName: "transactions",
                     allowExportSelectedData: true,
@@ -116,34 +136,17 @@
                     { caption: "Qty. Change", width:85, dataField: "QuantityChange" },
                     { caption: "Value", width:75, dataField: "TransactionValue" },
                 ],
-                //onSelectionChanged: function (selectedItems) {
-                //    var selectedData = selectedItems.selectedRowsData;
-                //    var selectedItemsJoin = "";
-                //    for (var i = 0; i < selectedData.length; i++) {
-                //        selectedItemsJoin += selectedData[i].Id
-                //        if (i < (selectedData.length - 1)) {
-                //            selectedItemsJoin += ","
-                //        }
-                //    }
-                //    console.log(selectedItemsJoin);
-                //    var urlBase = "/Transactions/Receive/"
-                //    $('#selected-items').attr("href", urlBase + selectedItemsJoin);
-                //    if (selectedData.length > 0) {
-                //        $('#selected-items').removeClass('btn-default');
-                //        $('#selected-items').addClass('btn-success');
-                //        $('#selected-items').removeAttr('disabled');
-                //        $('#selected-items').css('color', 'white');
-                //    }
-                //    else {
-                //        $('#selected-items').removeClass('btn-success');
-                //        $('#selected-items').addClass('btn-default');
-                //        $('#selected-items').attr('disabled', 'disabled');
-                //        $('#selected-items').css('color', 'gray');
-                //    }
-                //}
+
+                // Modify toolbar to have the export data text beside the export button
+                onToolbarPreparing: function (e) {
+                    e.toolbarOptions.items.unshift({
+                        location: "after",
+                        template: function () {
+                            return $('<h5 style="color:#bfbfbf;">Export Data <span class="glyphicon glyphicon-arrow-right"></span></h5>')
+                        }
+                    });
+                }
             }).dxDataGrid("instance");
-
-
         });
     </script>
 
