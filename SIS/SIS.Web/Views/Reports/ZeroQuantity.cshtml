@@ -1,0 +1,137 @@
+﻿@{
+    ViewBag.Title = "Zero Quantity Report";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h3>Zero Quantity Report</h3>
+<div class="container-fluid">
+    <div class="alert alert-info">
+        <strong>Summary</strong>
+        <p>This report displays all items with total on hand quantity of zero.</p>
+    </div>
+    <div class="row">
+        <div class="col-md-4 col-sm-4">
+            <a href="/Reports" class="btn btn-default"><span class="glyphicon glyphicon-arrow-left"></span> Back To Menu</a>
+        </div>
+    </div>
+    <div class="container">
+        <div class="dx-viewport">
+            <div class="demo-container">
+                <div id="gridContainer"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script type="text/javascript">
+        // Function for loading data in the table
+        $(function () {
+            var items = new DevExpress.data.CustomStore({
+                load: function (loadOptions) {
+                    console.log(loadOptions);
+                    var deferred = $.Deferred(),
+                        args = {};
+
+                    if (loadOptions.sort) {
+                        args.orderby = loadOptions.sort[0].selector;
+                        if (loadOptions.sort[0].desc)
+                            args.orderby += " desc";
+                    }
+
+                    args.skip = loadOptions.skip || 0;
+                    args.take = loadOptions.take || 12;
+
+                    // Ajax call to the controller to get the data
+                    $.ajax({
+                        url: "/Reports/ZeroQuantityData",
+                        type: "GET",
+                        data: args,
+                        success: function (result) {
+                            console.log(result);
+                            deferred.resolve(result, { totalCount: result.length });
+                        },
+                        error: function (resp) {
+                            console.log(resp);
+                            deferred.reject("Data Loading Error");
+                        },
+                        timeout: 5000
+                    });
+
+                    return deferred.promise();
+                }
+            });
+
+            // Main data grid
+            $("#gridContainer").dxDataGrid({
+                allowColumnResizing: true,
+                columnResizingMode: 'nextColumn',
+                columnAutoWidth: true,
+                selection: {
+                    mode: "multiple",
+                    allowSelectAll: false,
+                    showCheckBoxesMode: "always",
+                },
+                filterRow: {
+                    visible: true,
+                    applyFilter: "auto"
+                },
+                filterRow: {
+                    visible: true,
+                    applyFilter: "auto"
+                },
+                dataSource: {
+                    store: items
+                },
+                paging: {
+                    pageSize: 20
+                },
+                pager: {
+                    showPageSizeSelector: true,
+                    allowedPageSizes: [10, 20, 50, 100],
+                    showNavigationButtons: true,
+                    showInfo: true,
+                    visible: true
+                },
+                export: {
+                    enabled: true,
+                    fileName: "ZeroQtyReport",
+                    allowExportSelectedData: true,
+                },
+                columns: [
+                    { caption: "Item Number", width: 200, dataField: "Id" },
+                    "Name",
+                    //{ caption: "Supplier", dataField: "Supplier.Name" },
+                    { caption: "Unit Price", width: 100, dataField: "Price", dataFormat: "currency" },
+                    { caption: "Unit", width: 75, dataField: "Unit" },
+                    {
+                        caption: "On Hand", width: 75, fixed: false,
+                        calculateCellValue: function (rowData) {
+                            var count = 0;
+                            for (var i = 0; i < rowData.ItemLocations.length; i++) {
+                                count = count + rowData.ItemLocations[i].QuantityOnHand;
+                            }
+                            return count;
+                        },
+                        calculateFilterExpression: function (filterValue, selectedFilterOperation) {
+                            return [this.calculateCellValue, selectedFilterOperation || '=', filterValue]
+                        }
+                    },
+                    { dataField: "ReorderPoint", width: 100 }
+                ],
+                // Modify toolbar to have the export data text beside the export button
+                onToolbarPreparing: function (e) {
+                    e.toolbarOptions.items.unshift({
+                        location: "after",
+                        template: function () {
+                            return $('<h5 style="color:#bfbfbf;">Export Data <span class="glyphicon glyphicon-arrow-right"></span></h5>')
+                        }
+                    });
+                }
+            }).dxDataGrid("instance");
+        });
+    </script>
+
+
+}

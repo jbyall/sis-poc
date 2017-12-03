@@ -321,6 +321,7 @@
     <Content Include="Views\Items\EditLocations.cshtml" />
     <Content Include="Views\Reports\NegativeQuantity.cshtml" />
     <Content Include="Views\Reports\Reorder.cshtml" />
+    <Content Include="Views\Reports\ZeroQuantity.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

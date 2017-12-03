@@ -32,7 +32,14 @@ namespace SIS.Web.Controllers
             return View();
         }
 
+        [HttpGet]
+        public ActionResult ZeroQuantity()
+        {
+            return View();
+        }
+
         #region DataGridAjaxMethods
+        // Data for negative quantity report
         public JsonResult NegativeQuantityData()
         {
             var result = db.ItemLocations
@@ -51,10 +58,19 @@ namespace SIS.Web.Controllers
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
+        // Data for reorder report
         public JsonResult ReorderData()
         {
             var items = db.Items.Include(i => i.ItemLocations);
             var result = items.Where(i => i.ReorderPoint > 0 && i.ReorderPoint > i.ItemLocations.Sum(l => l.QuantityOnHand)).ToList();
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        // Data for zero quantity report
+        public JsonResult ZeroQuantityData()
+        {
+            var items = db.Items.Include(i => i.ItemLocations);
+            var result = items.Where(i => i.ItemLocations.Sum(l => l.QuantityOnHand) == 0).ToList();
             return Json(result, JsonRequestBehavior.AllowGet);
         }
         #endregion
