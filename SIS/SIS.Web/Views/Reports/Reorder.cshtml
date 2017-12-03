@@ -1,8 +1,18 @@
-﻿<h2>Reorder Report</h2>
+﻿@{
+    ViewBag.Title = "Reorder Report";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h3>Reorder Report</h3>
 <div class="container-fluid">
     <div class="alert alert-info">
         <strong>Summary</strong>
         <p>This report displays all items with total quantities less than the item reorder point.</p>
+    </div>
+    <div class="row">
+        <div class="col-md-4 col-sm-4">
+            <a href="/Reports" class="btn btn-default"><span class="glyphicon glyphicon-arrow-left"></span> Back To Menu</a>
+        </div>
     </div>
     <div class="container">
         <div class="dx-viewport">

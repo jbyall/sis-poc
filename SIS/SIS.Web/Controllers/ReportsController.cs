@@ -35,7 +35,19 @@ namespace SIS.Web.Controllers
         #region DataGridAjaxMethods
         public JsonResult NegativeQuantityData()
         {
-            var result = db.ItemLocations.Where(l => l.QuantityOnHand < 0).ToList();
+            var result = db.ItemLocations
+                .Where(l => l.QuantityOnHand < 0)
+                .Include(l => l.Item)
+                .Select(l => new
+                {
+                    l.ItemId,
+                    l.LocationId,
+                    l.QuantityOnHand,
+                    Name = l.Item.Name,
+                    UnitPrice = l.Item.Price,
+                    Unit = l.Item.Unit,
+                })
+                .ToList();
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 

@@ -1,8 +1,18 @@
-﻿<h2>Negative Quantity Report</h2>
+﻿@{
+    ViewBag.Title = "Negative Quantity Report";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h3>Negative Quantity Report</h3>
 <div class="container-fluid">
     <div class="alert alert-info">
         <strong>Summary</strong>
         <p>This report displays all item locations with negative quantities.</p>
+    </div>
+    <div class="row">
+        <div class="col-md-4 col-sm-4">
+            <a href="/Reports" class="btn btn-default"><span class="glyphicon glyphicon-arrow-left"></span> Back To Menu</a>
+        </div>
     </div>
     <div class="container">
         <div class="dx-viewport">
@@ -86,33 +96,11 @@
                 },
                 columns: [
                     { caption: "Item Number", width: 200, dataField: "ItemId" },
+                    { caption: "Item Description", width: 400, dataField: "Name"},
+                    { caption: "Unit Price", width: 100, dataField: "UnitPrice" },
+                    { caption: "Unit", width: 100, dataField: "Unit"},
                     { caption: "Location", dataField: "LocationId" },
-                    { caption: "On Hand", dataField: "QuantityOnHand"}
-                    //"Name",
-                    //{ caption: "Supplier", dataField: "Supplier.Name" },
-                    //{ caption: "Unit Price", width: 100, dataField: "ItemPrice", dataFormat: "currency" },
-                    //{ caption: "Unit", width: 75, dataField: "Unit" },
-                    //{
-                    //    caption: "On Hand", width: 75, fixed: false,
-                    //    calculateCellValue: function (rowData) {
-                    //        var count = 0;
-                    //        for (var i = 0; i < rowData.ItemLocations.length; i++) {
-                    //            count = count + rowData.ItemLocations[i].QuantityOnHand;
-                    //        }
-                    //        return count;
-                    //    },
-                    //    calculateFilterExpression: function (filterValue, selectedFilterOperation) {
-                    //        return [this.calculateCellValue, selectedFilterOperation || '=', filterValue]
-                    //    }
-                    //},
-                    //{ dataField: "ReorderPoint", width:100}
-                    //{
-                    //    caption: "", width:75, cellTemplate: function (element, info) {
-                    //        console.log(element);
-                    //        console.log(info);
-                    //        element.append(`<a href="/Items/Details/${info.key.Id}">Details</div>`)
-                    //    }
-                    //}
+                    { caption: "On Hand", dataField: "QuantityOnHand" },
                 ],
                 // Modify toolbar to have the export data text beside the export button
                 onToolbarPreparing: function (e) {
