@@ -54,7 +54,7 @@ namespace SIS.Web.Controllers
         public JsonResult ReorderData()
         {
             var items = db.Items.Include(i => i.ItemLocations);
-            var result = items.Where(i => i.ReorderPoint >= i.ItemLocations.Sum(l => l.QuantityOnHand)).ToList();
+            var result = items.Where(i => i.ReorderPoint > 0 && i.ReorderPoint > i.ItemLocations.Sum(l => l.QuantityOnHand)).ToList();
             return Json(result, JsonRequestBehavior.AllowGet);
         }
         #endregion
