@@ -7,14 +7,13 @@
 
 <div class="container-fluid">
     <div style="max-width:1200px; margin:0 auto;">
+        <h3>Suppliers</h3>
         <div class="row">
-            <div class="col-md-8 col-sm-8">
-                <h3>Suppliers</h3>
-            </div>
             <div class="col-md-4 col-sm-4">
-                <div class="pull-right" style="margin-top:15px;">
-                    <a href="/Suppliers/Create" class="btn btn-success" style="margin-right:15px;"><span class="glyphicon glyphicon-new-window"></span> Create Supplier</a>
-                </div>
+                <a href="/Inventory/Maintenance" class="btn btn-default"><span class="glyphicon glyphicon-arrow-left"></span> Back To List</a>
+            </div>
+            <div class="pull-right">
+                <a href="/Suppliers/Create" class="btn btn-success" style="margin-right:15px;"><span class="glyphicon glyphicon-new-window"></span> Create Supplier</a>
             </div>
         </div>
         <br />
@@ -33,7 +32,7 @@
         $(function () {
             var items = new DevExpress.data.CustomStore({
                 load: function (loadOptions) {
-                    console.log(loadOptions);
+                    //console.log(loadOptions);
                     var deferred = $.Deferred(),
                         args = {};
 
@@ -52,7 +51,7 @@
                         type: "GET",
                         data: args,
                         success: function (result) {
-                            console.log(result);
+                            //console.log(result);
                             deferred.resolve(result, { totalCount: result.length });
                         },
                         error: function (resp) {
@@ -82,16 +81,6 @@
                 dataSource: {
                     store: items
                 },
-                //paging: {
-                //    pageSize: 20
-                //},
-                //pager: {
-                //    showPageSizeSelector: true,
-                //    allowedPageSizes: [10, 20, 50, 100],
-                //    showNavigationButtons: true,
-                //    showInfo: true,
-                //    visible: true
-                //},
                 columns: [
                     { caption: "Id", width: 100, dataField: "Id" },
                     { caption: "Name", width: 250, dataField: "Name" },
