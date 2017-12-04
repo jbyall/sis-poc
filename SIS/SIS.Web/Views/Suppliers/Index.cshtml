@@ -93,7 +93,7 @@
                         caption: "", width: 65, cellTemplate: function (element, info) {
                             console.log(element);
                             console.log(info);
-                            element.append(`<a href="/Suppliers/Edit/${info.key.Id}">Edit</div>`)
+                            element.append('<a href="/Suppliers/Edit/' + info.key.Id + '">Edit</div>')
                         }
                     }
                 ],

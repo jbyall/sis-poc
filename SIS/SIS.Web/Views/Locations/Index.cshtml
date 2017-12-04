@@ -100,7 +100,7 @@
                         caption: "", width: 75, cellTemplate: function (element, info) {
                             console.log(element);
                             console.log(info);
-                            element.append(`<a href="/Locations/Edit/${info.key.Id}">Edit</div>`)
+                            element.append('<a href="/Locations/Edit/' + info.key.Id + '">Edit</div>')
                         }
                     }
                 ],

@@ -104,7 +104,8 @@
                     { caption: "Unit", width: 75, dataField: "Unit" },
                     {
                         caption: "", cellTemplate: function (element, info) {
-                            element.append(`<a href="/Transactions/Handout/${info.key.Id}">Hand Out</div>`)
+                            //var href = '/Transactions/Handout/' + 
+                            element.append('<a href="/Transactions/Handout/' + info.key.Id + '">Hand Out</div>');
                             // Keep for future debugging
                             //console.log(element);
                             //console.log(info);
@@ -117,29 +118,52 @@
                     template: function (container, info) {
                         var itemData = info.data;
                         $('<div class="container-fluid">')
-                            .append(`<h3>${itemData.Name} Details</h3>`)
-                            .append(`<div class="row">
-                                        <div class="col-md-2 col-sm-2 text-right">
-                                            <label>Item Number:</label>
-                                        </div>
-                                        <div class="col-md-2 col-sm-2">${itemData.Id}</div>
-                                        <div class="col-md-2 col-sm-2">
-                                            <a href="/Transactions/Handout/${itemData.Id}" class="btn btn-default">Hand Out</a>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-2 col-sm-2 text-right"><label>Name:</label></div>
-                                        <div class="col-md-2 col-sm-2">${itemData.Name}</div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-2 col-sm-2 text-right"><label>Unit:</label></div><div class="col-md-2 col-sm-2">${itemData.Unit}</div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-2 col-sm-2 text-right"><label>Unit Cost:</label></div><div class="col-md-2 col-sm-2">${itemData.Price}</div>
-                                    </div>
-                                    <h4>Locations</h4>
-                                    `).appendTo(container);
+                            .append('<h3>' + itemData.Name + 'Details</h3>')
+                            .append('<div class="row">' +
+                                        '<div class="col-md-2 col-sm-2 text-right">' +
+                                            '<label>Item Number:</label>' +
+                                        '</div>'+
+                                        '<div class="col-md-2 col-sm-2">${itemData.Id}</div>'+
+                                        '<div class="col-md-2 col-sm-2">' +
+                                            '<a href="/Transactions/Handout/' + itemData.Id +'" class="btn btn-default">Hand Out</a>'+
+                                        '</div>' +
+                                    '</div>' +
+                                    '<div class="row">'+
+                                        '<div class="col-md-2 col-sm-2 text-right"><label>Name:</label></div>' +
+                                        '<div class="col-md-2 col-sm-2">' + itemData.Name + '</div>' +
+                                    '</div>' +
+                                    '<div class="row">' +
+                                        '<div class="col-md-2 col-sm-2 text-right"><label>Unit:</label></div><div class="col-md-2 col-sm-2">' + itemData.Unit + '</div>' +
+                                    '</div>' +
+                                    '<div class="row">' +
+                                        '<div class="col-md-2 col-sm-2 text-right"><label>Unit Cost:</label></div><div class="col-md-2 col-sm-2">' + itemData.Price + '</div>' +
+                                    '</div>' +
+                                    '<h4>Locations</h4>').appendTo(container);
                         $("<div>")
+                        //$('<div class="container-fluid">')
+                        //    .append(`<h3>${itemData.Name} Details</h3>`)
+                        //    .append(`<div class="row">
+                        //                <div class="col-md-2 col-sm-2 text-right">
+                        //                    <label>Item Number:</label>
+                        //                </div>
+                        //                <div class="col-md-2 col-sm-2">${itemData.Id}</div>
+                        //                <div class="col-md-2 col-sm-2">
+                        //                    <a href="/Transactions/Handout/${itemData.Id}" class="btn btn-default">Hand Out</a>
+                        //                </div>
+                        //            </div>
+                        //            <div class="row">
+                        //                <div class="col-md-2 col-sm-2 text-right"><label>Name:</label></div>
+                        //                <div class="col-md-2 col-sm-2">${itemData.Name}</div>
+                        //            </div>
+                        //            <div class="row">
+                        //                <div class="col-md-2 col-sm-2 text-right"><label>Unit:</label></div><div class="col-md-2 col-sm-2">${itemData.Unit}</div>
+                        //            </div>
+                        //            <div class="row">
+                        //                <div class="col-md-2 col-sm-2 text-right"><label>Unit Cost:</label></div><div class="col-md-2 col-sm-2">${itemData.Price}</div>
+                        //            </div>
+                        //            <h4>Locations</h4>
+                        //            `).appendTo(container);
+                        //$("<div>")
                             // Item location data grid (shown when detail view is expanded)
                             .dxDataGrid({
                                 columnAutoWidth: true,
