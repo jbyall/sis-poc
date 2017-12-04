@@ -106,7 +106,7 @@ namespace SIS.Web.Controllers
             {
                 db.Entry(item).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Details", new { id = item.Id});
+                return RedirectToAction("Details", new { id = item.Id });
             }
             ViewBag.SupplierId = new SelectList(db.Suppliers, "Id", "Name", item.SupplierId);
             return View(item);
@@ -142,42 +142,14 @@ namespace SIS.Web.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(string id)
         {
-            throw new NotImplementedException();
             Item item = db.Items.Find(id);
+            var itemTransactions = db.Transactions.Where(t => t.ItemId == item.Id);
+            db.Transactions.RemoveRange(itemTransactions);
+            db.SaveChanges();
+
             db.Items.Remove(item);
             db.SaveChanges();
             return RedirectToAction("Index");
-        }
-
-        public ActionResult Test()
-        {
-            var item = db.Items
-                .Where(i => i.Id == "JOHN2")
-                .Include(i => i.ItemLocations)
-                .Single();
-
-            var locationToRemove = item.ItemLocations.Single(l => l.LocationId == "Dist-005");
-            item.ItemLocations.Remove(locationToRemove);
-            db.SaveChanges();
-
-            //var newIl = new ItemLocation
-            //{
-            //    ItemId = item.Id,
-            //    LocationId = "Dist-005",
-            //    QuantityOnHand = 44
-            //};
-
-            //var newIl2 = new ItemLocation
-            //{
-            //    ItemId = item.Id,
-            //    LocationId = "Stor-022",
-            //    QuantityOnHand = 44
-            //};
-            //item.ItemLocations.Add(newIl);
-            //item.ItemLocations.Add(newIl2);
-            db.SaveChanges();
-
-            return View();
         }
 
         #region DataGridAjaxMethods
