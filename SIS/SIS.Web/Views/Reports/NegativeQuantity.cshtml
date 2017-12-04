@@ -30,7 +30,7 @@
         $(function () {
             var items = new DevExpress.data.CustomStore({
                 load: function (loadOptions) {
-                    console.log(loadOptions);
+                    //console.log(loadOptions);
                     var deferred = $.Deferred(),
                         args = {};
 
@@ -49,7 +49,7 @@
                         type: "GET",
                         data: args,
                         success: function (result) {
-                            console.log(result);
+                            //console.log(result);
                             deferred.resolve(result, { totalCount: result.length });
                         },
                         error: function (resp) {
@@ -62,6 +62,7 @@
                     return deferred.promise();
                 }
             });
+
 
             // Main data grid
             $("#gridContainer").dxDataGrid({
@@ -101,22 +102,37 @@
                 },
                 columns: [
                     { caption: "Item Number", width: 200, dataField: "ItemId" },
-                    { caption: "Item Description", width: 400, dataField: "Name"},
+                    { caption: "Item Description", width: 400, dataField: "Name" },
                     { caption: "Unit Price", width: 100, dataField: "UnitPrice" },
-                    { caption: "Unit", width: 100, dataField: "Unit"},
+                    { caption: "Unit", width: 100, dataField: "Unit" },
                     { caption: "Location", dataField: "LocationId" },
                     { caption: "On Hand", dataField: "QuantityOnHand" },
                 ],
                 // Modify toolbar to have the export data text beside the export button
                 onToolbarPreparing: function (e) {
+
                     e.toolbarOptions.items.unshift({
                         location: "after",
                         template: function () {
                             return $('<h5 style="color:#bfbfbf;">Export Data <span class="glyphicon glyphicon-arrow-right"></span></h5>')
                         }
                     });
-                }
+
+                    //e.toolbarOptions.items.push({
+                    //    widget: 'dxButton',
+                    //    options: {
+                    //        text: 'Clear Sorting',
+                    //        onClick: function () {
+                    //            $('#gridContainer').dxDataGrid("instance").clearSorting();
+                    //        }
+                    //    },
+                    //    location: 'before'
+                    //});
+
+                },
+
             }).dxDataGrid("instance");
+
         });
     </script>
 

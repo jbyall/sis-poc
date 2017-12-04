@@ -61,17 +61,21 @@
                         <tbody>
                             @for (int i = 0; i < Model.Transactions.Count; i++)
                             {
-                                @Html.HiddenFor(model => model.Transactions[i].Location.LocationId)
-                                <tr>
-                                    <td>@Html.DisplayFor(model => model.Transactions[i].Location.LocationId)</td>
-                                    <td>@Html.DisplayFor(model => model.Transactions[i].Location.QuantityOnHand)</td>
-                                    <td>
-                                        <div class="col-md-2 col-sm-3">
-                                            @Html.EditorFor(model => model.Transactions[i].QuantityChange, new { htmlAttributes = new { @class = "form-control" } })
-                                            @Html.ValidationMessageFor(model => model.Transactions[i].QuantityChange, "", new { @class = "text-danger" })
-                                        </div>
-                                    </td>
-                                </tr>
+                                if (Model.Transactions[i].Location.QuantityOnHand > 0)
+                                {
+                                    @Html.HiddenFor(model => model.Transactions[i].Location.LocationId)
+                                    <tr>
+                                        <td>@Html.DisplayFor(model => model.Transactions[i].Location.LocationId)</td>
+                                        <td>@Html.DisplayFor(model => model.Transactions[i].Location.QuantityOnHand)</td>
+                                        <td>
+                                            <div class="col-md-2 col-sm-3">
+                                                @Html.EditorFor(model => model.Transactions[i].QuantityChange, new { htmlAttributes = new { @class = "form-control", @min = 0 } })
+                                                @Html.ValidationMessageFor(model => model.Transactions[i].QuantityChange, "", new { @class = "text-danger" })
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }
+
                             }
                         </tbody>
                     </table>
@@ -85,104 +89,119 @@
                             <p id="dept-description" hidden="hidden" style="color:#a6a6a6"></p>
                         </div>
                     </div>
-                    
+
                 </div>
             </div>
         </div>
     </div>
-    <br/>
-<div class="row">
-    <div class="col-md-2 col-sm-2">
-        <a href="/Items/HandoutIndex" class="btn btn-default"><span class="glyphicon glyphicon-arrow-left"></span> Back To List</a>
+    <br />
+    <div class="row">
+        <div class="col-md-2 col-sm-2">
+            <a href="/Items/HandoutIndex" class="btn btn-default"><span class="glyphicon glyphicon-arrow-left"></span> Back To List</a>
+        </div>
+        <div id="continue-container" class="pull-right">
+            <input id="handout-button" type="submit" value="Hand Out" class="btn btn-success" style="margin-right:15px;" disabled />
+        </div>
     </div>
-    <div class="pull-right">
-        <input id="handout-button" type="submit" value="Hand Out" class="btn btn-success" style="margin-right:15px;" disabled/>
+    <div id="continue-message" class="row pull-right help-block" style="display:none;">
+        <p>Select department to continue.</p>
     </div>
-</div>
 }
 
-    @section Scripts {
-        @Scripts.Render("~/bundles/jqueryval")
-        <script type="text/javascript">
-            $(function () {
-                var departments = new DevExpress.data.CustomStore({
-                    key: "Id",
-                    loadMode: "raw",
-                    load: function () {
-                        var d = new $.Deferred();
-                        $.ajax({
-                            url: "/Departments/HandoutData",
-                            type: "GET",
-                            success: function (result) {
-                                //console.log(result);
-                                d.resolve(result);
-                            },
-                            error: function (resp) {
-                                console.log(resp);
-                            }
-
-                        });
-                        return d.promise();
-                    },
-                })
-                $("#gridBox").dxDropDownBox({
-                    placeholder: "Select a department...",
-                    displayExpr: function (item) {
-                        if (item) {
-                            $('#dept-description').html(item.Description);
-                            $('#dept-description').show();
-                            return item.Id;
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script type="text/javascript">
+        $(function () {
+            var departments = new DevExpress.data.CustomStore({
+                key: "Id",
+                loadMode: "raw",
+                load: function () {
+                    var d = new $.Deferred();
+                    $.ajax({
+                        url: "/Departments/HandoutData",
+                        type: "GET",
+                        success: function (result) {
+                            //console.log(result);
+                            d.resolve(result);
+                        },
+                        error: function (resp) {
+                            console.log(resp);
                         }
-                        return "";
-                        
-                    },
-                    showClearButton: true,
-                    dataSource: departments,
-                    contentTemplate: function (e) {
-                        var value = e.component.option("value"),
-                            $dataGrid = $("<div>").dxDataGrid({
-                                dataSource: e.component.option("dataSource"),
-                                columns: [
-                                    { caption:"Dept", dataField: "Id", width:75},
-                                    { dataField: "Description"}
-                                ],
-                                hoverStateEnabled: true,
-                                scrolling: { mode: "infinite" },
-                                height: 265,
-                                selection: { mode: "single" },
-                                selectedRowKeys: [value],
-                                onSelectionChanged: function (selectedItems) {
-                                    var keys = selectedItems.selectedRowKeys;
-                                        hasSelection = keys.length;
-                                    if (hasSelection) {
-                                        e.component.option("value", hasSelection ? keys[0] : null);
-                                        $('#DepartmentId').val(hasSelection ? keys[0] : null);
-                                        //console.log(e.component.option("value"));
-                                        $('#handout-button').removeAttr('disabled');
-                                        
-                                    }
-                                    else {
-                                        $('#handout-button').attr('disabled', 'disabled');
-                                        $('#dept-description').hide();
-                                    }
-                                    
+
+                    });
+                    return d.promise();
+                },
+            })
+            $("#gridBox").dxDropDownBox({
+                placeholder: "Select a department...",
+                displayExpr: function (item) {
+                    if (item) {
+                        $('#dept-description').html(item.Description);
+                        $('#dept-description').show();
+                        return item.Id;
+                    }
+                    return "";
+
+                },
+                showClearButton: true,
+                dataSource: departments,
+                contentTemplate: function (e) {
+                    var value = e.component.option("value"),
+                        $dataGrid = $("<div>").dxDataGrid({
+                            dataSource: e.component.option("dataSource"),
+                            columns: [
+                                { caption: "Dept", dataField: "Id", width: 75 },
+                                { dataField: "Description" }
+                            ],
+                            hoverStateEnabled: true,
+                            scrolling: { mode: "infinite" },
+                            height: 265,
+                            selection: { mode: "single" },
+                            selectedRowKeys: [value],
+                            onSelectionChanged: function (selectedItems) {
+                                var keys = selectedItems.selectedRowKeys;
+                                hasSelection = keys.length;
+                                if (hasSelection) {
+                                    e.component.option("value", hasSelection ? keys[0] : null);
+                                    $('#DepartmentId').val(hasSelection ? keys[0] : null);
+                                    //console.log(e.component.option("value"));
+                                    $('#handout-button').removeAttr('disabled');
+
                                 }
-                            });
+                                else {
+                                    $('#handout-button').attr('disabled', 'disabled');
+                                    $('#dept-description').hide();
+                                    $('#DepartmentId').val(null);
+                                }
 
-                        dataGrid = $dataGrid.dxDataGrid("instance");
-
-                        e.component.on("valueChanged", function (args) {
-                            dataGrid.selectRows(args.value, false);
+                            }
                         });
 
-                        return $dataGrid;
-                    }
-                });
+                    dataGrid = $dataGrid.dxDataGrid("instance");
+
+                    e.component.on("valueChanged", function (args) {
+                        dataGrid.selectRows(args.value, false);
+                    });
+
+                    return $dataGrid;
+                }
             });
-            
+
+            $('#continue-container').mouseenter(function () {
+                if (!$('#DepartmentId').val()) {
+                    $('#continue-message').show();
+                }
+            });
+
+            $('#continue-container').mouseleave(function () {
+
+                $('#continue-message').hide();
+            })
+        });
 
 
-            
+
+
 
             // Needed only if user can search for items on this view
 
@@ -227,5 +246,5 @@
             //        console.dir(xhr);
             //    });
             //}
-        </script>
-    }
+    </script>
+}

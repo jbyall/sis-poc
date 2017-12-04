@@ -184,7 +184,11 @@ namespace SIS.Web.Controllers
         [HttpGet]
         public JsonResult HandoutData()
         {
-            var items = db.Items.Include(i => i.Supplier).Include(i => i.ItemLocations).ToList();
+            var items = db.Items
+                .Include(i => i.Supplier)
+                .Include(i => i.ItemLocations)
+                .Where(i => i.ItemLocations.Any(l => l.QuantityOnHand > 0))
+                .ToList();
             return Json(items, JsonRequestBehavior.AllowGet);
         }
 
@@ -249,13 +253,17 @@ namespace SIS.Web.Controllers
                 .Include(i => i.ItemLocations).Single();
 
             // Get the location to remove
-            var removeLocation = item.ItemLocations.Single(l => l.LocationId == location.LocationId);
+            var removeLocation = item.ItemLocations
+                .Where(l => l.LocationId == location.LocationId)
+                .ToList();
+            if (removeLocation.Count > 0)
+            {
+                // Remove the location
+                item.ItemLocations.Remove(removeLocation.First());
 
-            // Remove the location
-            item.ItemLocations.Remove(removeLocation);
-
-            // Commit changes to the database
-            db.SaveChanges();
+                // Commit changes to the database
+                db.SaveChanges();
+            }
             return Json("success");
 
         }

@@ -220,6 +220,33 @@
                 };
                 return new DevExpress.data.DataSource(settings);
             }
+
+            function getLocations() {
+                
+            }
+
+            var loations = new DevExpress.data.CustomStore({
+                byKey: function (key) {
+                    return key;
+                },
+                load: function (loadOptions) {
+                    var deferred = $.Deferred();
+                    $.ajax({
+                        url: "/Locations/IndexData",
+                        type: "GET",
+                        success: function (result) {
+                            deferred.resolve(result, { totalCount: result.length });
+                        },
+                        error: function (resp) {
+                            deferred.reject("There was a problem. Please contact technical support with Error Code: HDT404.");
+                            //console.log(resp);
+                        },
+                        timeout: 5000
+                    });
+                    return deferred.promise();
+                }
+            });
+
             // Main data grid
             $("#gridContainer").dxDataGrid({
                 dataSource: getDataSource(),
@@ -237,6 +264,35 @@
                     {
                         caption: "Location",
                         dataField: "LocationId",
+                        lookup: {
+                            dataSource: loations,
+                            valueExpr: 'Id',
+                            displayExpr: 'Id'
+                        },
+                        validationRules: [{
+                            type: "custom",
+                            validationCallback: function (selection) {
+                                var grid = $('#gridContainer').dxDataGrid("instance");
+
+                                // Don't show validation message if grid has no edits'
+                                if (!grid.hasEditData()) {
+                                    return true;
+                                }
+
+                                // Create array of existing keys
+                                var rows = grid.getVisibleRows();
+                                var existingKeys = [];
+                                $.each(rows, function (_, row) {
+                                    existingKeys.push(row.data.LocationId);
+                                });
+
+                                // Check if the array returns more than 1
+                                var result = existingKeys.indexOf(selection.data.LocationId) === existingKeys.lastIndexOf(selection.data.LocationId);
+                                return result;
+                                
+                            },
+                            message: "Location already exists."
+                        }]
                     },
                     { caption: "Qty On Hand", dataField: "QuantityOnHand", allowEditing: false },
 
@@ -244,6 +300,7 @@
                 onToolbarPreparing: function (e) {
                     var toolbarItems = e.toolbarOptions.items;
                     $.each(toolbarItems, function (_, item) {
+                        console.log(item);
                         item.showText = "always";
                     });
                 }
