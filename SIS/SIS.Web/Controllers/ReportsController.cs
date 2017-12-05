@@ -11,6 +11,7 @@ using SIS.Web.Models;
 
 namespace SIS.Web.Controllers
 {
+    //[Authorize(Roles = @"domain\group")]
     public class ReportsController : Controller
     {
         private SisDbContext db = new SisDbContext();

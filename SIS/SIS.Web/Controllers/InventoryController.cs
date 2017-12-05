@@ -10,6 +10,7 @@ using SIS.Domain;
 
 namespace SIS.Web.Controllers
 {
+    //[Authorize(Roles = @"domain\group")]
     public class InventoryController : Controller
     {
         private SisDbContext db = new SisDbContext();

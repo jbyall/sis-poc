@@ -11,6 +11,7 @@ using SIS.Web.Models;
 
 namespace SIS.Web.Controllers
 {
+    //[Authorize(Roles = @"domain\group")]
     public class TransactionsController : Controller
     {
         // Creates database connection that is used throughout
