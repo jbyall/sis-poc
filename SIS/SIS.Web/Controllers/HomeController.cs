@@ -7,22 +7,28 @@ using System.Web.Mvc;
 
 namespace SIS.Web.Controllers
 {
+    // To Authorize access based on AD domain and group
     //[Authorize(Roles = @"domain\group")]
     public class HomeController : Controller
     {
         public ActionResult Index()
         {
+            // Get the logged-in user's WindowsIdentity
             WindowsIdentity identity = (WindowsIdentity)User.Identity;
-            if (User.IsInRole("S-1-5-4"))
-            {
-                var testGroup = identity.Groups.Where(g => g.Value == "S-1-5-4").First();
-                foreach (var item in identity.Groups.ToList())
-                {
-                    var groupName = item.Translate(typeof(NTAccount)).Value;
-                }
-                
 
+            // Get a list of the user's groups
+            var groups = identity.Groups.ToList();
+            
+            // Loop over each of the user's groups and find the NT group name
+            // Note - by default, the group is displayed as an SID
+            foreach (var item in identity.Groups.ToList())
+            {
+                var groupName = item.Translate(typeof(NTAccount)).Value;
             }
+
+            // To test if the user is in a specific group
+            //var isInGroup = User.IsInRole(@"domain\group");
+
             return View();
         }
 
