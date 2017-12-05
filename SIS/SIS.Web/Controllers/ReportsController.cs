@@ -39,6 +39,12 @@ namespace SIS.Web.Controllers
             return View();
         }
 
+        [HttpGet]
+        public ActionResult MissingPrice()
+        {
+            return View();
+        }
+
         #region DataGridAjaxMethods
         // Data for negative quantity report
         public JsonResult NegativeQuantityData()
@@ -71,8 +77,21 @@ namespace SIS.Web.Controllers
         public JsonResult ZeroQuantityData()
         {
             var items = db.Items.Include(i => i.ItemLocations);
-            var result = items.Where(i => i.ItemLocations.Sum(l => l.QuantityOnHand) == 0).ToList();
+            var result = items
+                .Where(i => i.ItemLocations.Sum(l => l.QuantityOnHand) == 0)
+                .ToList();
             return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        // Data 
+        public JsonResult MissingPriceData()
+        {
+            var result = db.Items
+                .Where(i => !i.Price.HasValue || i.Price == 0)
+                .ToList();
+
+            return Json(result, JsonRequestBehavior.AllowGet);
+            
         }
         #endregion
     }

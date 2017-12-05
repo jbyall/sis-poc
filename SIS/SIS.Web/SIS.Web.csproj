@@ -322,6 +322,7 @@
     <Content Include="Views\Reports\NegativeQuantity.cshtml" />
     <Content Include="Views\Reports\Reorder.cshtml" />
     <Content Include="Views\Reports\ZeroQuantity.cshtml" />
+    <Content Include="Views\Reports\MissingPrice.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
