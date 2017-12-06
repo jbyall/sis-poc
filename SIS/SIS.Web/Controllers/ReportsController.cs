@@ -102,18 +102,20 @@ namespace SIS.Web.Controllers
         public JsonResult UsagebyDeptData()
         {
             var results = db.Transactions.Include(t => t.Item)
-                    .Where(i => i.QuantityChange < 0)
-                    .Select(r => new {
-                        Id = r.Id,
-                        TransactionDate = r.Date,
-                        Dept = r.DepartmentId,
-                        ItemId = r.ItemId,
-                        ItemName = r.Item.Name,
-                        ItemPrice = r.ItemPrice,
-                        ItemUnits = r.Item.Unit,
-                        HandedOut = Math.Abs(r.QuantityChange),
-                        TValue = Math.Abs(r.TransactionValue)
-                    }).OrderBy(Department).ToList();
+                    .Where(t => t.QuantityChange < 0)
+                    .Select(t => new {
+                        Id = t.Id,
+                        TransactionDate = t.Date,
+                        Dept = t.DepartmentId,
+                        ItemId = t.ItemId,
+                        ItemName = t.Item.Name,
+                        ItemPrice = t.ItemPrice,
+                        ItemUnits = t.Item.Unit,
+                        HandedOut = Math.Abs(t.QuantityChange),
+                        TValue = Math.Abs(t.TransactionValue)
+                    })
+                    .OrderBy(t => t.Dept)
+                    .ToList();
 
             return Json(results, JsonRequestBehavior.AllowGet);
 
