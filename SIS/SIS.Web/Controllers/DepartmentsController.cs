@@ -18,14 +18,12 @@ namespace SIS.Web.Controllers
         // GET: Departments
         public ActionResult Index()
         {
-            return View(db.Departments.ToList());
+            // Return index view
+            // No need for a model. The data will be returned to the data grid in the 
+            return View();
         }
 
-        public JsonResult HandoutData()
-        {
-            var depts = db.Departments.ToList();
-            return Json(depts, JsonRequestBehavior.AllowGet);
-        }
+        
 
         // GET: Departments/Details/5
         public ActionResult Details(string id)
@@ -129,6 +127,14 @@ namespace SIS.Web.Controllers
             var departments = db.Departments.ToList();
             return Json(departments, JsonRequestBehavior.AllowGet);
         }
+
+        // Returns list of departments for the departments dropdown in the Transactions/Handout view.
+        public JsonResult HandoutData()
+        {
+            var depts = db.Departments.ToList();
+            return Json(depts, JsonRequestBehavior.AllowGet);
+        }
+
         #endregion
 
         protected override void Dispose(bool disposing)
