@@ -263,7 +263,9 @@
     <Content Include="Scripts\vectormap-utils\dx.vectormaputils.debug.js" />
     <Content Include="Scripts\vectormap-utils\dx.vectormaputils.js" />
     <Content Include="Scripts\vectormap-utils\dx.vectormaputils.node.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
@@ -323,6 +325,7 @@
     <Content Include="Views\Reports\Reorder.cshtml" />
     <Content Include="Views\Reports\ZeroQuantity.cshtml" />
     <Content Include="Views\Reports\MissingPrice.cshtml" />
+    <Content Include="Views\Reports\UsageByDept.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

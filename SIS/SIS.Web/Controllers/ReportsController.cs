@@ -45,6 +45,12 @@ namespace SIS.Web.Controllers
             return View();
         }
 
+        [HttpGet]
+        public ActionResult UsageByDept()
+        {
+            return View();
+        }
+
         #region DataGridAjaxMethods
         // Data for negative quantity report
         public JsonResult NegativeQuantityData()
@@ -91,7 +97,26 @@ namespace SIS.Web.Controllers
                 .ToList();
 
             return Json(result, JsonRequestBehavior.AllowGet);
-            
+
+        }
+        public JsonResult UsagebyDeptData()
+        {
+            var results = db.Transactions.Include(t => t.Item)
+                    .Where(i => i.QuantityChange < 0)
+                    .Select(r => new {
+                        Id = r.Id,
+                        TransactionDate = r.Date,
+                        Dept = r.DepartmentId,
+                        ItemId = r.ItemId,
+                        ItemName = r.Item.Name,
+                        ItemPrice = r.ItemPrice,
+                        ItemUnits = r.Item.Unit,
+                        HandedOut = Math.Abs(r.QuantityChange),
+                        TValue = Math.Abs(r.TransactionValue)
+                    }).OrderBy(Department).ToList();
+
+            return Json(results, JsonRequestBehavior.AllowGet);
+
         }
         #endregion
     }

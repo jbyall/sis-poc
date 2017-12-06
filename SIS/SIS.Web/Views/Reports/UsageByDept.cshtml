@@ -1,0 +1,154 @@
+﻿@{
+    ViewBag.Title = "Item Usage by Department";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h3>Item Usage by Dept</h3>
+<div class="container-fluid">
+    <div class="alert alert-info">
+        <strong>Summary</strong>
+        <p>This report displays totals of items handed out by Dept for a desired date range</p>
+    </div>
+    <div class="row">
+        <div class="col-md-4 col-sm-4">
+            <a href="/Reports" class="btn btn-default"><span class="glyphicon glyphicon-arrow-left"></span> Back To Menu</a>
+        </div>
+    </div>
+    <div class="container">
+        <div class="dx-viewport">
+            <div class="demo-container">
+                <div id="gridContainer"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script type="text/javascript">
+        // Function for loading data in the table
+        $(function () {
+            var items = new DevExpress.data.CustomStore({
+                load: function (loadOptions) {
+                    //console.log(loadOptions);
+                    var deferred = $.Deferred(),
+                        args = {};
+
+                    //if (loadOptions.sort) {
+                    //    args.orderby = loadOptions.sort[0].selector;
+                    //    if (loadOptions.sort[0].desc)
+                    //        args.orderby += " desc";
+                    //}
+
+                    //args.skip = loadOptions.skip || 0;
+                    //args.take = loadOptions.take || 12;
+
+                    // Ajax call to the controller to get the data
+                    $.ajax({
+                        url: "/Reports/UsageByDeptData",
+                        type: "GET",
+                        data: args,
+                        success: function (result) {
+                            console.log(result);
+                            deferred.resolve(result, { totalCount: result.length });
+                        },
+                        error: function (resp) {
+                            console.log(resp);
+                            deferred.reject("Data Loading Error");
+                        },
+                        timeout: 5000
+                    });
+
+                    return deferred.promise();
+                }
+            });
+
+
+            // Main data grid
+            $("#gridContainer").dxDataGrid({
+                allowColumnResizing: true,
+                columnResizingMode: 'nextColumn',
+                columnAutoWidth: true,
+                selection: {
+                    mode: "multiple",
+                    allowSelectAll: false,
+                    showCheckBoxesMode: "always",
+                },
+                filterRow: {
+                    visible: true,
+                    applyFilter: "auto"
+                },
+                dataSource: {
+                    store: items
+                },
+                paging: {
+                    pageSize: 20
+                },
+                pager: {
+                    showPageSizeSelector: true,
+                    allowedPageSizes: [10, 20, 50, 100],
+                    showNavigationButtons: true,
+                    showInfo: true,
+                    visible: true
+                },
+                export: {
+                    enabled: true,
+                    fileName: "UsageByDept",
+                    allowExportSelectedData: true,
+                },
+                //Id = r.Id,
+                //TransactionDate = r.Date,
+                //Dept = r.DepartmentId,
+                //ItemId = r.ItemId,
+                //ItemName = r.Item.Name,
+                //ItemPrice = r.ItemPrice,
+                //ItemUnits = r.Item.Unit,
+                //HandedOut = Math.Abs(r.QuantityChange),
+                //TValue = Math.Abs(r.TransactionValue)
+
+                // Specify and configure columns to display on the web page
+                columns: [
+                    { caption: "Dept", width: 100, dataField: "Dept" },
+                    { caption: "Item Number", width: 100, dataField: "ItemId" },
+                    { caption: "Date", width: 100, dataField: "TransactionDate" },
+                    { caption: "Item Description", width: 300, dataField: "ItemName" },
+                    { caption: "Unit Price", width: 100, dataField: "ItemPrice" },
+                    { caption: "Unit", width: 50, dataField: "ItemUnits" },
+                    { caption: "# Handed Out", width: 100, dataField: "HandedOut" },
+                    { caption: "Value", width: 100, dataField: "TValue" },
+
+                ],
+                // Modify toolbar to have the export data text beside the export button
+                onToolbarPreparing: function (e) {
+
+                    e.toolbarOptions.items.unshift({
+                        location: "after",
+                        template: function () {
+                            return $('<h5 style="color:#bfbfbf;">Export Data <span class="glyphicon glyphicon-arrow-right"></span></h5>')
+                        }
+                    });
+
+                    //e.toolbarOptions.items.push({
+                    //    widget: 'dxButton',
+                    //    options: {
+                    //        text: 'Clear Sorting',
+                    //        onClick: function () {
+                    //            $('#gridContainer').dxDataGrid("instance").clearSorting();
+                    //        }
+                    //    },
+                    //    location: 'before'
+                    //});
+
+                },
+
+            }).dxDataGrid("instance");
+
+        });
+    </script>
+
+
+}
+
+
+
+
