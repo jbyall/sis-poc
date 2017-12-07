@@ -10,6 +10,11 @@ using SIS.Domain;
 
 namespace SIS.Web.Controllers
 {
+    // Handles Unit requests that are made by the use
+    // NOTE - Uncomment the Authorize attribute and modify the role
+    //      to control access to this controller.
+    //      use the [AllowAnonymous] attribute on any method to override
+
     //[Authorize(Roles = @"domain\group")]
     public class UnitsController : Controller
     {

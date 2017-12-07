@@ -25,7 +25,7 @@ namespace SIS.Domain
         public string Description { get; set; }
 
         // Defines the 1-many relationship
-        // Between department and transactions
+        // between department and transactions
         public List<Transaction> Transactions { get; set; }
     }
 }

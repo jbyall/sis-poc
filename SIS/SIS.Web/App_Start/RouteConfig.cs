@@ -9,6 +9,7 @@ namespace SIS.Web
 {
     public class RouteConfig
     {
+        // This is standard routing for MVC
         public static void RegisterRoutes(RouteCollection routes)
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");

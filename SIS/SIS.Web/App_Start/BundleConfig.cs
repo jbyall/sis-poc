@@ -3,6 +3,7 @@ using System.Web.Optimization;
 
 namespace SIS.Web
 {
+    // Configures bundles of files that will be available to the web browser client
     public class BundleConfig
     {
         // For more information on bundling, visit https://go.microsoft.com/fwlink/?LinkId=301862
@@ -17,8 +18,6 @@ namespace SIS.Web
             bundles.Add(new ScriptBundle("~/bundles/dx").Include(
                         "~/Scripts/data.js",
                         "~/Scripts/jszip.js",
-                       // "~/Scripts/dx.web.js",
-                        //"~/Scripts/dx.viz.js",
                         "~/Scripts/dx.viz-web.js",
                         "~/Scripts/cldr.js"
                         ));

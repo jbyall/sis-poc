@@ -9,8 +9,9 @@ using System.Reflection;
 
 namespace SIS.Domain
 {
-    #region constants
+    #region location constants
     // Used to control location types and for coding convenience
+    // THIS CLASS DOES NOT REPRESENT A DATABASE TABLE
     public static class LocationTypes
     {
         // These string properties will allow referencing
@@ -68,6 +69,7 @@ namespace SIS.Domain
         [StringLength(10)]
         public string OldLocation { get; set; }
 
+        // Defines 1-many relationship between a location and its item locations
         public ICollection<ItemLocation> ItemLocations { get; set; }
 
     }

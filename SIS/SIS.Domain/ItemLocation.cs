@@ -9,8 +9,12 @@ using System.Web.Script.Serialization;
 
 namespace SIS.Domain
 {
+    // NOTE - THIS IS A JOIN TABLE AND SHOULD NOT BE INSERTED NOR DELETED TO/FROM DIRECTLY
+    // ITEM LOCATIONS SHOULD BE ADDED AND/OR REMOVED FROM THE ITEM IN CODE
     public class ItemLocation
     {
+        // THE MULTIPLE KEYS DEFINE A 1-1 RELATIONSHIP BETWEEN AN ITEM LOCATION
+        // AND UNIQUE COMBINATION OF ITEM AND LOCATION
         [Key]
         [Column(Order = 0)]
         public string ItemId { get; set; }

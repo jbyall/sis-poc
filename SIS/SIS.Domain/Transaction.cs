@@ -9,7 +9,9 @@ using System.Web.Script.Serialization;
 
 namespace SIS.Domain
 {
-    #region constants
+    #region transaction constants
+    // This class does not represent a database table
+    // It is used for coding convenience to control string values
     public static class TransactionTypes
     {
         public const string Handout = "Handout";

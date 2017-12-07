@@ -11,11 +11,16 @@ using SIS.Web.Models;
 
 namespace SIS.Web.Controllers
 {
+    // Handles Inventory requests that are made by the use
+    // NOTE - Uncomment the Authorize attribute and modify the role
+    //      to control access to this controller.
+    //      use the [AllowAnonymous] attribute on any method to override
+
     //[Authorize(Roles = @"domain\group")]
     public class ReportsController : Controller
     {
         private SisDbContext db = new SisDbContext();
-        // GET: Reports
+        // Returns the reports menu
         public ActionResult Index()
         {
             return View();

@@ -7,12 +7,19 @@ using System.Web.Mvc;
 
 namespace SIS.Web.Controllers
 {
-    // To Authorize access based on AD domain and group
+    // Handles Home requests that are made by the use
+    // NOTE - Uncomment the Authorize attribute and modify the role
+    //      to control access to this controller.
+    //      use the [AllowAnonymous] attribute on any method to override
+
     //[Authorize(Roles = @"domain\group")]
     public class HomeController : Controller
     {
         public ActionResult Index()
         {
+            // NOTE - ALL COMMENTED CODE BELOW IS USED FOR TESTING
+            // AND SHOULD NOT BE USED IN PRODUCTION
+
             //// Get the logged-in user's WindowsIdentity
             //WindowsIdentity identity = (WindowsIdentity)User.Identity;
 
@@ -30,22 +37,9 @@ namespace SIS.Web.Controllers
             ////var isInGroup = User.IsInRole(@"domain\group");
 
             return View();
-        }
+        }        
 
-        public ActionResult About()
-        {
-            ViewBag.Message = "Your application description page.";
-
-            return View();
-        }
-
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
-
-            return View();
-        }
-
+        // This is hit when the user click the EXIT link from the top menu
         public ActionResult Exit()
         {
             return View();

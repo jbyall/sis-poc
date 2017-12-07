@@ -52,14 +52,21 @@
     <script type="text/javascript">
         // Function for loading data in the table
         $(function () {
+
+            // Setup for all ajax calls on this page.
+            // Disable caching needed for proper data grid editing in Internet Explorer
+            $.ajaxSetup({ cache: false });
+
+            // Main source for datagrid
             var getDataSource = function () {
                 var timeOut = null;
                 var updateTasks = [];
                 var insertTasks = [];
                 var deleteTasks = [];
 
-                // Function to execute ajax requests for edits
+                // Function to execute ajax requests for all table editing
                 var pushEdits = function () {
+
                     //Ajax call for each location to update (i.e. move)
                     $.each(updateTasks, function (index, task) {
                         task.deferred.resolve(
@@ -127,6 +134,8 @@
                     timeOut = null;
                 };
                 var updated = false;
+
+                // Settings for main datagrid source
                 var settings = {
                     //key: 'LocationId',
                     load: function (loadOptions) {
@@ -201,11 +210,16 @@
                         return d.promise();
                     }
                 };
+
+                // Data source for main data grid
                 return new DevExpress.data.DataSource(settings);
             }
 
+            // Locations store for drop-box
             var loations = new DevExpress.data.CustomStore({
                 byKey: function (key) {
+                    console.log('key');
+                    console.log(key);
                     return key;
                 },
                 load: function (loadOptions) {
@@ -226,9 +240,10 @@
                 }
             });
 
-            // Main data grid
+            // Main data grid definition
             $("#gridContainer").dxDataGrid({
                 dataSource: getDataSource(),
+                cacheEnabled: false,
                 keyExpr: "LocationId",
                 editing: {
                     mode: "batch",
@@ -243,11 +258,13 @@
                     {
                         caption: "Location",
                         dataField: "LocationId",
+                        // Lookup field used for drop-down location selection
                         lookup: {
                             dataSource: loations,
                             valueExpr: 'Id',
                             displayExpr: 'Id'
                         },
+                        // Data validation to make sure user doesn't select an existing location
                         validationRules: [{
                             type: "custom",
                             validationCallback: function (selection) {
@@ -276,6 +293,7 @@
                     { caption: "Qty On Hand", dataField: "QuantityOnHand" },
 
                 ],
+                // Display text for buttons on the data grid's toolbar
                 onToolbarPreparing: function (e) {
                     var toolbarItems = e.toolbarOptions.items;
                     $.each(toolbarItems, function (_, item) {
