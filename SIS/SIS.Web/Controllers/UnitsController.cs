@@ -86,6 +86,11 @@ namespace SIS.Web.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "Id,Code,Description")] Unit unit)
         {
+            var existing = db.Units.Any(u => u.Code.ToLower() == unit.Code.ToLower());
+            if (existing)
+            {
+                ModelState.AddModelError("Code", "Code already exists for another unit.");
+            }
             if (ModelState.IsValid)
             {
                 db.Entry(unit).State = EntityState.Modified;
