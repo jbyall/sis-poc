@@ -87,7 +87,7 @@
                 columns: [
                     { caption: "Item Number", dataField: "Id" },
                     "Name",
-                    { caption: "Unit Price", width: 100, dataField: "Price", dataFormat: "currency" },
+                    { caption: "Unit Price", width: 100, dataField: "Price", format: { type: "currency", precision: 2 } },
                     {
                         caption: "On Hand", width: 75, fixed: false,
                         calculateCellValue: function (rowData) {
@@ -123,7 +123,7 @@
                                         '<div class="col-md-2 col-sm-2 text-right">' +
                                             '<label>Item Number:</label>' +
                                         '</div>'+
-                                        '<div class="col-md-2 col-sm-2">${itemData.Id}</div>'+
+                                        '<div class="col-md-2 col-sm-2">' + itemData.Id + '</div>'+
                                         '<div class="col-md-2 col-sm-2">' +
                                             '<a href="/Transactions/Handout/' + itemData.Id +'" class="btn btn-default">Hand Out</a>'+
                                         '</div>' +

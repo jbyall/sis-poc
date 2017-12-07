@@ -32,7 +32,7 @@
         $(function () {
             var items = new DevExpress.data.CustomStore({
                 load: function (loadOptions) {
-                    console.log(loadOptions);
+                    //console.log(loadOptions);
                     var deferred = $.Deferred(),
                         args = {};
 
@@ -51,7 +51,7 @@
                         type: "GET",
                         data: args,
                         success: function (result) {
-                            console.log(result);
+                            //console.log(result);
                             deferred.resolve(result, { totalCount: result.length });
                         },
                         error: function (resp) {
@@ -95,7 +95,7 @@
                     { caption: "Item Number", width:200, dataField: "Id" },
                     "Name",
                     //{ caption: "Supplier", dataField: "Supplier.Name" },
-                    { caption: "Unit Price", width: 100, dataField: "Price", dataFormat: "currency" },
+                    { caption: "Unit Price", width: 100, dataField: "Price", format: { type: "currency", precision: 2 } },
                     {
                         caption: "On Hand", width: 75, fixed: false,
                         calculateCellValue: function (rowData) {
@@ -112,8 +112,8 @@
                     { caption: "Unit", width: 75, dataField: "Unit" },
                     {
                         caption: "", width:75, cellTemplate: function (element, info) {
-                            console.log(element);
-                            console.log(info);
+                            //console.log(element);
+                            //console.log(info);
                             element.append('<a href="/Items/Details/' + info.key.Id + '">Details</div>')
                         }
                     }

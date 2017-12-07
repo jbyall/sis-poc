@@ -136,10 +136,10 @@
                     { caption: "Dept", width: 85, dataField: "DepartmentId" },
                     { caption: "Item Number", width: 120, dataField: "ItemId" },
                     { caption: "Item Name", width: 250, dataField: "ItemName" },
-                    { caption: "Item Price" ,width: 100, dataField: "ItemPrice" },
+                    { caption: "Item Price", width: 100, dataField: "ItemPrice", format: { type: "currency", precision: 2 }},
                     { caption: "Location", width: 75, dataField: "LocationId" },
                     { caption: "Qty. Change", width:85, dataField: "QuantityChange" },
-                    { caption: "Value", width:75, dataField: "TransactionValue" },
+                    { caption: "Value", width: 75, dataField: "TransactionValue", format: { type: "currency", precision: 2 }},
                 ],
 
                 // Modify toolbar to have the export data text beside the export button

@@ -103,7 +103,7 @@
                 columns: [
                     { caption: "Item Number", width: 200, dataField: "ItemId" },
                     { caption: "Item Description", width: 400, dataField: "Name" },
-                    { caption: "Unit Price", width: 100, dataField: "UnitPrice" },
+                    { caption: "Unit Price", width: 100, dataField: "UnitPrice", format: { type: "currency", precision: 2 } },
                     { caption: "Unit", width: 100, dataField: "Unit" },
                     { caption: "Location", dataField: "LocationId" },
                     { caption: "On Hand", dataField: "QuantityOnHand" },
