@@ -45,5 +45,10 @@ namespace SIS.Web.Controllers
 
             return View();
         }
+
+        public ActionResult Exit()
+        {
+            return View();
+        }
     }
 }

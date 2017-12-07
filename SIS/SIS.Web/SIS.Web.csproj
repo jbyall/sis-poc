@@ -326,6 +326,7 @@
     <Content Include="Views\Reports\ZeroQuantity.cshtml" />
     <Content Include="Views\Reports\MissingPrice.cshtml" />
     <Content Include="Views\Reports\UsageByDept.cshtml" />
+    <Content Include="Views\Home\Exit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
