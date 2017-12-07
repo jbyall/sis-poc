@@ -40,23 +40,6 @@
                     <div class="demo-container">
                         <div id="gridContainer"></div>
                     </div>
-                    @*<table class="table table-sis">
-                            <thead>
-                                <tr>
-                                    <th>Location</th>
-                                    <th>Qty On Hand</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach (var item in Model.ItemLocations)
-                                {
-                                    <tr>
-                                        <td>@Html.DisplayFor(modelItem => item.LocationId)</td>
-                                        <td><a href="/"</td>
-                                    </tr>
-                                }
-                            </tbody>
-                        </table>*@
                 </div>
             </div>
         </div>
@@ -221,10 +204,6 @@
                 return new DevExpress.data.DataSource(settings);
             }
 
-            function getLocations() {
-                
-            }
-
             var loations = new DevExpress.data.CustomStore({
                 byKey: function (key) {
                     return key;
@@ -252,7 +231,7 @@
                 dataSource: getDataSource(),
                 keyExpr: "LocationId",
                 editing: {
-                    mode: "row",
+                    mode: "batch",
                     allowUpdating: true,
                     allowDeleting: true,
                     allowAdding: true,

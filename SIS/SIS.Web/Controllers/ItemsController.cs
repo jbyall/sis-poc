@@ -194,24 +194,37 @@ namespace SIS.Web.Controllers
                 .Where(i => i.Id == location.ItemId)
                 .Include(i => i.ItemLocations).Single();
 
-            // Prepare for delete existing item location record
-            // Find the existing item location
-            var updateLocation = item.ItemLocations.Single(l => l.LocationId == id);
-            var quantityForUpdate = location.QuantityOnHand == null ? updateLocation.QuantityOnHand : location.QuantityOnHand;
-
-            // Remove the existing location
-            item.ItemLocations.Remove(updateLocation);
-            db.SaveChanges();
-
-            // Add the new location
-            item.ItemLocations.Add(new ItemLocation
+            // For quantity only update
+            if (string.IsNullOrWhiteSpace(location.LocationId))
             {
-                LocationId = location.LocationId,
-                QuantityOnHand = quantityForUpdate
-            });
+                var locationForQtyUpdate = item.ItemLocations.First(l => l.LocationId == id);
+                if (locationForQtyUpdate != null)
+                {
+                    locationForQtyUpdate.QuantityOnHand = location.QuantityOnHand;
+                    db.SaveChanges();
+                }
+            }
+            else
+            {
+                // Prepare for delete existing item location record
+                // Find the existing item location
+                var updateLocation = item.ItemLocations.Single(l => l.LocationId == id);
+                var quantityForUpdate = location.QuantityOnHand == null ? updateLocation.QuantityOnHand : location.QuantityOnHand;
 
-            // Commit new location to database
-            db.SaveChanges();
+                // Remove the existing location
+                item.ItemLocations.Remove(updateLocation);
+                db.SaveChanges();
+
+                // Add the new location
+                item.ItemLocations.Add(new ItemLocation
+                {
+                    LocationId = location.LocationId,
+                    QuantityOnHand = quantityForUpdate
+                });
+
+                // Commit new location to database
+                db.SaveChanges();
+            }
             return Json(location, JsonRequestBehavior.AllowGet);
         }
 
