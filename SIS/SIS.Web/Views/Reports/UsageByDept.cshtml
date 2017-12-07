@@ -110,9 +110,16 @@
                 columns: [
                     { caption: "Dept", width: 100, dataField: "Dept" },
                     { caption: "Item Number", width: 100, dataField: "ItemId" },
-                    { caption: "Date", width: 100, dataField: "TransactionDate" },
+                    {
+                        caption: "Date", width: 100, dataField: "TransactionDate",
+                        calculateCellValue: function (rowData) {
+                            var date = new Date(parseInt(rowData.TransactionDate.substr(6)));
+                            return date;
+                        },
+                        dataType: 'date',
+                    },
                     { caption: "Item Description", width: 300, dataField: "ItemName" },
-                    { caption: "Unit Price", width: 100, dataField: "ItemPrice" },
+                    { caption: "Unit Price", width: 100, dataField: "ItemPrice", dataType: "currency" },
                     { caption: "Unit", width: 50, dataField: "ItemUnits" },
                     { caption: "# Handed Out", width: 100, dataField: "HandedOut" },
                     { caption: "Value", width: 100, dataField: "TValue" },

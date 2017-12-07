@@ -68,13 +68,18 @@ namespace SIS.Web.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "Id,Name,Unit,Price,ReorderPoint,SupplierId,Comment")] Item item)
         {
+            var existingItem = db.Items.Any(i => i.Id.ToLower() == item.Id.ToLower());
+            if (existingItem)
+            {
+                ModelState.AddModelError("Id", "Item number already exists");
+            }
             if (ModelState.IsValid)
             {
                 db.Items.Add(item);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-
+            ViewBag.Unit = new SelectList(db.Units, "Code", "Description", item.Unit);
             ViewBag.SupplierId = new SelectList(db.Suppliers, "Id", "Name", item.SupplierId);
             return View(item);
         }
@@ -154,6 +159,15 @@ namespace SIS.Web.Controllers
         }
 
         #region DataGridAjaxMethods
+        [HttpGet]
+        public JsonResult IndexData()
+        {
+            var items = db.Items
+                .Include(i => i.Supplier)
+                .ToList();
+            return Json(items, JsonRequestBehavior.AllowGet);
+        }
+
         [HttpGet]
         public JsonResult HandoutData()
         {

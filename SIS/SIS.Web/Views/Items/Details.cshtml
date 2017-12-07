@@ -34,6 +34,14 @@
                     </dd>
 
                     <dt>
+                        @Html.DisplayName("Supplier")
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Supplier.Name)
+                    </dd>
+
+                    <dt>
                         @Html.DisplayNameFor(model => model.Unit)
                     </dt>
 
@@ -109,69 +117,7 @@
         </div>
     </div>
 
-    <div class="panel panel-default">
-        <div class="panel-heading">Supplier</div>
-        <div class="panel-body">
-            <dl class="dl-horizontal">
-
-                <dt>@Html.DisplayName("Supplier")</dt>
-                <dd>@Html.DisplayFor(model => model.Supplier.Name)</dd>
-
-                <dt>
-                    @Html.DisplayName("Address")
-                </dt>
-                <dd>
-                    @Html.DisplayFor(model => model.Supplier.Address)
-                </dd>
-
-                <dt>
-                    @Html.DisplayName("Address 2")
-                </dt>
-
-                <dd>
-                    @Html.DisplayFor(model => model.Supplier.Address2)
-                </dd>
-
-                <dt>
-                    @Html.DisplayNameFor(model => model.Supplier.City)
-                </dt>
-
-                <dd>
-                    @Html.DisplayFor(model => model.Supplier.City)
-                </dd>
-
-                <dt>
-                    @Html.DisplayNameFor(model => model.Supplier.State)
-                </dt>
-
-                <dd>
-                    @Html.DisplayFor(model => model.Supplier.State)
-                </dd>
-
-                <dt>
-                    @Html.DisplayNameFor(model => model.Supplier.Zip)
-                </dt>
-
-                <dd>
-                    @Html.DisplayFor(model => model.Supplier.Zip)
-                </dd>
-
-                <dt>
-                    @Html.DisplayNameFor(model => model.Supplier.Comment)
-                </dt>
-
-                <dd>
-                    @Html.DisplayFor(model => model.Supplier.Comment)
-                </dd>
-
-            </dl>
-            <div class="row">
-                <div class="pull-right col-md-2 col-sm-2">
-                    <a href="/Suppliers/Edit/@Model.SupplierId" class="btn btn-warning"><span class="glyphicon glyphicon-edit"></span> Edit</a>
-                </div>
-            </div>
-        </div>
-    </div>
+    
 
 
     <br />

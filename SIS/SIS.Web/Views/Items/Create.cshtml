@@ -55,12 +55,12 @@
                         @Html.LabelFor(model => model.ReorderPoint,"Reorder Level", htmlAttributes: new { @class = "control-label col-md-3" })
                         <div class="col-md-9">
                             @Html.EditorFor(model => model.ReorderPoint, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model.ReorderPoint, "", new { @class = "text-danger" })
+                            @Html.ValidationMessageFor(model => model.ReorderPoint.Value, "", new { @class = "text-danger" })
                         </div>
                     </div>
 
                     <div class="form-group">
-                        @Html.LabelFor(model => model.SupplierId, "SupplierId", htmlAttributes: new { @class = "control-label col-md-3" })
+                        @Html.LabelFor(model => model.SupplierId, "Supplier", htmlAttributes: new { @class = "control-label col-md-3" })
                         <div class="col-md-9">
                             @Html.DropDownList("SupplierId", null, htmlAttributes: new { @class = "form-control" })
                             @Html.ValidationMessageFor(model => model.SupplierId, "", new { @class = "text-danger" })

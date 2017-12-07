@@ -53,6 +53,11 @@ namespace SIS.Web.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "Id,Description")] Department department)
         {
+            var existing = db.Departments.Any(d => d.Id.ToLower() == department.Id.ToLower());
+            if (existing)
+            {
+                ModelState.AddModelError("Id", "Dept already exists");
+            }
             if (ModelState.IsValid)
             {
                 db.Departments.Add(department);

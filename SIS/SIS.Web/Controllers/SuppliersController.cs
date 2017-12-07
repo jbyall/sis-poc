@@ -49,6 +49,11 @@ namespace SIS.Web.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "Id,Name,Address,Address2,City,State,Zip,Comment")] Supplier supplier)
         {
+            var existing = db.Suppliers.Any(s => s.Id.ToLower() == supplier.Id.ToLower());
+            if (existing)
+            {
+                ModelState.AddModelError("Id", "Supplier already exists");
+            }
             if (ModelState.IsValid)
             {
                 db.Suppliers.Add(supplier);

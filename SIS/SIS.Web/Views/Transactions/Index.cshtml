@@ -104,7 +104,7 @@
                 },
                 keyExpr: "Id",
                 editing: {
-                    mode: "row",
+                    mode: "batch",
                     allowDeleting: true,
                 },
                 export: {
@@ -144,12 +144,19 @@
 
                 // Modify toolbar to have the export data text beside the export button
                 onToolbarPreparing: function (e) {
-                    e.toolbarOptions.items.unshift({
-                        location: "after",
-                        template: function () {
-                            return $('<h5 style="color:#bfbfbf;">Export Data <span class="glyphicon glyphicon-arrow-right"></span></h5>')
-                        }
+                    var toolbarItems = e.toolbarOptions.items;
+                    $.each(toolbarItems, function (_, item) {
+                        console.log(item);
+                        item.showText = "always";
                     });
+
+
+                    //e.toolbarOptions.items.unshift({
+                    //    location: "after",
+                    //    template: function () {
+                    //        return $('<h5 style="color:#bfbfbf;">Export Data <span class="glyphicon glyphicon-arrow-right"></span></h5>')
+                    //    }
+                    //});
                 }
             }).dxDataGrid("instance");
         });

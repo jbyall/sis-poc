@@ -51,6 +51,11 @@ namespace SIS.Web.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "Id,Type,OldLocation")] Location location)
         {
+            var existing = db.Locations.Any(l => l.Id.ToLower() == location.Id.ToLower());
+            if (existing)
+            {
+                ModelState.AddModelError("Id", "Location already exists");
+            }
             if (ModelState.IsValid)
             {
                 db.Locations.Add(location);
@@ -58,6 +63,8 @@ namespace SIS.Web.Controllers
                 return RedirectToAction("Index");
             }
 
+            var locationTypes = LocationTypes.GetLocationTypesList();
+            ViewBag.Type = new SelectList(locationTypes, location.Type);
             return View(location);
         }
 

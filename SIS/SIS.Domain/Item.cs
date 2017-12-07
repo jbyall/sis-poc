@@ -29,6 +29,7 @@ namespace SIS.Domain
         public string Unit { get; set; }
 
         public decimal? Price { get; set; }
+        [Range(-100000, 100000)]
         public int? ReorderPoint { get; set; }
 
         // Defines 1-1 relationship for Item-Supplier
