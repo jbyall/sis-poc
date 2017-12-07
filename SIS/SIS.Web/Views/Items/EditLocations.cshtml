@@ -43,6 +43,11 @@
                 </div>
             </div>
         </div>
+        <div class="row">
+            <div class="col-md-2 col-sm-2">
+                <a href="/Items/Details/@Model.Id" class="btn btn-default"><span class="glyphicon glyphicon-arrow-left"></span> Item Details</a>
+            </div>
+        </div>
     </div>
 </div>
 
@@ -132,12 +137,13 @@
                     });
                     deleteTasks = [];
                     timeOut = null;
+                    // Reload after updates to make sure page is up to date (there were some issues with IE);
+                    location.reload();
                 };
-                var updated = false;
 
                 // Settings for main datagrid source
                 var settings = {
-                    //key: 'LocationId',
+                    key: ['ItemId','LocationId'],
                     load: function (loadOptions) {
                         var d = $.Deferred();
                         args = {};
@@ -244,7 +250,7 @@
             $("#gridContainer").dxDataGrid({
                 dataSource: getDataSource(),
                 cacheEnabled: false,
-                keyExpr: "LocationId",
+                //keyExpr: "LocationId",
                 editing: {
                     mode: "batch",
                     allowUpdating: true,
