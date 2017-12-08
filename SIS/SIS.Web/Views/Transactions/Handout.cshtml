@@ -97,7 +97,7 @@
     <br />
     <div class="row">
         <div class="col-md-2 col-sm-2">
-            <a href="/Items/HandoutIndex" class="btn btn-default"><span class="glyphicon glyphicon-arrow-left"></span> Back To List</a>
+            <a href="~/Items/HandoutIndex" class="btn btn-default"><span class="glyphicon glyphicon-arrow-left"></span> Back To List</a>
         </div>
         <div id="continue-container" class="pull-right">
             <input id="handout-button" type="submit" value="Hand Out" class="btn btn-success" style="margin-right:15px;" disabled />
@@ -106,19 +106,22 @@
     <div id="continue-message" class="row pull-right help-block" style="display:none;">
         <p>Select department to continue.</p>
     </div>
+
+    <a id="ajax-handoutdata" href="~/Departments/HandoutData"></a>
 }
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
     <script type="text/javascript">
         $(function () {
+            var handoutData = $('#ajax-handoutdata').attr("href");
             var departments = new DevExpress.data.CustomStore({
                 key: "Id",
                 loadMode: "raw",
                 load: function () {
                     var d = new $.Deferred();
                     $.ajax({
-                        url: "/Departments/HandoutData",
+                        url: handoutData,
                         type: "GET",
                         success: function (result) {
                             //console.log(result);

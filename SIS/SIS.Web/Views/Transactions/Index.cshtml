@@ -18,6 +18,9 @@
         <div id="gridContainer">
 
         </div>
+        <a id="ajax-indexdata" href="~/Transactions/IndexData"></a>
+        <a id="ajax-base" href="~/Transactions"></a>
+        
     </div>
 
 </div>
@@ -30,6 +33,9 @@
             //$('#selected-items').hide();
             //var test = $("#gridContainer").find(".dx-command-select");
             //console.log(test);
+            var indexData = $('#ajax-indexdata').attr("href");
+            var baseUrl = $('#ajax-base').attr("href");
+            console.log(baseUrl);
             var items = new DevExpress.data.CustomStore({
                 // Configure data loading
                 load: function (loadOptions) {
@@ -48,7 +54,7 @@
 
                     // Ajax call to the controller to get the data
                     $.ajax({
-                        url: "/Transactions/IndexData",
+                        url: indexData,
                         type: "GET",
                         //data: args,
                         success: function (result) {
@@ -69,7 +75,7 @@
                     var deferred = $.Deferred();
 
                     $.ajax({
-                        url: "/Transactions/Delete?id=" + key.Id,
+                        url: baseUrl + "/Delete?id=" + key.Id,
                         type: "GET",
                         success: function (result) {
                             console.log(result);

@@ -10,10 +10,10 @@
         <h3>Departments</h3>
         <div class="row">
             <div class="col-md-4 col-sm-4">
-                <a href="/Inventory/Maintenance" class="btn btn-default"><span class="glyphicon glyphicon-arrow-left"></span> Back To Menu</a>
+                <a href="~/Inventory/Maintenance" class="btn btn-default"><span class="glyphicon glyphicon-arrow-left"></span> Back To Menu</a>
             </div>
             <div class="pull-right">
-                <a href="/Departments/Create" class="btn btn-success" style="margin-right:15px;"><span class="glyphicon glyphicon-new-window"></span> Create Dept.</a>
+                <a href="~/Departments/Create" class="btn btn-success" style="margin-right:15px;"><span class="glyphicon glyphicon-new-window"></span> Create Dept.</a>
             </div>
         </div>
         <br />
@@ -22,6 +22,8 @@
                 <div id="gridContainer"></div>
             </div>
         </div>
+        <a id="hidden-link" href="~/Departments/Edit/"></a>
+        <a id="ajax-indexdata" href="~/Departments/IndexData"></a>
     </div>
 </div>
 
@@ -30,6 +32,8 @@
     <script type="text/javascript">
         // Function for loading data in the table
         $(function () {
+            var hiddenLink = $('#hidden-link').attr("href");
+            var indexData = $('#ajax-indexdata').attr("href");
             var items = new DevExpress.data.CustomStore({
                 load: function (loadOptions) {
                     console.log(loadOptions);
@@ -47,7 +51,7 @@
 
                     // Ajax call to the controller to get the data
                     $.ajax({
-                        url: "/Departments/IndexData",
+                        url: indexData,
                         type: "GET",
                         data: args,
                         success: function (result) {
@@ -98,7 +102,7 @@
                         caption: "", width: 75, cellTemplate: function (element, info) {
                             console.log(element);
                             console.log(info);
-                            element.append('<a href="/Departments/Edit/' + info.key.Id +'">Edit</div>')
+                            element.append('<a href="' + hiddenLink + info.key.Id +'">Edit</div>')
                         }
                     }
                 ],

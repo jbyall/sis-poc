@@ -45,8 +45,15 @@
         </div>
         <div class="row">
             <div class="col-md-2 col-sm-2">
-                <a href="/Items/Details/@Model.Id" class="btn btn-default"><span class="glyphicon glyphicon-arrow-left"></span> Item Details</a>
+                <a href="~/Items/Details/@Model.Id" class="btn btn-default"><span class="glyphicon glyphicon-arrow-left"></span> Item Details</a>
             </div>
+            <a id="ajax-updatelocation" href="~/Items/UpdateLocation/"></a>
+            <a id="ajax-addlocation" href="~/Items/AddLocation/"></a>
+            <a id="ajax-removelocation" href="~/Items/RemoveLocation/"></a>
+            <a id="ajax-locationdata" href="~/Items/LocationsData/"></a>
+            <a id="ajax-indexdata" href="~/Locations/IndexData"></a>
+            
+            
         </div>
     </div>
 </div>
@@ -57,6 +64,11 @@
     <script type="text/javascript">
         // Function for loading data in the table
         $(function () {
+            var updateLocationUrl = $('#ajax-updatelocation').attr("href");
+            var addLocationUrl = $('#ajax-addlocation').attr("href");
+            var removeLocationUrl = $('#ajax-removelocation').attr("href");
+            var locationDataUrl = $('#ajax-locationdata').attr("href");
+            var indexDataUrl = $('#ajax-indexdata').attr("href");
 
             // Setup for all ajax calls on this page.
             // Disable caching needed for proper data grid editing in Internet Explorer
@@ -76,7 +88,7 @@
                     $.each(updateTasks, function (index, task) {
                         task.deferred.resolve(
                             $.ajax({
-                                url: "/Items/UpdateLocation/" + task.key,
+                                url: updateLocationUrl + task.key,
                                 type: "POST",
                                 data: JSON.stringify(task.values),
                                 contentType: 'application/json',
@@ -98,7 +110,7 @@
                     $.each(insertTasks, function (index, task) {
                         task.deferred.resolve(
                             $.ajax({
-                                url: "/Items/AddLocation/" + task.key,
+                                url: addLocationUrl + task.key,
                                 type: "POST",
                                 data: JSON.stringify(task.key),
                                 contentType: 'application/json',
@@ -120,7 +132,7 @@
                     $.each(deleteTasks, function (index, task) {
                         task.deferred.resolve(
                             $.ajax({
-                                url: "/Items/RemoveLocation/",
+                                url: removeLocationUrl,
                                 type: "POST",
                                 data: JSON.stringify(task.key),
                                 contentType: 'application/json',
@@ -160,7 +172,7 @@
 
                         // Ajax call to the controller to get the data
                         $.ajax({
-                            url: "/Items/LocationsData/" + itemId,
+                            url: locationDataUrl + itemId,
                             type: "GET",
                             data: args,
                             success: function (result) {
@@ -231,7 +243,7 @@
                 load: function (loadOptions) {
                     var deferred = $.Deferred();
                     $.ajax({
-                        url: "/Locations/IndexData",
+                        url: indexDataUrl,
                         type: "GET",
                         success: function (result) {
                             deferred.resolve(result, { totalCount: result.length });

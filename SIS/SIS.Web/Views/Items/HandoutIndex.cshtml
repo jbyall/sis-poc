@@ -18,6 +18,9 @@
     <div class="demo-container">
         <div id="gridContainer"></div>
     </div>
+    <a id="hidden-link" href="~/Transactions/Handout/"></a>
+    <a id="ajax-handoutdata" href="~/Items/HandoutData"></a>
+    
 </div>
 
 <div id="toastContainer"></div>
@@ -26,6 +29,8 @@
     @Scripts.Render("~/bundles/jqueryval")
     <script type="text/javascript">
         $(function () {
+            var hiddenLink = $('#hidden-link').attr("href");
+            var handoutData = $('#ajax-handoutdata').attr("href");
             // Load data
             var items = new DevExpress.data.CustomStore({
                 load: function (loadOptions) {
@@ -44,7 +49,7 @@
 
                     // Ajax call to the controller to get the data
                     $.ajax({
-                        url: "/Items/HandoutData",
+                        url: handoutData,
                         type: "GET",
                         data: args,
                         success: function (result) {
@@ -105,7 +110,7 @@
                     {
                         caption: "", cellTemplate: function (element, info) {
                             //var href = '/Transactions/Handout/' + 
-                            element.append('<a href="/Transactions/Handout/' + info.key.Id + '">Hand Out</div>');
+                            element.append('<a href="'+ hiddenLink + info.key.Id + '">Hand Out</div>');
                             // Keep for future debugging
                             //console.log(element);
                             //console.log(info);
@@ -125,7 +130,7 @@
                                         '</div>'+
                                         '<div class="col-md-2 col-sm-2">' + itemData.Id + '</div>'+
                                         '<div class="col-md-2 col-sm-2">' +
-                                            '<a href="/Transactions/Handout/' + itemData.Id +'" class="btn btn-default">Hand Out</a>'+
+                                            '<a href="'+ hiddenLink + itemData.Id +'" class="btn btn-default">Hand Out</a>'+
                                         '</div>' +
                                     '</div>' +
                                     '<div class="row">'+

@@ -11,7 +11,7 @@
     </div>
     <div class="row">
         <div class="col-md-4 col-sm-4">
-            <a href="/Reports" class="btn btn-default"><span class="glyphicon glyphicon-arrow-left"></span> Back To Menu</a>
+            <a href="~/Reports" class="btn btn-default"><span class="glyphicon glyphicon-arrow-left"></span> Back To Menu</a>
         </div>
     </div>
     <div class="container">
@@ -20,6 +20,7 @@
                 <div id="gridContainer"></div>
             </div>
         </div>
+        <a id="ajax-reorderdata" href="~/Reports/ReorderData"></a>
     </div>
 </div>
 
@@ -28,6 +29,7 @@
     <script type="text/javascript">
         // Function for loading data in the table
         $(function () {
+            var ajaxReorderData = $('#ajax-reorderdata').attr("href");
             var items = new DevExpress.data.CustomStore({
                 load: function (loadOptions) {
                     console.log(loadOptions);
@@ -45,7 +47,7 @@
 
                     // Ajax call to the controller to get the data
                     $.ajax({
-                        url: "/Reports/ReorderData",
+                        url: ajaxReorderData,
                         type: "GET",
                         data: args,
                         success: function (result) {

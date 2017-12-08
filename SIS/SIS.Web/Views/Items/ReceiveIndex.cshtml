@@ -24,6 +24,8 @@
                 <div id="gridContainer">
                 </div>
             </div>
+            <a id="ajax-handoutdata" href="~/Items/HandoutData"></a>
+            
         </div>
     
 </div>
@@ -37,6 +39,7 @@
             //$('#selected-items').hide();
             //var test = $("#gridContainer").find(".dx-command-select");
             //console.log(test);
+            var handoutData = $('#ajax-handoutdata').attr("href");
             var items = new DevExpress.data.CustomStore({
                 load: function (loadOptions) {
                     console.log(loadOptions);
@@ -54,7 +57,7 @@
 
                     // Ajax call to the controller to get the data
                     $.ajax({
-                        url: "/Items/HandoutData",
+                        url: handoutData,
                         type: "GET",
                         data: args,
                         success: function (result) {
