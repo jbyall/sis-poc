@@ -191,6 +191,8 @@
     <Content Include="Content\dx.win10.white.css" />
     <Content Include="Content\dx.win8.black.css" />
     <Content Include="Content\dx.win8.white.css" />
+    <Content Include="Content\images\landing-background-wide.jpg" />
+    <Content Include="Content\images\Pic_for_logo.JPG" />
     <Content Include="Content\layouts\Desktop\DesktopLayout.css" />
     <Content Include="Content\layouts\Desktop\DesktopLayout.html" />
     <Content Include="Content\layouts\Desktop\DesktopLayout.js" />
@@ -213,6 +215,8 @@
     <Content Include="Content\icons\dxiconsios.ttf" />
     <Content Include="Content\icons\dxicons.woff" />
     <Content Include="Content\icons\dxicons.ttf" />
+    <None Include="Properties\PublishProfiles\CustomProfile.pubxml" />
+    <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Scripts\jquery-2.2.3.intellisense.js" />
     <Content Include="Scripts\data.js" />
     <Content Include="Scripts\devextreme-localization\dx.messages.de.js" />
@@ -323,7 +327,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Content\images\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
