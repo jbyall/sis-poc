@@ -15,8 +15,15 @@ namespace SIS.Domain
         {
             // Disable EF proxies. See https://msdn.microsoft.com/en-us/library/jj592886%28v=vs.113%29.aspx?f=255&MSPPError=-2147217396
             this.Configuration.ProxyCreationEnabled = false;
+            
         }
 
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            modelBuilder.HasDefaultSchema("SIS");
+            base.OnModelCreating(modelBuilder);
+
+        }
         // Defines the tables in the database that will be used in-memory
         public DbSet<Department> Departments { get; set; }
         public DbSet<Item> Items { get; set; }
